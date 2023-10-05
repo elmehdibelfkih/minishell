@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 02:53:59 by asettar           #+#    #+#             */
-/*   Updated: 2023/10/05 19:48:17 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/05 22:14:47 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,12 +90,10 @@ typedef struct s_env
 
 typedef struct s_cmd
 {
-	t_list			*args;
 	char			**cmd;
 	t_redir			*redir;
 	int				inp;
 	int				out;
-	int				triger;
 	struct s_cmd	*next;
 }	t_cmd;
 
