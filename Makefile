@@ -9,7 +9,7 @@ SRC  =  libft/abs.c libft/ft_atoi.c libft/ft_bzero.c libft/ft_calloc.c libft/ft_
 	libft/ft_toupper.c libft/get_next_line.c libft/get_next_line_utils.c libft/mandatory_utils.c libft/max.c libft/min.c main.c parsing/check_errors.c \
 	parsing/cmd_construct.c parsing/expander.c parsing/garbage_collector.c parsing/join_words.c parsing/lexer.c parsing/lexer_utils.c parsing/parse_env.c \
 	parsing/get_env.c parsing/parsing_utils2.c\
-	execution/execute.c main_parsing.c main_execution.c
+	execution/execute.c main_parsing.c execution/main_execution.c
 
 INC  =  libft/libft.h minishell.h
 RM   = rm -f

@@ -6,11 +6,11 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 19:55:44 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/05 19:56:55 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/05 21:23:57 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 int	main(int ac, char **av, char **envp)
 {
