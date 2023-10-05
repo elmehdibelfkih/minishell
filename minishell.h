@@ -5,10 +5,11 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/10 02:53:59 by asettar           #+#    #+#             */
-/*   Updated: 2023/10/05 22:14:47 by ebelfkih         ###   ########.fr       */
+/*   Created: 2023/10/05 23:01:46 by ebelfkih          #+#    #+#             */
+/*   Updated: 2023/10/05 23:01:47 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -97,8 +98,7 @@ typedef struct s_cmd
 	struct s_cmd	*next;
 }	t_cmd;
 
-void	execute(t_cmd **commands, t_env **env);
-char	**ft_split(char const *s, char c);
+void	execute(t_cmd **commands, t_env **env); //ussef
 t_env	*ft_get_env(char **envp); // mehdi
 t_env	*ft_envnew(char *name, char *data); // mehdi
 void	ft_env_add_back(t_env **lst, t_env *new); // mehdi

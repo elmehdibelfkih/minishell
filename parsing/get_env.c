@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing_utils.c                                    :+:      :+:    :+:   */
+/*   get_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 18:25:45 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/05 19:47:48 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/05 22:35:36 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_env	*ft_get_env(char **envp)
         spl = ft_split(*envp, '=');
         ft_env_add_back(&head_env, ft_envnew(spl[0], spl[1]));
         free(spl);
-        *envp++;
+        (*envp)++;
     }
     return(head_env);
 }
