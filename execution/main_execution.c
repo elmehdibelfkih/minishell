@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 19:55:44 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/05 22:57:40 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/06 03:17:40 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,7 @@
 
 int	main(int ac, char **av, char **envp)
 {
-    
+    (void)ac;
+	(void)av;
+    (void)envp;
 }

@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 18:25:45 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/05 22:35:36 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/08 19:02:37 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,16 @@ t_env	*ft_get_env(char **envp)
 {
     t_env *head_env;
     char **spl;
+	int	i;
 
+	i = 0;
     head_env = NULL;
-    while(*envp)
+    while(envp[i])
     {
-        spl = ft_split(*envp, '=');
-        ft_env_add_back(&head_env, ft_envnew(spl[0], spl[1]));
-        free(spl);
-        (*envp)++;
+        spl = ft_split(envp[i], '=');
+        ft_env_add_back(&head_env, ft_envnew(ft_strdup(spl[0]), ft_strdup(spl[1])));
+		ft_clear(spl, INT_MAX);
+        i++;
     }
     return(head_env);
 }
@@ -42,16 +44,6 @@ t_env	*ft_envnew(char *name, char *data)
 	return (new);
 }
 
-void	ft_env_add_front(t_env **lst, t_env *new)
-{
-	if (!(*lst))
-		new->next = NULL;
-	if (!new)
-		return ;
-	new->next = *lst;
-	*lst = new;
-}
-
 void	ft_env_add_back(t_env **lst, t_env *new)
 {
 	t_env	*p;
@@ -59,7 +51,14 @@ void	ft_env_add_back(t_env **lst, t_env *new)
 	if (!new)
 		return ;
 	if (*lst == NULL)
-		ft_env_add_front(lst, new);
+	{
+		if (!(*lst))
+		new->next = NULL;
+		if (!new)
+		return ;
+		new->next = *lst;
+		*lst = new;
+	}
 	else
 	{
 		p = ft_envlast(*lst);
@@ -86,6 +85,8 @@ void	ft_envclear(t_env **lst)
 		return ;
 	while (*lst)
 	{
+		free((*lst)->name);
+		free((*lst)->data);
 		t = (*lst)->next;
 		free(*lst);
 		*lst = t;

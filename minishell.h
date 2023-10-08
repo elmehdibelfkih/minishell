@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 23:01:46 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/05 23:01:47 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/07 21:45:32 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@
 # define NO_OUT -3
 # define FSIGNAL 128
 
-typedef enum s_type
+typedef enum s_component
 {
     word,
     space,
@@ -45,7 +45,7 @@ typedef enum s_type
     redirect_output, //>
     here_doc, // <<
     append_operator, // >>
-} t_type;
+} t_component;
 
 
 typedef enum e_tok
@@ -64,7 +64,7 @@ typedef enum e_tok
 
 typedef struct s_lex
 {
-	t_type			tok;
+	t_component		tok;
 	char			*data;
 	bool			expanded;
 	struct s_lex	*next;
@@ -74,7 +74,7 @@ typedef struct s_lex
 
 typedef struct s_redir
 {
-	t_type			type;
+	t_component		type;
 	char			*file;
 	int				flag;
 	int				fd;
@@ -104,6 +104,6 @@ t_env	*ft_envnew(char *name, char *data); // mehdi
 void	ft_env_add_back(t_env **lst, t_env *new); // mehdi
 t_env	*ft_envlast(t_env *lst); // mehdi
 void	ft_envclear(t_env **lst); // mehdi
-
+void    get_line(); // mehdi
 
 #endif
