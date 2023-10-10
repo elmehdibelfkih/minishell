@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 23:01:46 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/09 05:06:02 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/10 22:07:15 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,61 +14,41 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include "libft/libft.h"
 # include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
-# include <string.h>
+# include <stdint.h>
 # include <sys/wait.h>
 # include <stdbool.h>
-# include <readline/readline.h>
 # include <readline/history.h>
-# include "libft/libft.h"
+# include <readline/readline.h>
 # include <sys/errno.h>
 # include <sys/ioctl.h>
 # include <stdint.h>
 # include <limits.h>
-# include <stdint.h>
-
-
-# define NO_INP -3
-# define NO_OUT -3
-# define FSIGNAL 128
 
 typedef enum s_component
 {
     word,
     space,
-    pipee,
+    pipe,
     double_quote,
     single_quote,
-    redirect_input, //<
-    redirect_output, //>
+    redirect_input, // <
+    redirect_output, // >
     here_doc, // <<
     append_operator, // >>
 } t_component;
 
 
-typedef enum e_tok
+typedef struct s_comp
 {
-	WRD = word,
-	SPA = space,
-	DQU = double_quote,
-	SQU = single_quote,
-	INP = redirect_input,
-	OUT = redirect_output,
-	HER = here_doc,
-	APP = append_operator,
-	PIP = pipee,
-}	t_tok;
-
-
-typedef struct s_lex
-{
-	t_component		tok;
 	char			*data;
+	t_component		tok;
 	bool			expanded;
-	struct s_lex	*next;
-}	t_lex;
+	struct s_comp	*next;
+}	t_comp;
 
 
 
@@ -81,7 +61,6 @@ typedef struct s_redir
 	struct s_redir	*next;
 }	t_redir;
 
-// env list
 typedef struct s_env
 {
 	char			*name;
@@ -98,14 +77,21 @@ typedef struct s_cmd
 	struct s_cmd	*next;
 }	t_cmd;
 
-void	execute(t_cmd **commands, t_env **env); //ussef
 t_env	*ft_get_env(char **envp); // mehdi
 t_env	*ft_envnew(char *name, char *data); // mehdi
 void	ft_env_add_back(t_env **lst, t_env *new); // mehdi
 t_env	*ft_envlast(t_env *lst); // mehdi
 void	ft_envclear(t_env **lst); // mehdi
-void    get_line(t_list **prime); // mehdi
-bool	check_quote(char *line, int start, char c); //mehdi
+void	get_line(t_list **prime); // mehdi
 void	disperse(char *line, t_list **prime); // mehdi
+bool	check_quotes(t_list *prime); // mehdi
+void	disperse_assistant(char *line, t_list **prime, int start, int i); //mehdi
+t_comp	*ft_compnew(char *data, t_component	tok, bool expanded); // mehdi
+void	ft_comp_add_back(t_comp **head, t_comp *new); // mehdi
+t_comp	*ft_comp_last(t_comp *head); // mehdi
+void	ft_comp_clear(t_comp **head); // mehdi
+void    types_separation(t_list *prime, t_comp *cmpa); // mehdi
+bool	types_separation_quotes(t_comp *cmpa, char *tmp); //mehdi
+bool	types_separation_pipe_space(t_comp *cmpa, char *tmp, t_list *prime); // mehdi
 
 #endif
