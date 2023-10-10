@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 23:01:46 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/07 21:45:32 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/09 05:06:02 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,8 @@ t_env	*ft_envnew(char *name, char *data); // mehdi
 void	ft_env_add_back(t_env **lst, t_env *new); // mehdi
 t_env	*ft_envlast(t_env *lst); // mehdi
 void	ft_envclear(t_env **lst); // mehdi
-void    get_line(); // mehdi
+void    get_line(t_list **prime); // mehdi
+bool	check_quote(char *line, int start, char c); //mehdi
+void	disperse(char *line, t_list **prime); // mehdi
 
 #endif
