@@ -6,13 +6,13 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:55:39 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/10 21:16:40 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/11 18:53:20 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	get_line(t_list **prime)
+void	get_line(t_list **prime, t_comp **cmpa)
 {
 	char	*line;
 	char	*tmp;
@@ -26,15 +26,19 @@ void	get_line(t_list **prime)
 		free(line);
 		if (check_quotes(*prime))
 		{
-			while (*prime)
+			types_separation(*prime, cmpa);
+			while (*cmpa)
 			{
-				printf("%s<=Œ\n", (char *)((*prime)->content));
-				(*prime) = (*prime)->next;
+				printf("%s     %d\n", (*cmpa)->data, (*cmpa)->tok);
+				if ((*cmpa)->expanded)
+					printf("expanded\n");
+				*cmpa = (*cmpa)->next;
+				printf("==================================================\n");
 			}
 		}
 		else
 			printf("error\n");
-		// ft_lstclear(prime, free);
+		ft_lstclear(prime, free);
 	}
 }
 

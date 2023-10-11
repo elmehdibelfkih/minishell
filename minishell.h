@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 23:01:46 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/10 22:07:15 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/11 18:17:52 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,15 @@
 
 typedef enum s_component
 {
-    word,
-    space,
-    pipe,
-    double_quote,
-    single_quote,
-    redirect_input, // <
-    redirect_output, // >
-    here_doc, // <<
-    append_operator, // >>
+    word, //0
+    space, // 1
+    pipe_op, // 2
+    double_quote,  // 3
+    single_quote,   //4
+    redir_input, // 5
+    redir_output, // 6
+    here_doc, // 7
+    append_operator, // 8
 } t_component;
 
 
@@ -82,7 +82,7 @@ t_env	*ft_envnew(char *name, char *data); // mehdi
 void	ft_env_add_back(t_env **lst, t_env *new); // mehdi
 t_env	*ft_envlast(t_env *lst); // mehdi
 void	ft_envclear(t_env **lst); // mehdi
-void	get_line(t_list **prime); // mehdi
+void	get_line(t_list **prime, t_comp **cmpa); // mehdi
 void	disperse(char *line, t_list **prime); // mehdi
 bool	check_quotes(t_list *prime); // mehdi
 void	disperse_assistant(char *line, t_list **prime, int start, int i); //mehdi
@@ -90,8 +90,11 @@ t_comp	*ft_compnew(char *data, t_component	tok, bool expanded); // mehdi
 void	ft_comp_add_back(t_comp **head, t_comp *new); // mehdi
 t_comp	*ft_comp_last(t_comp *head); // mehdi
 void	ft_comp_clear(t_comp **head); // mehdi
-void    types_separation(t_list *prime, t_comp *cmpa); // mehdi
-bool	types_separation_quotes(t_comp *cmpa, char *tmp); //mehdi
-bool	types_separation_pipe_space(t_comp *cmpa, char *tmp, t_list *prime); // mehdi
+void    types_separation(t_list *prime, t_comp **cmpa); // mehdi
+bool	types_separation_quotes(t_comp **cmpa, char *tmp); //mehdi
+bool	types_separation_pipe_space(t_comp **cmpa, char *tmp, t_list *prime); // mehdi
+bool	types_separation_redirections_1(t_comp **cmpa, char *tmp, t_list *prime); // mehdi
+bool	types_separation_redirections_2(t_comp **cmpa, char *tmp, t_list *prime); //mehdi
+bool	types_separation_word(t_comp **cmpa, char *tmp, t_list *prime); // mehdi
 
 #endif
