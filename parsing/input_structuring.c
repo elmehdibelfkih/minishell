@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 18:03:26 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/11 18:52:18 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/11 20:57:09 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ bool	types_separation_redirections_1(t_comp **cmpa, char *tmp, t_list *prime)
 		free(prime->content);
 		prime->content = t;
 		ft_comp_add_back(cmpa, ft_compnew(" << ", here_doc, false));
-		if (!prime->content)
+		if (!*(char *)(prime->content))
 			return (true);
 	}
 	else

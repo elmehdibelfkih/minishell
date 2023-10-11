@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 23:01:46 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/11 18:17:52 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/11 20:03:10 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,10 @@ typedef enum s_component
     pipe_op, // 2
     double_quote,  // 3
     single_quote,   //4
-    redir_input, // 5
-    redir_output, // 6
-    here_doc, // 7
-    append_operator, // 8
+    redir_input, // 5 <
+    redir_output, // 6 >
+    here_doc, // 7 <<
+    append_operator, // 8 >>
 } t_component;
 
 
