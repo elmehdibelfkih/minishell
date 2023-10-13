@@ -6,13 +6,13 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:55:39 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/13 04:49:04 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/13 21:40:15 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	get_line(t_list **prime, t_comp **cmpa)
+void	get_line(t_list **prime, t_comp **cmpa, t_env *env)
 {
 	char	*line;
 	char	*tmp;
@@ -36,6 +36,7 @@ void	get_line(t_list **prime, t_comp **cmpa)
 					printf ("ok \n");
 				else
 					perror("makhdamch hadchi");
+				replace_line(*cmpa, env);
 				while (*cmpa)
 				{
 					printf("%s     %d\n", (*cmpa)->data, (*cmpa)->tok);

@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 05:32:03 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/13 07:46:23 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/13 21:55:52 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,11 +68,31 @@ char    *replace_var(char *line, t_env *env)
             free (r);
             while (line[i] != ' ')
                 i++;
-            r = ft_strjoin(f, line + i);
+            r = ft_strjoin(f, &line[i]);
             free (f);
             return (r);
         }
         i++;
     }
     return (NULL);
+}
+
+void	replace_line(t_comp *cmpa, t_env *env)
+{
+    char *tmp;
+
+	while (cmpa)
+	{
+		if (cmpa->tok != delimiter && cmpa->expanded)
+		{
+            // printf("here > 1\n");
+			tmp = replace_var(cmpa->data, env);
+            free(cmpa->data);
+            cmpa->data = tmp;
+            if (!ft_strchr(tmp, '$'))
+                cmpa->expanded = false;
+		}
+		else
+			cmpa = cmpa->next;
+	}
 }

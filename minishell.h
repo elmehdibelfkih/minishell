@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 23:01:46 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/13 07:44:49 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/13 21:42:06 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ typedef enum s_component
     redir_output, // 6 >
     here_doc, // 7 <<
     append_operator, // 8 >>
-	delimiter,
+	delimiter, //9
 } t_component;
 
 typedef struct s_comp
@@ -81,7 +81,7 @@ t_env	*ft_envnew(char *name, char *data); // mehdi
 t_env	*ft_envlast(t_env *lst); // mehdi
 void	ft_env_add_back(t_env **lst, t_env *new); // mehdi
 void	ft_envclear(t_env **lst); // mehdi
-void	get_line(t_list **prime, t_comp **cmpa); // mehdi
+void	get_line(t_list **prime, t_comp **cmpa, t_env *env); // mehdi
 void	disperse(char *line, t_list **prime); // mehdi
 bool	check_quotes(t_list *prime); // mehdi
 void	disperse_assistant(char *line, t_list **prime, int start, int i); //mehdi
@@ -100,10 +100,9 @@ bool    check_next(t_comp *cmpa); // mehdi
 void    here_doc_processes(t_comp *cmpa); // mehdi
 char    *join_quotes(char *first, char *last); //mehdi
 void    ft_comp_n_del(t_comp **cmpa, t_comp *next, bool c); // mehdi
-
-
 char    *get_exp_var(char *line, t_env *env); //mehdi
 char    *get_env_var(char *var, t_env *env); // mehdi
 char    *replace_var(char *line, t_env *env); // mehdi
+void	replace_line(t_comp *cmpa, t_env *env); // mehdi
 
 #endif
