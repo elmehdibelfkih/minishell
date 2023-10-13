@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 23:01:46 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/13 05:18:41 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/13 07:44:49 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,5 +100,10 @@ bool    check_next(t_comp *cmpa); // mehdi
 void    here_doc_processes(t_comp *cmpa); // mehdi
 char    *join_quotes(char *first, char *last); //mehdi
 void    ft_comp_n_del(t_comp **cmpa, t_comp *next, bool c); // mehdi
+
+
+char    *get_exp_var(char *line, t_env *env); //mehdi
+char    *get_env_var(char *var, t_env *env); // mehdi
+char    *replace_var(char *line, t_env *env); // mehdi
 
 #endif

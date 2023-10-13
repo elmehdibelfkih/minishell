@@ -6,7 +6,73 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 05:32:03 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/13 05:32:04 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/13 07:46:23 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../minishell.h"
+
+char    *get_env_var(char *var, t_env *env)
+{
+    while (env)
+    {
+        if (ft_strlen(env->name) == ft_strlen(var)
+                && !ft_strncmp(env->name, var, ft_strlen(var)))
+        {
+            free(var);
+            return(env->data);
+        }
+        env = env->next;
+    }
+    return ("");
+}
+
+char    *get_exp_var(char *line, t_env *env)
+{
+    int i;
+    int start;
+    char *ex;
+    (void)env;
+
+    i = 0;
+    while (line[i])
+    {
+        if (line[i] == '$')
+        {
+            start = i;
+            while (line[i] != ' ')
+                i++;
+            ex = ft_substr(line, start + 1, i - start - 1);
+            return (get_env_var(ex, env));
+        }
+        i++;
+    }
+    return ("");
+}
+
+char    *replace_var(char *line, t_env *env)
+{
+    int     i;
+    char    *c;
+    char    *r;
+    char    *f;
+    
+    c = get_exp_var(line, env);
+    i = 0;
+    while (line[i])
+    {
+        if (line[i] == '$')
+        {
+            r = ft_substr(line, 0, i);
+            f = ft_strjoin(r, c);
+            free (r);
+            while (line[i] != ' ')
+                i++;
+            r = ft_strjoin(f, line + i);
+            free (f);
+            return (r);
+        }
+        i++;
+    }
+    return (NULL);
+}
