@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:55:39 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/11 20:53:41 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/13 04:49:04 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,30 +16,40 @@ void	get_line(t_list **prime, t_comp **cmpa)
 {
 	char	*line;
 	char	*tmp;
+	t_comp **t;
 
 	while (true)
 	{
 		tmp = readline ("minishell : ");
-		line = ft_strtrim(tmp, " ");
-		free(tmp);
-		disperse(line, prime);
-		free(line);
-		if (check_quotes(*prime))
+		if (*tmp)
 		{
-			types_separation(*prime, cmpa);
-			while (*cmpa)
+			line = ft_strtrim(tmp, " ");
+			free(tmp);
+			disperse(line, prime);
+			free(line);
+			if (check_quotes(*prime))
 			{
-				printf("%s     %d\n", (*cmpa)->data, (*cmpa)->tok);
-				if ((*cmpa)->expanded)
-					printf("expanded\n");
-				*cmpa = (*cmpa)->next;
-				printf("==================================================\n");
+				types_separation(*prime, cmpa);
+				t = cmpa;
+				here_doc_processes(*cmpa);
+				if (check_files(*cmpa))
+					printf ("ok \n");
+				else
+					perror("makhdamch hadchi");
+				while (*cmpa)
+				{
+					printf("%s     %d\n", (*cmpa)->data, (*cmpa)->tok);
+					if ((*cmpa)->expanded)
+						printf("expanded\n");
+					*cmpa = (*cmpa)->next;
+					printf("==================================================\n");
+				}
 			}
+			else
+				perror("syntax error : unclosed quote\n");
+			ft_lstclear(prime, free);
+			ft_comp_clear(cmpa);
 		}
-		else
-			printf("syntax error : unclosed quote\n");
-		ft_lstclear(prime, free);
-		ft_comp_clear(cmpa);
 	}
 }
 

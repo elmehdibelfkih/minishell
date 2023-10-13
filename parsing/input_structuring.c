@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 18:03:26 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/11 20:57:09 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/13 05:18:41 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,10 +112,10 @@ bool	types_separation_redirections_2(t_comp **cmpa, char *tmp, t_list *prime)
 bool	types_separation_quotes(t_comp **cmpa, char *tmp)
 {
 	if (*tmp == '\'')
-		ft_comp_add_back(cmpa, ft_compnew(ft_strdup(tmp), single_quote, false));
+		ft_comp_add_back(cmpa, ft_compnew(ft_strdup(tmp), s_quote, false));
 	else if ((*tmp == '\"') && ft_strchr(tmp, '$'))
-		ft_comp_add_back(cmpa, ft_compnew(ft_strdup(tmp), double_quote, true));
+		ft_comp_add_back(cmpa, ft_compnew(ft_strdup(tmp), d_quote, true));
 	else if ((*tmp == '\"') && !ft_strchr(tmp, '$'))
-		ft_comp_add_back(cmpa, ft_compnew(ft_strdup(tmp), double_quote, false));
+		ft_comp_add_back(cmpa, ft_compnew(ft_strdup(tmp), d_quote, false));
 	return (true);
 }

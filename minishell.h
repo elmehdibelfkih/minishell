@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 23:01:46 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/11 20:03:10 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/13 05:18:41 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # define MINISHELL_H
 
 # include "libft/libft.h"
+#include <errno.h>
 # include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -33,14 +34,14 @@ typedef enum s_component
     word, //0
     space, // 1
     pipe_op, // 2
-    double_quote,  // 3
-    single_quote,   //4
+    d_quote,  // 3
+    s_quote,   //4
     redir_input, // 5 <
     redir_output, // 6 >
     here_doc, // 7 <<
     append_operator, // 8 >>
+	delimiter,
 } t_component;
-
 
 typedef struct s_comp
 {
@@ -49,8 +50,6 @@ typedef struct s_comp
 	bool			expanded;
 	struct s_comp	*next;
 }	t_comp;
-
-
 
 typedef struct s_redir
 {
@@ -79,15 +78,15 @@ typedef struct s_cmd
 
 t_env	*ft_get_env(char **envp); // mehdi
 t_env	*ft_envnew(char *name, char *data); // mehdi
-void	ft_env_add_back(t_env **lst, t_env *new); // mehdi
 t_env	*ft_envlast(t_env *lst); // mehdi
+void	ft_env_add_back(t_env **lst, t_env *new); // mehdi
 void	ft_envclear(t_env **lst); // mehdi
 void	get_line(t_list **prime, t_comp **cmpa); // mehdi
 void	disperse(char *line, t_list **prime); // mehdi
 bool	check_quotes(t_list *prime); // mehdi
 void	disperse_assistant(char *line, t_list **prime, int start, int i); //mehdi
-t_comp	*ft_compnew(char *data, t_component	tok, bool expanded); // mehdi
 void	ft_comp_add_back(t_comp **head, t_comp *new); // mehdi
+t_comp	*ft_compnew(char *data, t_component	tok, bool expanded); // mehdi
 t_comp	*ft_comp_last(t_comp *head); // mehdi
 void	ft_comp_clear(t_comp **head); // mehdi
 void    types_separation(t_list *prime, t_comp **cmpa); // mehdi
@@ -96,5 +95,10 @@ bool	types_separation_pipe_space(t_comp **cmpa, char *tmp, t_list *prime); // me
 bool	types_separation_redirections_1(t_comp **cmpa, char *tmp, t_list *prime); // mehdi
 bool	types_separation_redirections_2(t_comp **cmpa, char *tmp, t_list *prime); //mehdi
 bool	types_separation_word(t_comp **cmpa, char *tmp, t_list *prime); // mehdi
+bool	check_files(t_comp *cmpa); // mehdi
+bool    check_next(t_comp *cmpa); // mehdi
+void    here_doc_processes(t_comp *cmpa); // mehdi
+char    *join_quotes(char *first, char *last); //mehdi
+void    ft_comp_n_del(t_comp **cmpa, t_comp *next, bool c); // mehdi
 
 #endif

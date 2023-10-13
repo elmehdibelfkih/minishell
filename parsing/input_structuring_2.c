@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 18:44:02 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/11 21:00:41 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/13 05:28:53 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,9 @@ void	ft_comp_clear(t_comp **head)
 		return ;
 	while (*head)
 	{
-		free((*head)->data);
+		if ((*head)->tok == word || (*head)->tok == d_quote
+			|| (*head)->tok == s_quote)
+			free((*head)->data);
 		t = (*head)->next;
 		free(*head);
 		*head = t;
