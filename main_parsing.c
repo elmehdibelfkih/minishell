@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 19:55:36 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/13 21:44:15 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/14 06:26:22 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ int	main(int ac, char **av, char **envp)
 	t_comp *cmpa;
 	t_env *env;
 	
-	env = ft_get_env(envp);
 	prime = NULL;
 	cmpa = NULL;
+	env = ft_get_env(envp);
 	get_line(&prime, &cmpa, env);
 	tmp = prime;
 	ft_lstclear(&tmp, free);

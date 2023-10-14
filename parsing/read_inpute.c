@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:55:39 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/13 21:40:15 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/14 09:07:35 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ void	get_line(t_list **prime, t_comp **cmpa, t_env *env)
 {
 	char	*line;
 	char	*tmp;
-	t_comp **t;
 
+	// (void)env;
 	while (true)
 	{
 		tmp = readline ("minishell : ");
@@ -30,13 +30,11 @@ void	get_line(t_list **prime, t_comp **cmpa, t_env *env)
 			if (check_quotes(*prime))
 			{
 				types_separation(*prime, cmpa);
-				t = cmpa;
 				here_doc_processes(*cmpa);
-				if (check_files(*cmpa))
-					printf ("ok \n");
-				else
+				if (!check_files(*cmpa))
 					perror("makhdamch hadchi");
 				replace_line(*cmpa, env);
+				trim_quotes(*cmpa);
 				while (*cmpa)
 				{
 					printf("%s     %d\n", (*cmpa)->data, (*cmpa)->tok);
@@ -85,6 +83,8 @@ void	disperse(char *line, t_list **prime)
 
 void	disperse_assistant(char *line, t_list **prime, int start, int i)
 {
+	if (i == 0 && start == 0)
+		return;
 	if (start == 0)
 		ft_lstadd_back(prime,
 			ft_lstnew(ft_substr(line, start, i - start)));

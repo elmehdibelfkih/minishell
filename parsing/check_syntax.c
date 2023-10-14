@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 20:48:59 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/13 21:15:50 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/14 07:03:35 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@ char	*join_quotes(char *first, char *last)
 	char	*t_last;
 	char	*ret;
 
+	t_first = NULL;
+	t_last = NULL;
 	if (*first == '\'')
 		t_first = ft_strtrim(first, "\'");
 	else if (*first == '\"')
@@ -92,13 +94,11 @@ char	*join_quotes(char *first, char *last)
 	else
 		t_last = ft_strdup(last);
 	ret = ft_strjoin(t_first, t_last);
-	free(first);
 	if (t_first)
 		free(t_first);
-	free(last);
 	if (t_last)
 		free(t_last);
-	return (ret);
+	return (free(first), free(last), ret);
 }
 
 void	ft_comp_n_del(t_comp **cmpa, t_comp *next, bool c)

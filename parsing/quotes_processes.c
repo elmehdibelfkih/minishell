@@ -6,11 +6,33 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 05:32:03 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/13 21:55:52 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/14 09:17:56 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+char    *get_exp_var(char *line, t_env *env)
+{
+    int i;
+    int start;
+    char *ex;
+
+    i = 0;
+    while (line[i])
+    {
+        if (line[i] == '$')
+        {
+            start = i;
+            while (line[i] && line[i] != ' ' &&  line[i] != '\"' && line[i] != '\'')
+                i++;
+            ex = ft_substr(line, start + 1, i - start - 1);
+            return (get_env_var(ex, env));
+        }
+        i++;
+    }
+    return ("");
+}
 
 char    *get_env_var(char *var, t_env *env)
 {
@@ -27,28 +49,6 @@ char    *get_env_var(char *var, t_env *env)
     return ("");
 }
 
-char    *get_exp_var(char *line, t_env *env)
-{
-    int i;
-    int start;
-    char *ex;
-    (void)env;
-
-    i = 0;
-    while (line[i])
-    {
-        if (line[i] == '$')
-        {
-            start = i;
-            while (line[i] != ' ')
-                i++;
-            ex = ft_substr(line, start + 1, i - start - 1);
-            return (get_env_var(ex, env));
-        }
-        i++;
-    }
-    return ("");
-}
 
 char    *replace_var(char *line, t_env *env)
 {
@@ -66,7 +66,7 @@ char    *replace_var(char *line, t_env *env)
             r = ft_substr(line, 0, i);
             f = ft_strjoin(r, c);
             free (r);
-            while (line[i] != ' ')
+            while (line[i] && line[i] != ' ' &&  line[i] != '\"' && line[i] != '\'')
                 i++;
             r = ft_strjoin(f, &line[i]);
             free (f);
@@ -85,7 +85,6 @@ void	replace_line(t_comp *cmpa, t_env *env)
 	{
 		if (cmpa->tok != delimiter && cmpa->expanded)
 		{
-            // printf("here > 1\n");
 			tmp = replace_var(cmpa->data, env);
             free(cmpa->data);
             cmpa->data = tmp;
