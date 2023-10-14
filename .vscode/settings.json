@@ -4,6 +4,8 @@
         "array": "c",
         "string": "c",
         "string_view": "c",
-        "vector": "c"
+        "vector": "c",
+        "memory": "c",
+        "utility": "c"
     }
 }

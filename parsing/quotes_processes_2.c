@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 06:55:25 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/14 08:15:26 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/14 11:59:57 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void    join_words(t_comp *cmpa)
 		{
 			while (check_next(cmpa))
 			{
-				cmpa->data = join_quotes(cmpa->data, cmpa->next->data);
+				cmpa->data = join_quotes(cmpa, cmpa->next);
 				ft_comp_nd_del(&cmpa, cmpa->next);
 			}
 		}
@@ -74,4 +74,32 @@ void    delete_spaces(t_comp *cmpa)
 		else
 			cmpa = cmpa->next;
 	}
+}
+
+char	*join_quotes(t_comp *cmpa, t_comp *next)
+{
+	char	*t_first;
+	char	*t_last;
+	char	*ret;
+
+	t_first = NULL;
+	t_last = NULL;
+	if (*(cmpa->data) == '\'' && cmpa->tok != word)
+		t_first = ft_strtrim(cmpa->data, "\'");
+	else if (*(cmpa->data) == '\"' && cmpa->tok != word)
+		t_first = ft_strtrim(cmpa->data, "\"");
+	else
+		t_first = ft_strdup(cmpa->data);
+	if (*(next->data) == '\'' && next->tok != word)
+		t_last = ft_strtrim(next->data, "\'");
+	else if (*(next->data) == '\"' && next->tok != word)
+		t_last = ft_strtrim(next->data, "\"");
+	else
+		t_last = ft_strdup(next->data);
+	ret = ft_strjoin(t_first, t_last);
+	if (t_first)
+		free(t_first);
+	if (t_last)
+		free(t_last);
+	return (free(cmpa->data), free(next->data), ret);
 }

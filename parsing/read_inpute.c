@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:55:39 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/14 09:07:35 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/14 11:54:57 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,10 @@ void	get_line(t_list **prime, t_comp **cmpa, t_env *env)
 			{
 				types_separation(*prime, cmpa);
 				here_doc_processes(*cmpa);
-				if (!check_files(*cmpa))
-					perror("makhdamch hadchi");
 				replace_line(*cmpa, env);
 				trim_quotes(*cmpa);
+				if (!check_files(*cmpa))
+					printf("makhdamch hadchi\n");
 				while (*cmpa)
 				{
 					printf("%s     %d\n", (*cmpa)->data, (*cmpa)->tok);
@@ -45,7 +45,7 @@ void	get_line(t_list **prime, t_comp **cmpa, t_env *env)
 				}
 			}
 			else
-				perror("syntax error : unclosed quote\n");
+				printf("syntax error : unclosed quote\n");
 			ft_lstclear(prime, free);
 			ft_comp_clear(cmpa);
 		}

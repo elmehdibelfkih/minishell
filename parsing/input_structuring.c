@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 18:03:26 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/14 08:41:29 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/14 10:18:25 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void	types_separation(t_list *prime, t_comp **cmpa)
 	while (prime)
 	{
 		tmp = (char *)(prime->content);
-		// printf("here>%s\n", tmp);
 		if (*tmp == '\'' || *tmp == '\"')
 			c = types_separation_quotes(cmpa, tmp);
 		else if (*tmp == ' ' || *tmp == '|')

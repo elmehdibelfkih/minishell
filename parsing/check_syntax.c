@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/11 20:48:59 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/14 07:03:35 by ebelfkih         ###   ########.fr       */
+/*   Created: 2023/10/14 11:52:58 by ebelfkih          #+#    #+#             */
+/*   Updated: 2023/10/14 12:44:02 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,81 +33,36 @@ bool	check_files(t_comp *cmpa)
 	return (true);
 }
 
-bool	check_next(t_comp *cmpa)
+bool	open_here_doc(t_comp *cmpa)
 {
-	if (cmpa->next && (cmpa->next->tok == d_quote
-			|| cmpa->next->tok == s_quote
-			|| cmpa->next->tok == word || cmpa->next->tok == delimiter))
-		return (true);
-	return (false);
-}
-
-void	here_doc_processes(t_comp *cmpa)
-{
-	bool	c;
-
 	while (cmpa)
 	{
-		c = false;
 		if (cmpa->tok == here_doc)
 		{
-			if (cmpa->next)
-				cmpa = cmpa->next;
-			if (cmpa->next && (cmpa->tok == space))
-				cmpa = cmpa->next;
-			if (cmpa->tok == word)
-				cmpa->expanded = true;
-			cmpa->tok = delimiter;
-			while (cmpa->next && check_next(cmpa))
-			{
-				if (!c && (cmpa->tok == d_quote || cmpa->tok == s_quote
-						|| cmpa->next->tok == d_quote
-						|| cmpa->next->tok == s_quote))
-					c = true;
-				cmpa->data = join_quotes(cmpa->data, cmpa->next->data);
-				ft_comp_n_del(&cmpa, cmpa->next, c);
-			}
+			if (!cmpa->next)
+				return (false);
+			else if (cmpa->next->tok != delimiter)
+				return (false);
+			else
+				new_fork(cmpa->next->data, cmpa->next->expanded);
 		}
-		else
-			cmpa = cmpa->next;
 	}
 }
 
-char	*join_quotes(char *first, char *last)
+new_fork(char *delim, bool exp)
 {
-	char	*t_first;
-	char	*t_last;
-	char	*ret;
+	int		i;
+	char	*c;
 
-	t_first = NULL;
-	t_last = NULL;
-	if (*first == '\'')
-		t_first = ft_strtrim(first, "\'");
-	else if (*first == '\"')
-		t_first = ft_strtrim(first, "\"");
-	else
-		t_first = ft_strdup(first);
-	if (*last == '\'')
-		t_last = ft_strtrim(last, "\'");
-	else if (*last == '\"')
-		t_last = ft_strtrim(last, "\"");
-	else
-		t_last = ft_strdup(last);
-	ret = ft_strjoin(t_first, t_last);
-	if (t_first)
-		free(t_first);
-	if (t_last)
-		free(t_last);
-	return (free(first), free(last), ret);
-}
-
-void	ft_comp_n_del(t_comp **cmpa, t_comp *next, bool c)
-{
-	t_comp	*tmp;
-
-	if (c)
-		(*cmpa)->expanded = false;
-	tmp = next->next;
-	free(next);
-	(*cmpa)->next = tmp;
+	i = fork();
+	if (i == 0)
+	{
+		while (true)
+		{
+			c = readline(">");
+			if (exp && ft_strchr(c, '$'))
+				// ?????????
+				;
+		}
+	}
 }

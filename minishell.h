@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 23:01:46 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/14 09:23:00 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/14 11:59:57 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,6 @@ bool	types_separation_word(t_comp **cmpa, char *tmp, t_list *prime); // mehdi
 bool	check_files(t_comp *cmpa); // mehdi
 bool    check_next(t_comp *cmpa); // mehdi
 void    here_doc_processes(t_comp *cmpa); // mehdi
-char    *join_quotes(char *first, char *last); //mehdi
 void    ft_comp_n_del(t_comp **cmpa, t_comp *next, bool c); // mehdi
 char    *get_exp_var(char *line, t_env *env); //mehdi
 char    *get_env_var(char *var, t_env *env); // mehdi
@@ -108,4 +107,6 @@ void    join_words(t_comp *cmpa); // mehdi
 void	ft_comp_nd_del(t_comp **cmpa, t_comp *next); // mehdi
 void    trim_quotes(t_comp *cmpa); // mehdi
 void    delete_spaces(t_comp *cmpa); //mehdi
+char	*join_quotes(t_comp *cmpa, t_comp *next); // mehdi
+void	here_doc_processes_assistant(t_comp **cmpa, bool	*c); // mehdi
 #endif
