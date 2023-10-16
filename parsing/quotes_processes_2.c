@@ -6,41 +6,41 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 06:55:25 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/14 11:59:57 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/16 10:59:39 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void    trim_quotes(t_comp *cmpa)
+void	trim_quotes(t_comp *cmpa)
 {
-    char *tmp;
-    t_comp *ctmp;
-    t_comp *ctm;
+	char	*tmp;
+	t_comp	*ctmp;
+	t_comp	*ctm;
 
-    ctmp = cmpa;
-    ctm = cmpa;
-    while (cmpa)
+	ctmp = cmpa;
+	ctm = cmpa;
+	while (cmpa)
 	{
 		if (cmpa->tok == d_quote || cmpa->tok == s_quote)
-		{  
-            if (*(cmpa->data) == '\'')
-                tmp = ft_strtrim(cmpa->data, "\'");
-            else
-                tmp = ft_strtrim(cmpa->data, "\"");
-            free(cmpa->data);
-            cmpa->data = tmp;
-            cmpa->tok = word;
+		{
+			if (*(cmpa->data) == '\'')
+				tmp = ft_strtrim(cmpa->data, "\'");
+			else
+				tmp = ft_strtrim(cmpa->data, "\"");
+			free(cmpa->data);
+			cmpa->data = tmp;
+			cmpa->tok = word;
 		}
 		cmpa = cmpa->next;
 	}
-    join_words(ctmp);
-    delete_spaces(ctm);
+	join_words(ctmp);
+	delete_spaces(ctm);
 }
 
-void    join_words(t_comp *cmpa)
+void	join_words(t_comp *cmpa)
 {
-    while (cmpa)
+	while (cmpa)
 	{
 		if (cmpa->tok == word && check_next(cmpa))
 		{
@@ -60,14 +60,14 @@ void	ft_comp_nd_del(t_comp **cmpa, t_comp *next)
 	t_comp	*tmp;
 
 	tmp = next->next;
-    // free ((*cmpa)->data);
+	// free ((*cmpa)->data);
 	free(next);
 	(*cmpa)->next = tmp;
 }
 
-void    delete_spaces(t_comp *cmpa)
+void	delete_spaces(t_comp *cmpa)
 {
-    while (cmpa)
+	while (cmpa)
 	{
 		if (cmpa->next && cmpa->next->tok == space)
 			ft_comp_nd_del(&cmpa, cmpa->next);
@@ -84,9 +84,10 @@ char	*join_quotes(t_comp *cmpa, t_comp *next)
 
 	t_first = NULL;
 	t_last = NULL;
-	if (*(cmpa->data) == '\'' && cmpa->tok != word)
+	if (*(cmpa->data) == '\'' && cmpa->tok != word && cmpa->tok != delimiter)
 		t_first = ft_strtrim(cmpa->data, "\'");
-	else if (*(cmpa->data) == '\"' && cmpa->tok != word)
+	else if (*(cmpa->data) == '\"' && cmpa->tok != word
+		&& cmpa->tok != delimiter)
 		t_first = ft_strtrim(cmpa->data, "\"");
 	else
 		t_first = ft_strdup(cmpa->data);

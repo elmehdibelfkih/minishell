@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 23:01:46 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/14 11:59:57 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/16 09:31:03 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 # define MINISHELL_H
 
 # include "libft/libft.h"
-#include <errno.h>
+# include <errno.h>
 # include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -28,6 +28,7 @@
 # include <sys/ioctl.h>
 # include <stdint.h>
 # include <limits.h>
+# include <fcntl.h>
 
 typedef enum s_component
 {
@@ -109,4 +110,8 @@ void    trim_quotes(t_comp *cmpa); // mehdi
 void    delete_spaces(t_comp *cmpa); //mehdi
 char	*join_quotes(t_comp *cmpa, t_comp *next); // mehdi
 void	here_doc_processes_assistant(t_comp **cmpa, bool	*c); // mehdi
+bool	here_doc_processes_assistant_2(t_comp **cmpa); // mehdi
+bool	open_here_doc(t_comp *cmpa, t_env *env); // mehdi
+int		new_fork(char *delim, bool exp, t_env *env); // mehdi
+char	*generate_here_doc_name(void); // mehdi
 #endif

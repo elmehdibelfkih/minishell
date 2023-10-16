@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 18:03:26 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/14 10:18:25 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/16 10:58:06 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ void	types_separation(t_list *prime, t_comp **cmpa)
 			c = types_separation_word(cmpa, tmp, prime);
 		if (c)
 			prime = prime->next;
-		
 	}
 }
 
@@ -69,7 +68,7 @@ bool	types_separation_redirections_1(t_comp **cmpa, char *tmp, t_list *prime)
 		t = (void *)ft_substr(tmp, 2, INT_MAX);
 		free(prime->content);
 		prime->content = t;
-		ft_comp_add_back(cmpa, ft_compnew(" << ", here_doc, false));
+		ft_comp_add_back(cmpa, ft_compnew("<<", here_doc, false));
 		if (!*(char *)(prime->content))
 			return (true);
 	}
@@ -78,7 +77,7 @@ bool	types_separation_redirections_1(t_comp **cmpa, char *tmp, t_list *prime)
 		t = (void *)ft_substr(tmp, 2, INT_MAX);
 		free(prime->content);
 		prime->content = t;
-		ft_comp_add_back(cmpa, ft_compnew(" >> ", append_operator, false));
+		ft_comp_add_back(cmpa, ft_compnew(">>", append_operator, false));
 		if (!*(char *)(prime->content))
 			return (true);
 	}
@@ -94,7 +93,7 @@ bool	types_separation_redirections_2(t_comp **cmpa, char *tmp, t_list *prime)
 		t = (void *)ft_substr(tmp, 1, INT_MAX);
 		free(prime->content);
 		prime->content = t;
-		ft_comp_add_back(cmpa, ft_compnew(" < ", redir_input, false));
+		ft_comp_add_back(cmpa, ft_compnew("<", redir_input, false));
 		if (!*(char *)(prime->content))
 			return (true);
 	}
@@ -103,7 +102,7 @@ bool	types_separation_redirections_2(t_comp **cmpa, char *tmp, t_list *prime)
 		t = (void *)ft_substr(tmp, 1, INT_MAX);
 		free(prime->content);
 		prime->content = t;
-		ft_comp_add_back(cmpa, ft_compnew(" > ", redir_output, false));
+		ft_comp_add_back(cmpa, ft_compnew(">", redir_output, false));
 		if (!*(char *)(prime->content))
 			return (true);
 	}

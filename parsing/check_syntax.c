@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 11:52:58 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/14 12:44:02 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/16 10:55:27 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ bool	check_files(t_comp *cmpa)
 	while (cmpa)
 	{
 		if (cmpa->tok == redir_input || cmpa->tok == redir_output
-			|| cmpa->tok == here_doc || cmpa->tok == append_operator)
+			|| cmpa->tok == append_operator)
 		{
 			if (check_next(cmpa))
 				cmpa = cmpa->next;
@@ -33,36 +33,70 @@ bool	check_files(t_comp *cmpa)
 	return (true);
 }
 
-bool	open_here_doc(t_comp *cmpa)
+bool	open_here_doc(t_comp *cmpa, t_env *env)
 {
 	while (cmpa)
 	{
 		if (cmpa->tok == here_doc)
 		{
 			if (!cmpa->next)
+			{
+				printf("syntax error near unexpected token `newline'\n");
 				return (false);
+			}
 			else if (cmpa->next->tok != delimiter)
+			{
+				printf("syntax error near unexpected token `%s'\n",
+					cmpa->next->data);
 				return (false);
-			else
-				new_fork(cmpa->next->data, cmpa->next->expanded);
+			}
+			new_fork(cmpa->next->data, cmpa->next->expanded, env);
 		}
+		cmpa = cmpa->next;
 	}
+	return (true);
 }
 
-new_fork(char *delim, bool exp)
+int	new_fork(char *delim, bool exp, t_env *env)
 {
 	int		i;
+	int		fd;
 	char	*c;
+	char	*tmp;
 
+	tmp = generate_here_doc_name();
+	fd = open(tmp, O_RDWR | O_CREAT | O_TRUNC, 0777);
+	free(tmp);
 	i = fork();
 	if (i == 0)
 	{
 		while (true)
 		{
-			c = readline(">");
-			if (exp && ft_strchr(c, '$'))
-				// ?????????
-				;
+			c = readline("> ");
+			if (!ft_strncmp(c, delim, INT_MAX))
+				break ;
+			while (exp && ft_strchr(c, '$'))
+			{
+				tmp = replace_var(c, env);
+				free(c);
+				c = tmp;
+			}
+			write(fd, c, ft_strlen(c));
+			write(fd, "\n", 2);
 		}
 	}
+	return (fd);
+}
+
+char	*generate_here_doc_name(void)
+{
+	static int	i;
+	char		*nb;
+	char		*name;
+
+	i++;
+	nb = ft_itoa(i);
+	name = ft_strjoin(".", nb);
+	free (nb);
+	return (nb);
 }

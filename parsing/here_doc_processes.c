@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 20:48:59 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/14 11:59:57 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/16 10:57:24 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,28 +24,25 @@ bool	check_next(t_comp *cmpa)
 void	here_doc_processes(t_comp *cmpa)
 {
 	bool	c;
+	t_comp	*tmp;
 
+	tmp = cmpa;
 	while (cmpa)
 	{
 		c = false;
 		if (cmpa->tok == here_doc)
 			here_doc_processes_assistant(&cmpa, &c);
-			cmpa = cmpa->next;
+		cmpa = cmpa->next;
 	}
 }
 
 void	here_doc_processes_assistant(t_comp **cmpa, bool	*c)
 {
-	if ((*cmpa)->next && (*cmpa)->next->tok == here_doc)
+	if (!here_doc_processes_assistant_2(cmpa))
 		return ;
-	if ((*cmpa)->next)
-		(*cmpa) = (*cmpa)->next;
-	if ((*cmpa)->next && ((*cmpa)->tok == space))
-		(*cmpa) = (*cmpa)->next;
-	if ((*cmpa)->tok == word)
-		(*cmpa)->expanded = true;
-	if ((*cmpa)->tok != pipe_op && (*cmpa)->tok != redir_input && (*cmpa)->tok != redir_output
-		&& (*cmpa)->tok != append_operator && (*cmpa)->tok != here_doc)
+	if ((*cmpa)->tok != pipe_op && (*cmpa)->tok != redir_input 
+		&& (*cmpa)->tok != redir_output && (*cmpa)->tok != append_operator 
+		&& (*cmpa)->tok != here_doc)
 		(*cmpa)->tok = delimiter;
 	while ((*cmpa)->next && check_next((*cmpa)))
 	{
@@ -56,6 +53,32 @@ void	here_doc_processes_assistant(t_comp **cmpa, bool	*c)
 		(*cmpa)->data = join_quotes((*cmpa), (*cmpa)->next);
 		ft_comp_n_del(&(*cmpa), (*cmpa)->next, *c);
 	}
+}
+
+bool	here_doc_processes_assistant_2(t_comp **cmpa)
+{
+	char	*tmp;
+
+	if ((*cmpa)->next && (*cmpa)->next->tok == here_doc)
+		return (false);
+	if ((*cmpa)->next)
+		(*cmpa) = (*cmpa)->next;
+	if ((*cmpa)->next && ((*cmpa)->tok == space))
+		(*cmpa) = (*cmpa)->next;
+	if ((*cmpa)->tok == word)
+		(*cmpa)->expanded = true;
+	if ((*cmpa)->tok == s_quote || (*cmpa)->tok == d_quote)
+	{
+		if ((*cmpa)->tok == s_quote)
+			tmp = ft_strtrim((*cmpa)->data, "\'");
+		else
+			tmp = ft_strtrim((*cmpa)->data, "\"");
+		free ((*cmpa)->data);
+		(*cmpa)->data = tmp;
+		(*cmpa)->tok = delimiter;
+		(*cmpa)->expanded = false;
+	}
+	return (true);
 }
 
 void	ft_comp_n_del(t_comp **cmpa, t_comp *next, bool c)
