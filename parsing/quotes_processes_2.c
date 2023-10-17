@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 06:55:25 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/16 10:59:39 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/17 08:24:44 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ void	ft_comp_nd_del(t_comp **cmpa, t_comp *next)
 	t_comp	*tmp;
 
 	tmp = next->next;
-	// free ((*cmpa)->data);
 	free(next);
 	(*cmpa)->next = tmp;
 }

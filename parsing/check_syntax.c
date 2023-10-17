@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 11:52:58 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/16 10:55:27 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/17 08:43:18 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,12 @@ bool	open_here_doc(t_comp *cmpa, t_env *env)
 		{
 			if (!cmpa->next)
 			{
-				printf("syntax error near unexpected token `newline'\n");
+				printf("\nsyntax error near unexpected token `newline'\n");
 				return (false);
 			}
 			else if (cmpa->next->tok != delimiter)
 			{
-				printf("syntax error near unexpected token `%s'\n",
+				printf("\nsyntax error near unexpected token `%s'\n",
 					cmpa->next->data);
 				return (false);
 			}
@@ -59,44 +59,42 @@ bool	open_here_doc(t_comp *cmpa, t_env *env)
 
 int	new_fork(char *delim, bool exp, t_env *env)
 {
-	int		i;
-	int		fd;
-	char	*c;
-	char	*tmp;
+	pid_t	i;
+	int		st;
+	int		fd[2];
 
-	tmp = generate_here_doc_name();
-	fd = open(tmp, O_RDWR | O_CREAT | O_TRUNC, 0777);
-	free(tmp);
+	if (pipe(fd) == -1)
+		exit_message(2);
 	i = fork();
+	if (i == -1)
+		exit_message(3);
 	if (i == 0)
-	{
-		while (true)
-		{
-			c = readline("> ");
-			if (!ft_strncmp(c, delim, INT_MAX))
-				break ;
-			while (exp && ft_strchr(c, '$'))
-			{
-				tmp = replace_var(c, env);
-				free(c);
-				c = tmp;
-			}
-			write(fd, c, ft_strlen(c));
-			write(fd, "\n", 2);
-		}
-	}
-	return (fd);
+		child_process(delim, exp, env, fd);
+	close(fd[1]);
+	waitpid(i, &st, 0);
+	return (fd[0]);
 }
 
-char	*generate_here_doc_name(void)
+void	child_process(char *delim, bool exp, t_env *env, int *fd)
 {
-	static int	i;
-	char		*nb;
-	char		*name;
+	char	*tmp;
+	char	*c;
 
-	i++;
-	nb = ft_itoa(i);
-	name = ft_strjoin(".", nb);
-	free (nb);
-	return (nb);
+	close(fd[0]);
+	while (true) 
+	{
+		c = readline("> ");
+		if (!ft_strncmp(c, delim, INT_MAX))
+			break ;
+		while (c && exp && ft_strchr(c, '$'))
+		{
+			tmp = replace_var(c, env);
+			free(c);
+			c = tmp;
+		}
+		write(fd[1], c, ft_strlen(c));
+		write(fd[1], "\n", 2);
+		free(c);
+	}
+	exit(1);
 }

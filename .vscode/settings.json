@@ -6,6 +6,10 @@
         "string_view": "c",
         "vector": "c",
         "memory": "c",
-        "utility": "c"
+        "utility": "c",
+        "cstdlib": "c",
+        "locale": "c",
+        "ostream": "c",
+        "new": "c"
     }
 }

@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 23:01:46 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/16 09:31:03 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/17 08:42:10 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,15 @@
 
 typedef enum s_component
 {
-    word, //0
-    space, // 1
-    pipe_op, // 2
-    d_quote,  // 3
-    s_quote,   //4
-    redir_input, // 5 <
-    redir_output, // 6 >
-    here_doc, // 7 <<
-    append_operator, // 8 >>
+	word, //0
+	space, // 1
+	pipe_op, // 2
+	d_quote,  // 3
+	s_quote,   //4
+	redir_input, // 5 <
+	redir_output, // 6 >
+	here_doc, // 7 <<
+	append_operator, // 8 >>
 	delimiter, //9
 } t_component;
 
@@ -90,28 +90,29 @@ void	ft_comp_add_back(t_comp **head, t_comp *new); // mehdi
 t_comp	*ft_compnew(char *data, t_component	tok, bool expanded); // mehdi
 t_comp	*ft_comp_last(t_comp *head); // mehdi
 void	ft_comp_clear(t_comp **head); // mehdi
-void    types_separation(t_list *prime, t_comp **cmpa); // mehdi
+void	types_separation(t_list *prime, t_comp **cmpa); // mehdi
 bool	types_separation_quotes(t_comp **cmpa, char *tmp); //mehdi
 bool	types_separation_pipe_space(t_comp **cmpa, char *tmp, t_list *prime); // mehdi
 bool	types_separation_redirections_1(t_comp **cmpa, char *tmp, t_list *prime); // mehdi
 bool	types_separation_redirections_2(t_comp **cmpa, char *tmp, t_list *prime); //mehdi
 bool	types_separation_word(t_comp **cmpa, char *tmp, t_list *prime); // mehdi
 bool	check_files(t_comp *cmpa); // mehdi
-bool    check_next(t_comp *cmpa); // mehdi
-void    here_doc_processes(t_comp *cmpa); // mehdi
-void    ft_comp_n_del(t_comp **cmpa, t_comp *next, bool c); // mehdi
-char    *get_exp_var(char *line, t_env *env); //mehdi
-char    *get_env_var(char *var, t_env *env); // mehdi
-char    *replace_var(char *line, t_env *env); // mehdi
+bool	check_next(t_comp *cmpa); // mehdi
+void	here_doc_processes(t_comp *cmpa); // mehdi
+void	ft_comp_n_del(t_comp **cmpa, t_comp *next, bool c); // mehdi
+char	*get_exp_var(char *line, t_env *env); //mehdi
+char	*get_env_var(char *var, t_env *env); // mehdi
+char	*replace_var(char *line, t_env *env); // mehdi
 void	replace_line(t_comp *cmpa, t_env *env); // mehdi
-void    join_words(t_comp *cmpa); // mehdi
+void	join_words(t_comp *cmpa); // mehdi
 void	ft_comp_nd_del(t_comp **cmpa, t_comp *next); // mehdi
-void    trim_quotes(t_comp *cmpa); // mehdi
-void    delete_spaces(t_comp *cmpa); //mehdi
+void	trim_quotes(t_comp *cmpa); // mehdi
+void	delete_spaces(t_comp *cmpa); //mehdi
 char	*join_quotes(t_comp *cmpa, t_comp *next); // mehdi
 void	here_doc_processes_assistant(t_comp **cmpa, bool	*c); // mehdi
 bool	here_doc_processes_assistant_2(t_comp **cmpa); // mehdi
 bool	open_here_doc(t_comp *cmpa, t_env *env); // mehdi
 int		new_fork(char *delim, bool exp, t_env *env); // mehdi
-char	*generate_here_doc_name(void); // mehdi
+void	child_process(char *delim, bool exp, t_env *env, int *fd); // mehdi
+void	exit_message(int i); // mehdi
 #endif
