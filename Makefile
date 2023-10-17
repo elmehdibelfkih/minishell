@@ -6,12 +6,12 @@
 #    By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/05 23:01:54 by ebelfkih          #+#    #+#              #
-#    Updated: 2023/10/17 07:14:34 by ebelfkih         ###   ########.fr        #
+#    Updated: 2023/10/17 13:45:47 by ebelfkih         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
-CC   = gcc -Wall -Wextra -Werror #-fsanitize=address -g
+CC   = gcc -Wall -Wextra -Werror -fsanitize=address -g
 SRC  =  libft/ft_isalpha.c libft/ft_isdigit.c libft/ft_isalnum.c libft/ft_isascii.c libft/ft_isprint.c libft/ft_toupper.c libft/ft_tolower.c \
 libft/ft_memcpy.c libft/ft_memmove.c libft/ft_memchr.c libft/ft_strlen.c libft/ft_strchr.c libft/ft_strrchr.c libft/ft_strnstr.c libft/ft_strncmp.c \
 libft/ft_atoi.c libft/ft_memset.c libft/ft_bzero.c libft/ft_memcmp.c libft/ft_strlcpy.c libft/ft_calloc.c libft/ft_strdup.c libft/ft_substr.c \
@@ -19,7 +19,8 @@ libft/ft_strjoin.c libft/ft_putstr_fd.c libft/ft_putchar_fd.c libft/ft_putendl_f
 libft/ft_striteri.c libft/ft_itoa.c libft/ft_strlcat.c libft/ft_split.c  libft/ft_lstnew.c libft/ft_lstadd_front.c libft/ft_lstsize.c \
 libft/ft_lstlast.c libft/ft_lstadd_back.c libft/ft_lstdelone.c libft/ft_lstclear.c libft/ft_lstiter.c libft/ft_lstmap.c \
 parsing/get_env.c parsing/read_inpute.c parsing/input_structuring.c parsing/input_structuring_2.c parsing/check_syntax.c parsing/quotes_processes.c \
-parsing/quotes_processes_2.c parsing/here_doc_processes.c parsing/tools.c\
+parsing/quotes_processes_2.c parsing/here_doc_processes.c parsing/tools.c parsing/get_final_struct.c parsing/redirections.c prsing/redirections_2.c \
+parsing/get_final_struct.c \
 execution/execute.c main_parsing.c 
 #execution/main_execution.c  
 

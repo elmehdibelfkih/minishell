@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 11:52:58 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/17 08:43:18 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/17 11:48:22 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,43 @@
 
 bool	check_files(t_comp *cmpa)
 {
+	if (!check_pipe(cmpa, 0))
+		return (false);
 	while (cmpa)
 	{
-		if (cmpa->tok == redir_input || cmpa->tok == redir_output
-			|| cmpa->tok == append_operator)
+		if (cmpa->tok == r_inp || cmpa->tok == r_out || cmpa->tok == app_op)
 		{
 			if (check_next(cmpa))
 				cmpa = cmpa->next;
-			else if (cmpa->next && cmpa->next->next
-				&& cmpa->next->tok == space && check_next(cmpa->next))
-				cmpa = cmpa->next;
 			else
+			{
+				if (!cmpa->next)
+					printf("syntax error near unexpected token `newline'\n");
+				else
+					printf("syntax error near unexpected token `%s'\n",
+						cmpa->next->data);
 				return (false); 
+			}
 		}
+		else if (!check_pipe(cmpa, 0))
+			return (false);
 		else
 			cmpa = cmpa->next;
+	}
+	return (true);
+}
+
+bool	check_pipe(t_comp *cmpa, int i)
+{
+	if (i == 0 && cmpa->tok == pipe_op)
+	{
+		printf("%s\n", "syntax error near unexpected token `|'");
+		return (false);
+	}
+	else if (cmpa->tok == pipe_op && cmpa->next->tok == pipe_op)
+	{
+		printf("%s\n", "syntax error near unexpected token `|'");
+		return (false);
 	}
 	return (true);
 }
@@ -41,12 +63,12 @@ bool	open_here_doc(t_comp *cmpa, t_env *env)
 		{
 			if (!cmpa->next)
 			{
-				printf("\nsyntax error near unexpected token `newline'\n");
+				printf("syntax error near unexpected token `newline'\n");
 				return (false);
 			}
 			else if (cmpa->next->tok != delimiter)
 			{
-				printf("\nsyntax error near unexpected token `%s'\n",
+				printf("syntax error near unexpected token `%s'\n",
 					cmpa->next->data);
 				return (false);
 			}
@@ -84,7 +106,9 @@ void	child_process(char *delim, bool exp, t_env *env, int *fd)
 	while (true) 
 	{
 		c = readline("> ");
-		if (!ft_strncmp(c, delim, INT_MAX))
+		if (!c)
+			exit(1);
+		if (c && !ft_strncmp(c, delim, INT_MAX))
 			break ;
 		while (c && exp && ft_strchr(c, '$'))
 		{

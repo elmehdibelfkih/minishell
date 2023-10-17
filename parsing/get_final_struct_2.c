@@ -1,24 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tools.c                                            :+:      :+:    :+:   */
+/*   get_final_struct_2.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/17 07:02:49 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/17 11:08:42 by ebelfkih         ###   ########.fr       */
+/*   Created: 2023/10/17 13:45:27 by ebelfkih          #+#    #+#             */
+/*   Updated: 2023/10/17 13:46:43 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	exit_message(int i)
+size_t	nb_cmd(t_comp *cmpa)
 {
-	if (i == 1)
-		perror("malloc failed");
-	else if (i == 2)
-		perror("pipe failed");
-	else if (i == 3)
-		perror("fork failed");
-	exit(EXIT_FAILURE);
+	size_t	i;
+
+	i = 0;
+	while (cmpa && cmpa->tok != pipe_op)
+	{
+		if (cmpa->tok == word)
+			i++;
+		else
+			cmpa = cmpa->next;
+	}
+	return (i);
 }

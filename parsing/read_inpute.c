@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:55:39 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/16 10:58:34 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/17 11:50:05 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,7 @@ void	get_line(t_list **prime, t_comp **cmpa, t_env *env)
 	{
 		tmp = readline ("minishell : ");
 		add_history(tmp);
-		rl_on_new_line();
-		rl_redisplay();
-		if (*tmp)
+		if (tmp && tmp)
 		{
 			line = ft_strtrim(tmp, " ");
 			free(tmp);
@@ -31,28 +29,39 @@ void	get_line(t_list **prime, t_comp **cmpa, t_env *env)
 			free(line);
 			if (check_quotes(*prime))
 			{
-				types_separation(*prime, cmpa);
-				here_doc_processes(*cmpa);
-				replace_line(*cmpa, env);
-				trim_quotes(*cmpa);
-				open_here_doc(*cmpa, env);
-				if (!check_files(*cmpa))
-					printf("makhdamch hadchi\n");
-				while (*cmpa)
+				if (prs(prime, cmpa, env))
 				{
-					printf("%s     %d\n", (*cmpa)->data, (*cmpa)->tok);
-					if ((*cmpa)->expanded)
-						printf("expanded\n");
-					*cmpa = (*cmpa)->next;
-					printf("==================================================\n");
+					while (*cmpa)
+					{
+						printf("%s     %d\n", (*cmpa)->data, (*cmpa)->tok);
+						if ((*cmpa)->expanded)
+							printf("expanded\n");
+						*cmpa = (*cmpa)->next;
+						printf("========================================\n");
+					}
 				}
+				ft_lstclear(prime, free);
+				ft_comp_clear(cmpa);
 			}
 			else
-				printf("syntax error : unclosed quote\n");
+				printf("syntax error unclosed quote\n");
 			ft_lstclear(prime, free);
 			ft_comp_clear(cmpa);
 		}
 	}
+}
+
+bool	prs(t_list **prime, t_comp **cmpa, t_env *env)
+{
+	types_separation(*prime, cmpa);
+	here_doc_processes(*cmpa);
+	replace_line(*cmpa, env);
+	trim_quotes(*cmpa);
+	if (!open_here_doc(*cmpa, env))
+		return (false);
+	if (!check_files(*cmpa))
+		return (false);
+	return (true);
 }
 
 void	disperse(char *line, t_list **prime)

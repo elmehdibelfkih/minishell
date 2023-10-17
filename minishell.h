@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 23:01:46 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/17 08:42:10 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/17 13:37:16 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,10 @@ typedef enum s_component
 	pipe_op, // 2
 	d_quote,  // 3
 	s_quote,   //4
-	redir_input, // 5 <
-	redir_output, // 6 >
+	r_inp, // 5 <
+	r_out, // 6 >
 	here_doc, // 7 <<
-	append_operator, // 8 >>
+	app_op, // 8 >>
 	delimiter, //9
 } t_component;
 
@@ -54,9 +54,8 @@ typedef struct s_comp
 
 typedef struct s_redir
 {
-	t_component		type;
-	char			*file;
-	int				flag;
+	t_component		tok;
+	char			*f_name;
 	int				fd;
 	struct s_redir	*next;
 }	t_redir;
@@ -80,6 +79,8 @@ typedef struct s_cmd
 t_env	*ft_get_env(char **envp); // mehdi
 t_env	*ft_envnew(char *name, char *data); // mehdi
 t_env	*ft_envlast(t_env *lst); // mehdi
+t_comp	*ft_compnew(char *data, t_component	tok, bool expanded); // mehdi
+t_comp	*ft_comp_last(t_comp *head); // mehdi
 void	ft_env_add_back(t_env **lst, t_env *new); // mehdi
 void	ft_envclear(t_env **lst); // mehdi
 void	get_line(t_list **prime, t_comp **cmpa, t_env *env); // mehdi
@@ -87,8 +88,6 @@ void	disperse(char *line, t_list **prime); // mehdi
 bool	check_quotes(t_list *prime); // mehdi
 void	disperse_assistant(char *line, t_list **prime, int start, int i); //mehdi
 void	ft_comp_add_back(t_comp **head, t_comp *new); // mehdi
-t_comp	*ft_compnew(char *data, t_component	tok, bool expanded); // mehdi
-t_comp	*ft_comp_last(t_comp *head); // mehdi
 void	ft_comp_clear(t_comp **head); // mehdi
 void	types_separation(t_list *prime, t_comp **cmpa); // mehdi
 bool	types_separation_quotes(t_comp **cmpa, char *tmp); //mehdi
@@ -115,4 +114,19 @@ bool	open_here_doc(t_comp *cmpa, t_env *env); // mehdi
 int		new_fork(char *delim, bool exp, t_env *env); // mehdi
 void	child_process(char *delim, bool exp, t_env *env, int *fd); // mehdi
 void	exit_message(int i); // mehdi
+bool	prs(t_list **prime, t_comp **cmpa, t_env *env); // mehdi
+bool	check_pipe(t_comp *cmpa, int i); // mehdi
+t_redir	*ft_redirpnew(char *f_name, int fd, t_component	tok); // mehdi
+void	ft_redir_add_back(t_redir **head, t_redir *new); // mehdi
+t_redir	*ft_redir_last(t_redir *head); // mehdi
+void	ft_redir_clear(t_redir **head); // mehdi
+t_redir	*redir_fill(t_comp *cmpa); // mehdi
+void	ft_redir_nd_del(t_redir **redir, t_redir *next); // mehdi
+t_cmd	*ft_cmdnew(char **cmd, t_redir *red); // mehdi
+void	ft_cmd_add_back(t_cmd **head, t_cmd *new); // mehdi
+t_cmd	*ft_cmd_last(t_cmd *head); // mehdi
+void	ft_cmd_clear(t_cmd **head); // mehdi
+t_cmd   *cmd_fill(t_comp *cmpa, t_redir *red); // mehdi
+size_t nb_cmd(t_comp *cmpa); // mehdi
+
 #endif

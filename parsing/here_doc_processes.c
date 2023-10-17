@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 20:48:59 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/17 08:44:06 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/17 11:07:26 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ void	here_doc_processes_assistant(t_comp **cmpa, bool	*c)
 {
 	if (!here_doc_processes_assistant_2(cmpa))
 		return ;
-	if ((*cmpa)->tok != pipe_op && (*cmpa)->tok != redir_input 
-		&& (*cmpa)->tok != redir_output && (*cmpa)->tok != append_operator 
+	if ((*cmpa)->tok != pipe_op && (*cmpa)->tok != r_inp 
+		&& (*cmpa)->tok != r_out && (*cmpa)->tok != app_op 
 		&& (*cmpa)->tok != here_doc)
 		(*cmpa)->tok = delimiter;
 	while ((*cmpa)->next && check_next((*cmpa)))
@@ -87,7 +87,6 @@ void	ft_comp_n_del(t_comp **cmpa, t_comp *next, bool c)
 
 	if (c)
 		(*cmpa)->expanded = false;
-	// free(next->data);
 	tmp = next->next;
 	free(next);
 	(*cmpa)->next = tmp;
