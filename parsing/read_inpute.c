@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:55:39 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/17 11:50:05 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/18 13:50:03 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,28 +16,42 @@ void	get_line(t_list **prime, t_comp **cmpa, t_env *env)
 {
 	char	*line;
 	char	*tmp;
-
+	t_list	*here_doc_fd;
+	t_cmd	*cmd;
+	int i;
+	
+	here_doc_fd = NULL;
+	cmd = NULL;
+	i = 0;
 	while (true)
 	{
 		tmp = readline ("minishell : ");
 		add_history(tmp);
-		if (tmp && tmp)
+		line = ft_strtrim(tmp, " ");
+		free(tmp);
+		if (line && *line)
 		{
-			line = ft_strtrim(tmp, " ");
-			free(tmp);
 			disperse(line, prime);
 			free(line);
 			if (check_quotes(*prime))
 			{
-				if (prs(prime, cmpa, env))
+				if (prs(prime, cmpa, env, here_doc_fd))
 				{
+					cmd_fill(*cmpa, &cmd, here_doc_fd);
+					while (cmd)
+					{
+						while (cmd->cmd[i])
+						{
+							printf("%s\n", cmd->cmd[i]);
+							i++;
+						}
+						cmd = cmd->next;
+					}
+					printf("======================================\n");
 					while (*cmpa)
 					{
-						printf("%s     %d\n", (*cmpa)->data, (*cmpa)->tok);
-						if ((*cmpa)->expanded)
-							printf("expanded\n");
-						*cmpa = (*cmpa)->next;
-						printf("========================================\n");
+						printf ("%s\n", (*cmpa)->data);
+						(*cmpa) = (*cmpa)->next;
 					}
 				}
 				ft_lstclear(prime, free);
@@ -51,13 +65,13 @@ void	get_line(t_list **prime, t_comp **cmpa, t_env *env)
 	}
 }
 
-bool	prs(t_list **prime, t_comp **cmpa, t_env *env)
+bool	prs(t_list **prime, t_comp **cmpa, t_env *env, t_list *here_doc_fd)
 {
 	types_separation(*prime, cmpa);
 	here_doc_processes(*cmpa);
 	replace_line(*cmpa, env);
 	trim_quotes(*cmpa);
-	if (!open_here_doc(*cmpa, env))
+	if (!open_here_doc(*cmpa, env, here_doc_fd))
 		return (false);
 	if (!check_files(*cmpa))
 		return (false);

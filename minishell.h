@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 23:01:46 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/17 13:37:16 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/18 11:43:13 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ typedef struct s_env
 typedef struct s_cmd
 {
 	char			**cmd;
-	t_redir			*redir;
 	int				inp;
 	int				out;
 	struct s_cmd	*next;
@@ -110,11 +109,11 @@ void	delete_spaces(t_comp *cmpa); //mehdi
 char	*join_quotes(t_comp *cmpa, t_comp *next); // mehdi
 void	here_doc_processes_assistant(t_comp **cmpa, bool	*c); // mehdi
 bool	here_doc_processes_assistant_2(t_comp **cmpa); // mehdi
-bool	open_here_doc(t_comp *cmpa, t_env *env); // mehdi
+bool	open_here_doc(t_comp *cmpa, t_env *env, t_list *here_doc_fd); // mehdi
 int		new_fork(char *delim, bool exp, t_env *env); // mehdi
 void	child_process(char *delim, bool exp, t_env *env, int *fd); // mehdi
 void	exit_message(int i); // mehdi
-bool	prs(t_list **prime, t_comp **cmpa, t_env *env); // mehdi
+bool	prs(t_list **prime, t_comp **cmpa, t_env *env, t_list *here_doc_fd); // mehdi
 bool	check_pipe(t_comp *cmpa, int i); // mehdi
 t_redir	*ft_redirpnew(char *f_name, int fd, t_component	tok); // mehdi
 void	ft_redir_add_back(t_redir **head, t_redir *new); // mehdi
@@ -122,11 +121,15 @@ t_redir	*ft_redir_last(t_redir *head); // mehdi
 void	ft_redir_clear(t_redir **head); // mehdi
 t_redir	*redir_fill(t_comp *cmpa); // mehdi
 void	ft_redir_nd_del(t_redir **redir, t_redir *next); // mehdi
-t_cmd	*ft_cmdnew(char **cmd, t_redir *red); // mehdi
+t_cmd	*ft_cmdnew(char **cmd); // mehdi
 void	ft_cmd_add_back(t_cmd **head, t_cmd *new); // mehdi
 t_cmd	*ft_cmd_last(t_cmd *head); // mehdi
 void	ft_cmd_clear(t_cmd **head); // mehdi
-t_cmd   *cmd_fill(t_comp *cmpa, t_redir *red); // mehdi
-size_t nb_cmd(t_comp *cmpa); // mehdi
+bool	cmd_fill(t_comp *cmpa, t_cmd **cmd, t_list *here_doc_fd); // mehdi
+size_t	nb_cmd(t_comp *cmpa); // mehdi
+bool	inp_red(t_redir	*red, t_cmd	*cmd, t_list *here_doc_fd); // mehdi
+bool	out_red(t_redir	*red, t_cmd	*cmd); // mehdi
+int		get_fd(t_list *here_doc_fd); // mehdi
+void	ft_comp_nds_del(t_comp **cmpa); // mehdi
 
 #endif

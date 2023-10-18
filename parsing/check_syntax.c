@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 11:52:58 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/17 11:48:22 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/18 10:00:13 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ bool	check_files(t_comp *cmpa)
 				return (false); 
 			}
 		}
-		else if (!check_pipe(cmpa, 0))
+		else if (!check_pipe(cmpa, 1))
 			return (false);
 		else
 			cmpa = cmpa->next;
@@ -52,11 +52,18 @@ bool	check_pipe(t_comp *cmpa, int i)
 		printf("%s\n", "syntax error near unexpected token `|'");
 		return (false);
 	}
+	else if (cmpa->tok == pipe_op && !cmpa->next)
+	{
+		printf("syntax error near unexpected token `newline'\n");
+		return (false);
+	}
 	return (true);
 }
 
-bool	open_here_doc(t_comp *cmpa, t_env *env)
+bool	open_here_doc(t_comp *cmpa, t_env *env, t_list	*here_doc_fd)
 {
+	int fd;
+
 	while (cmpa)
 	{
 		if (cmpa->tok == here_doc)
@@ -72,7 +79,8 @@ bool	open_here_doc(t_comp *cmpa, t_env *env)
 					cmpa->next->data);
 				return (false);
 			}
-			new_fork(cmpa->next->data, cmpa->next->expanded, env);
+			fd = new_fork(cmpa->next->data, cmpa->next->expanded, env);
+			ft_lstadd_back(&here_doc_fd, ft_lstnew(&fd));
 		}
 		cmpa = cmpa->next;
 	}
