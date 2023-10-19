@@ -6,7 +6,7 @@
 #    By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/05 23:01:54 by ebelfkih          #+#    #+#              #
-#    Updated: 2023/10/18 11:21:10 by ebelfkih         ###   ########.fr        #
+#    Updated: 2023/10/19 14:29:28 by ebelfkih         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,6 +38,9 @@ $(NAME): $(OBJ)
 
 clean:
 	$(RM) $(OBJ)
+
+scayho :
+	make && make clean && ./minishell
 
 fclean: clean
 	$(RM) $(NAME)

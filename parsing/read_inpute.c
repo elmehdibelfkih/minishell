@@ -6,23 +6,21 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:55:39 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/18 13:50:03 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/19 17:20:58 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	get_line(t_list **prime, t_comp **cmpa, t_env *env)
+void	get_line(t_list **prime, t_comp **cmpa, t_env *env, t_cmd **cmd)
 {
 	char	*line;
 	char	*tmp;
 	t_list	*here_doc_fd;
-	t_cmd	*cmd;
 	int i;
 	
 	here_doc_fd = NULL;
-	cmd = NULL;
-	i = 0;
+
 	while (true)
 	{
 		tmp = readline ("minishell : ");
@@ -35,23 +33,17 @@ void	get_line(t_list **prime, t_comp **cmpa, t_env *env)
 			free(line);
 			if (check_quotes(*prime))
 			{
-				if (prs(prime, cmpa, env, here_doc_fd))
+				if (prs(prime, cmpa, env, &here_doc_fd))
 				{
-					cmd_fill(*cmpa, &cmd, here_doc_fd);
-					while (cmd)
+					cmd_struct_fill(*cmpa, cmd, &here_doc_fd);
+					while (*cmd)
 					{
-						while (cmd->cmd[i])
-						{
-							printf("%s\n", cmd->cmd[i]);
-							i++;
-						}
-						cmd = cmd->next;
-					}
-					printf("======================================\n");
-					while (*cmpa)
-					{
-						printf ("%s\n", (*cmpa)->data);
-						(*cmpa) = (*cmpa)->next;
+						i = -1;
+						while (cmd[++i])
+							printf("cmd : %s\n",(*cmd)->cmd[i]);
+						printf("input  : %d\n", (*cmd)->inp);
+						printf("output : %d\n", (*cmd)->out);
+						(*cmd) = (*cmd)->next;
 					}
 				}
 				ft_lstclear(prime, free);
@@ -65,7 +57,7 @@ void	get_line(t_list **prime, t_comp **cmpa, t_env *env)
 	}
 }
 
-bool	prs(t_list **prime, t_comp **cmpa, t_env *env, t_list *here_doc_fd)
+bool	prs(t_list **prime, t_comp **cmpa, t_env *env, t_list **here_doc_fd)
 {
 	types_separation(*prime, cmpa);
 	here_doc_processes(*cmpa);

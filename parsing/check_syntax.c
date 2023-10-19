@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 11:52:58 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/18 10:00:13 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/19 09:02:32 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ bool	check_pipe(t_comp *cmpa, int i)
 	return (true);
 }
 
-bool	open_here_doc(t_comp *cmpa, t_env *env, t_list	*here_doc_fd)
+bool	open_here_doc(t_comp *cmpa, t_env *env, t_list	**here_doc_fd)
 {
 	int fd;
 
@@ -80,7 +80,7 @@ bool	open_here_doc(t_comp *cmpa, t_env *env, t_list	*here_doc_fd)
 				return (false);
 			}
 			fd = new_fork(cmpa->next->data, cmpa->next->expanded, env);
-			ft_lstadd_back(&here_doc_fd, ft_lstnew(&fd));
+			ft_lstadd_back(here_doc_fd, ft_lstnew(&fd));
 		}
 		cmpa = cmpa->next;
 	}

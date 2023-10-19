@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 13:45:27 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/18 13:54:51 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/19 17:24:16 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,60 +19,62 @@ size_t	nb_cmd(t_comp *cmpa)
 	i = 0;
 	while (cmpa && cmpa->tok != pipe_op)
 	{
-		if (cmpa->tok == word)
+		if (cmpa && (cmpa->tok == r_inp || cmpa->tok == r_out
+			|| cmpa->tok == app_op || cmpa->tok == here_doc))
+		cmpa = cmpa->next->next;
+		if (cmpa)
 			i++;
-		cmpa = cmpa->next;
+		if (cmpa)
+			cmpa = cmpa->next;
 	}
 	return (i);
 }
 
-bool	cmd_fill(t_comp *cmpa, t_cmd **cmd, t_list *here_doc_fd)
+bool	cmd_struct_fill(t_comp *cmpa, t_cmd **cmd, t_list **here_doc_fd)
 {
-	t_redir	*red;
-	t_comp	*tmp;
-	char	**com;
-	int		i;
+	t_redir		*red;
+	char		**com;
+
+	while (cmpa)
+	{
+		(void)here_doc_fd;
+		com = cmd_fill(cmpa);
+		red = redir_fill(cmpa);
+		// printf("++++++++++++++++++++++++>%s\n", com[1]);
+		ft_cmd_add_back(cmd, ft_cmdnew(com));
+		if (!inp_red(red, *cmd, here_doc_fd))
+			return (false);
+		if (!out_red(red, *cmd))
+			return (false);
+		while(cmpa && cmpa->tok != pipe_op)
+			cmpa = cmpa->next;
+		if (cmpa && cmpa->tok == pipe_op)
+			cmpa = cmpa->next;
+	}
+	return (true);
+	
+}
+
+char	**cmd_fill(t_comp *cmpa)
+{
+	int			i;
+	char		**com;
 
 	i = 0;
-	tmp = cmpa;
-	red = redir_fill(cmpa);
 	com = (char **)malloc((nb_cmd(cmpa) + 1) * sizeof(char *));
 	while (cmpa && cmpa->tok != pipe_op)
 	{
+		if (cmpa && (cmpa->tok == r_inp || cmpa->tok == r_out
+			|| cmpa->tok == app_op || cmpa->tok == here_doc))
+		{
+			cmpa = cmpa->next->next;
+			if (!cmpa)
+				break;
+		}
 		com[i] = cmpa->data;
 		cmpa = cmpa->next;
 		i++;
 	}
 	com[i] = NULL;
-	ft_cmd_add_back(cmd, ft_cmdnew(com));
-	if (!inp_red(red, *cmd, here_doc_fd))
-		return (false);
-	if (!out_red(red, *cmd))
-		return (false);
-	ft_redir_clear(&red);
-	ft_comp_nds_del(&cmpa);
-	return (true);
+	return (com);
 }
-
-void	ft_comp_nds_del(t_comp **cmpa)
-{
-	t_comp	**tmp;
-	t_comp	**tmp_2;
-	t_comp	**tmp_3;
-
-	tmp = cmpa;
-	tmp_2 = cmpa;
-	tmp_3 = NULL;
-	while ((*tmp) && (*tmp)->tok != pipe_op)
-		(*tmp) = (*tmp)->next;
-	if ((*tmp)->tok == pipe_op)
-	{
-		(*tmp_3)=(*tmp);
-	printf("======================================\n");
-		(*tmp) = (*tmp)->next;
-		(*tmp_3)->next = NULL;
-	}
-	(*cmpa) = (*tmp);
-	ft_comp_clear(tmp_2);
-}
-

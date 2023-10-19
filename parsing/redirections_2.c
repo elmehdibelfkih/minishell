@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 13:42:09 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/18 13:12:08 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/19 11:43:06 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,24 @@
 
 t_redir	*redir_fill(t_comp *cmpa)
 {
-	t_redir	*red;
+	t_redir		*red;
 
 	red = NULL;
-	// if (cmpa->tok == pipe_op)
-	// 	cmpa = cmpa->next;
 	while (cmpa && cmpa->tok != pipe_op)
 	{
-		if (cmpa->next && (cmpa->next->tok == r_inp || cmpa->next->tok == r_out
-			|| cmpa->next->tok == app_op))
+		if (cmpa && (cmpa->tok == r_inp || cmpa->tok == r_out
+			|| cmpa->tok == app_op || cmpa->tok == here_doc))
 		{
 			ft_redir_add_back(&red, ft_redirpnew
-				(cmpa->next->next->data, 0, cmpa->next->tok));
-			ft_comp_nd_del(&cmpa, cmpa->next);
-			ft_comp_nd_del(&cmpa, cmpa->next);
+				(cmpa->next->data, 0, cmpa->tok));
+			// printf("%s\n",cmpa->next->data);
 		}
-		else
-			cmpa = cmpa->next;
+		cmpa = cmpa->next;
 	}
 	return (red);
 }
 
-bool	inp_red(t_redir	*red, t_cmd	*cmd, t_list *here_doc_fd)
+bool	inp_red(t_redir	*red, t_cmd	*cmd, t_list **here_doc_fd)
 {
 	int in_fd;
 
@@ -86,25 +82,26 @@ bool	out_red(t_redir	*red, t_cmd	*cmd)
 				return (false);
 			}
 			else
-				cmd->inp = ou_fd;
+				cmd->out = ou_fd;
 		}
 		red = red->next;
 	}
 	return (true);
 }
 
-int	get_fd(t_list *here_doc_fd)
+int	get_fd(t_list **here_doc_fd)
 {
 	static int	i;
 	int			j;
 
 	j = 0;
-	while(j != i)
+	while(*here_doc_fd && j != i)
 	{
-		here_doc_fd = here_doc_fd->next;
+		*here_doc_fd = (*here_doc_fd)->next;
 		j++;
 	}
 	i++;
-	j = *(int *)(here_doc_fd->content);
+	j = *((int *)((*here_doc_fd)->content));
+
 	return (j);
 }
