@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 23:01:46 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/19 11:24:27 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/20 13:55:01 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,16 @@
 
 typedef enum s_component
 {
-	word, //0
-	space, // 1
-	pipe_op, // 2
-	d_quote,  // 3
-	s_quote,   //4
-	r_inp, // 5 <
-	r_out, // 6 >
-	here_doc, // 7 <<
-	app_op, // 8 >>
-	delimiter, //9
+	word,
+	space,
+	pipe_op,
+	d_quote,
+	s_quote,
+	r_inp,
+	r_out,
+	here_doc,
+	app_op,
+	delimiter,
 } t_component;
 
 typedef struct s_comp
@@ -121,15 +121,14 @@ t_redir	*ft_redir_last(t_redir *head); // mehdi
 void	ft_redir_clear(t_redir **head); // mehdi
 t_redir	*redir_fill(t_comp *cmpa); // mehdi
 void	ft_redir_nd_del(t_redir **redir, t_redir *next); // mehdi
-t_cmd	*ft_cmdnew(char **cmd); // mehdi
+t_cmd	*ft_cmdnew(char **cmd, int in_fd, int ou_fd); // mehdi
 void	ft_cmd_add_back(t_cmd **head, t_cmd *new); // mehdi
 t_cmd	*ft_cmd_last(t_cmd *head); // mehdi
 void	ft_cmd_clear(t_cmd **head); // mehdi
-// bool	cmd_fill(t_comp *cmpa, t_cmd **cmd, t_list **here_doc_fd); // mehdi
 size_t	nb_cmd(t_comp *cmpa); // mehdi
-bool	inp_red(t_redir	*red, t_cmd	*cmd, t_list **here_doc_fd); // mehdi
-bool	out_red(t_redir	*red, t_cmd	*cmd); // mehdi
-int		get_fd(t_list **here_doc_fd); // mehdi
+int		inp_red(t_redir	*red, t_list **here_doc_fd); // mehdi
+int		out_red(t_redir	*red); // mehdi
+int		get_fd(t_list *here_doc_fd); // mehdi
 char	**cmd_fill(t_comp *cmpa); // mehdi
 bool	cmd_struct_fill(t_comp *cmpa, t_cmd **cmd, t_list **here_doc_fd); // mehdi
 

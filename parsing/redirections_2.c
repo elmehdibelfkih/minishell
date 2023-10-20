@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 13:42:09 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/19 11:43:06 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/20 14:02:29 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,94 +14,86 @@
 
 t_redir	*redir_fill(t_comp *cmpa)
 {
-	t_redir		*red;
+	t_redir	*red;
 
 	red = NULL;
 	while (cmpa && cmpa->tok != pipe_op)
 	{
 		if (cmpa && (cmpa->tok == r_inp || cmpa->tok == r_out
-			|| cmpa->tok == app_op || cmpa->tok == here_doc))
+				|| cmpa->tok == app_op || cmpa->tok == here_doc))
 		{
 			ft_redir_add_back(&red, ft_redirpnew
 				(cmpa->next->data, 0, cmpa->tok));
-			// printf("%s\n",cmpa->next->data);
 		}
 		cmpa = cmpa->next;
 	}
 	return (red);
 }
 
-bool	inp_red(t_redir	*red, t_cmd	*cmd, t_list **here_doc_fd)
+int	inp_red(t_redir	*red, t_list **here_doc_fd)
 {
-	int in_fd;
+	int	in_fd;
 
+	in_fd = 0;
 	while (red)
 	{
 		if (red->tok == r_inp || red->tok == here_doc)
 		{
-			if (cmd->inp != 0)
-				close(cmd->inp);
+			if (in_fd != 0)
+				close(in_fd);
 			if (red->tok == r_inp)
 				in_fd = open(red->f_name, O_RDONLY, 0777);
 			else
-				in_fd = get_fd(here_doc_fd);
+				in_fd = get_fd(*here_doc_fd);
 			if (in_fd == -1)
 			{
-				if (cmd->inp != 0)
-					close(cmd->inp);
 				printf("%s: No such file or directory\n", red->f_name);
-				return (false);
+				in_fd = 0;
 			}
-			else
-				cmd->inp = in_fd;
 		}
 		red = red->next;
 	}
-	return (true);
+	return (in_fd);
 }
 
-bool	out_red(t_redir	*red, t_cmd	*cmd)
+int	out_red(t_redir	*red)
 {
-	int ou_fd;
+	int	ou_fd;
 
+	ou_fd = 1;
 	while (red)
 	{
 		if (red->tok == r_out || red->tok == app_op)
 		{
-			if (cmd->inp != 0)
-				close(cmd->inp);
+			if (ou_fd != 1)
+				close (ou_fd);
 			if (red->tok == r_out)
 				ou_fd = open(red->f_name, O_WRONLY | O_CREAT, 0777);
 			else
 				ou_fd = open(red->f_name, O_WRONLY | O_CREAT | O_APPEND, 0777);
 			if (ou_fd == -1)
 			{
-				if (cmd->inp != 0)
-					close(cmd->inp);
 				printf("%s: No such file or directory\n", red->f_name);
-				return (false);
+				ou_fd = 1;
 			}
-			else
-				cmd->out = ou_fd;
 		}
 		red = red->next;
 	}
-	return (true);
+	return (ou_fd);
 }
 
-int	get_fd(t_list **here_doc_fd)
+int	get_fd(t_list *here_doc_fd)
 {
 	static int	i;
 	int			j;
 
 	j = 0;
-	while(*here_doc_fd && j != i)
+	while (here_doc_fd && j != i)
 	{
-		*here_doc_fd = (*here_doc_fd)->next;
+		here_doc_fd = here_doc_fd->next;
 		j++;
 	}
 	i++;
-	j = *((int *)((*here_doc_fd)->content));
-
+	j = *((int *)(here_doc_fd->content));
 	return (j);
 }

@@ -6,13 +6,13 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 11:42:56 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/18 12:48:57 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/20 13:57:09 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_cmd	*ft_cmdnew(char **cmd)
+t_cmd	*ft_cmdnew(char **cmd, int in_fd, int ou_fd)
 {
 	t_cmd	*new;
 
@@ -20,15 +20,14 @@ t_cmd	*ft_cmdnew(char **cmd)
 	if (!new)
 		return (NULL);
 	new->cmd = cmd;
-	new->inp = 0;
-	new->out = 1;
+	new->inp = in_fd;
+	new->out = ou_fd;
 	new->next = NULL;
 	return (new);
 }
 
 void	ft_cmd_add_back(t_cmd **head, t_cmd *new)
 {
-
 	t_cmd	*p;
 
 	if (!new)
@@ -73,4 +72,3 @@ void	ft_cmd_clear(t_cmd **head)
 		*head = t;
 	}
 }
-
