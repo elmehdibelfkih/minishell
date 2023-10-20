@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 13:42:09 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/20 14:02:29 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/20 18:41:06 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,18 +22,21 @@ t_redir	*redir_fill(t_comp *cmpa)
 		if (cmpa && (cmpa->tok == r_inp || cmpa->tok == r_out
 				|| cmpa->tok == app_op || cmpa->tok == here_doc))
 		{
-			ft_redir_add_back(&red, ft_redirpnew
-				(cmpa->next->data, 0, cmpa->tok));
+			if (cmpa->tok == here_doc)
+				ft_redir_add_back(&red, ft_redirpnew
+					(cmpa->next->data, cmpa->next->fd, cmpa->tok));
+			else
+				ft_redir_add_back(&red, ft_redirpnew
+					(cmpa->next->data, 0, cmpa->tok));
 		}
 		cmpa = cmpa->next;
 	}
 	return (red);
 }
 
-int	inp_red(t_redir	*red, t_list **here_doc_fd)
+int	inp_red(t_redir	*red)
 {
 	int	in_fd;
-
 	in_fd = 0;
 	while (red)
 	{
@@ -44,11 +47,11 @@ int	inp_red(t_redir	*red, t_list **here_doc_fd)
 			if (red->tok == r_inp)
 				in_fd = open(red->f_name, O_RDONLY, 0777);
 			else
-				in_fd = get_fd(*here_doc_fd);
+				in_fd = red->fd;
 			if (in_fd == -1)
 			{
 				printf("%s: No such file or directory\n", red->f_name);
-				in_fd = 0;
+				return (-1);
 			}
 		}
 		red = red->next;
@@ -74,7 +77,7 @@ int	out_red(t_redir	*red)
 			if (ou_fd == -1)
 			{
 				printf("%s: No such file or directory\n", red->f_name);
-				ou_fd = 1;
+				return (-1);
 			}
 		}
 		red = red->next;
