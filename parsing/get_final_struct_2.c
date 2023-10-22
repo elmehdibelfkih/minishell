@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 13:45:27 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/20 18:52:35 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/22 16:06:45 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,18 +61,14 @@ char	**cmd_fill(t_comp *cmpa)
 	com = (char **)malloc((nb_cmd(cmpa) + 1) * sizeof(char *));
 	while (cmpa && cmpa->tok != pipe_op)
 	{
-		if (cmpa && (cmpa->tok == r_inp || cmpa->tok == r_out
+		while (cmpa && (cmpa->tok == r_inp || cmpa->tok == r_out
 				|| cmpa->tok == app_op || cmpa->tok == here_doc))
-		{
 			cmpa = cmpa->next->next;
-			if (!cmpa)
-				break ;
-		}
+		if (!cmpa)
+			break ;
 		com[i] = cmpa->data;
 		i++;
-		if (cmpa && cmpa->tok != r_inp && cmpa->tok != r_out
-				&& cmpa->tok != app_op && cmpa->tok != here_doc && cmpa->tok != pipe_op)
-			cmpa = cmpa->next;
+		cmpa = cmpa->next;
 	}
 	com[i] = NULL;
 	return (com);

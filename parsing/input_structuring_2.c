@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 18:44:02 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/19 06:17:35 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/22 15:45:55 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ bool	types_separation_pipe_space(t_comp **cmpa, char *tmp, t_list *prime)
 		t = (void *)ft_substr(tmp, 1, INT_MAX);
 		free(prime->content);
 		prime->content = t;
-		ft_comp_add_back(cmpa, ft_compnew("|", pipe_op, false));
+		ft_comp_add_back(cmpa, ft_compnew(NULL, pipe_op, false));
 		if (!*(char *)(prime->content))
 			return (true);
 	}
@@ -95,9 +95,6 @@ void	ft_comp_clear(t_comp **head)
 		return ;
 	while (*head)
 	{
-		// if ((*head)->tok == word || (*head)->tok == d_quote
-		// 	|| (*head)->tok == s_quote)
-		// 	free((*head)->data);
 		t = (*head)->next;
 		free(*head);
 		*head = t;

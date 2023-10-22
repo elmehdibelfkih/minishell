@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 11:52:58 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/20 18:21:44 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/22 17:35:16 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,10 +98,11 @@ int	new_fork(char *delim, bool exp, t_env *env)
 	i = fork();
 	if (i == -1)
 		exit_message(3);
+	close(fd[1]);
 	if (i == 0)
 		child_process(delim, exp, env, fd);
-	close(fd[1]);
 	waitpid(i, &st, 0);
+	// printFile(fd[0]);
 	return (fd[0]);
 }
 
@@ -125,8 +126,25 @@ void	child_process(char *delim, bool exp, t_env *env, int *fd)
 			c = tmp;
 		}
 		write(fd[1], c, ft_strlen(c));
-		write(fd[1], "\n", 2);
+		write(fd[1], "\n", 1);
 		free(c);
 	}
 	exit(1);
 }
+
+
+//////////
+
+// void printFile(int fd) {
+//     char buffer[1024];
+//     ssize_t bytes_read;
+//     while ((bytes_read = read(fd, buffer, sizeof(buffer))) > 0) {
+//         // Write the data from the file descriptor to standard output
+//         write(o, buffer, bytes_read);
+//     }
+
+//     if (bytes_read == -1) {
+//         perror("read");
+//         exit(EXIT_FAILURE);
+//     }
+// }

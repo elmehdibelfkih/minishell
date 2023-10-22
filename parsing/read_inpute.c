@@ -6,18 +6,19 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:55:39 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/20 18:26:05 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/22 15:43:26 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	get_line(t_list **prime, t_comp **cmpa, t_env *env, t_cmd **cmd)
+t_cmd	*get_command(t_list **prime, t_comp **cmpa, t_env *env)
 {
+	t_cmd	*cmd;
 	char	*line;
 	char	*tmp;
-	int i;
 
+	cmd = NULL;
 	while (true)
 	{
 		tmp = readline ("minishell : ");
@@ -32,16 +33,9 @@ void	get_line(t_list **prime, t_comp **cmpa, t_env *env, t_cmd **cmd)
 			{
 				if (prs(prime, cmpa, env))
 				{
-					cmd_struct_fill(*cmpa, cmd);
-					while (*cmd)
-					{
-						i = -1;
-						while ((*cmd)->cmd[++i])
-							printf("cmd : %s\n",(*cmd)->cmd[i]);
-						printf("input  : %d\n", (*cmd)->inp);
-						printf("output : %d\n", (*cmd)->out);
-						(*cmd) = (*cmd)->next;
-					}
+					ft_lstclear(prime, free);
+					if (cmd_struct_fill(*cmpa, &cmd))
+						return (ft_comp_clear(cmpa), cmd);
 				}
 				ft_lstclear(prime, free);
 				ft_comp_clear(cmpa);
@@ -49,7 +43,6 @@ void	get_line(t_list **prime, t_comp **cmpa, t_env *env, t_cmd **cmd)
 			else
 				printf("syntax error unclosed quote\n");
 			ft_lstclear(prime, free);
-			ft_comp_clear(cmpa);
 		}
 	}
 }

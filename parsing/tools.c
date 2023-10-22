@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 07:02:49 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/17 11:08:42 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/20 21:12:00 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,4 +21,10 @@ void	exit_message(int i)
 	else if (i == 3)
 		perror("fork failed");
 	exit(EXIT_FAILURE);
+}
+
+void	m_free(void **f)
+{
+	free(*f);
+	*f = NULL;
 }

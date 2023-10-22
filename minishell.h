@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 23:01:46 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/20 18:25:09 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/22 17:22:33 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ t_comp	*ft_compnew(char *data, t_component	tok, bool expanded); // mehdi
 t_comp	*ft_comp_last(t_comp *head); // mehdi
 void	ft_env_add_back(t_env **lst, t_env *new); // mehdi
 void	ft_envclear(t_env **lst); // mehdi
-void	get_line(t_list **prime, t_comp **cmpa, t_env *env, t_cmd	**cmd); // mehdi
+t_cmd	*get_command(t_list **prime, t_comp **cmpa, t_env *env); // mehdi
 void	disperse(char *line, t_list **prime); // mehdi
 bool	check_quotes(t_list *prime); // mehdi
 void	disperse_assistant(char *line, t_list **prime, int start, int i); //mehdi
@@ -132,5 +132,8 @@ int		out_red(t_redir	*red); // mehdi
 int		get_fd(t_list *here_doc_fd); // mehdi
 char	**cmd_fill(t_comp *cmpa); // mehdi
 bool	cmd_struct_fill(t_comp *cmpa, t_cmd **cmd); // mehdi
+void	m_free(void **f); //mehdi
 
+
+void printFile(int fd);
 #endif
