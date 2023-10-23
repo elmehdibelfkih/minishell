@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 23:01:46 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/22 17:22:33 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/22 22:15:23 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,9 +99,9 @@ bool	check_files(t_comp *cmpa); // mehdi
 bool	check_next(t_comp *cmpa); // mehdi
 void	here_doc_processes(t_comp *cmpa); // mehdi
 void	ft_comp_n_del(t_comp **cmpa, t_comp *next, bool c); // mehdi
-char	*get_exp_var(char *line, t_env *env); //mehdi
-char	*get_env_var(char *var, t_env *env); // mehdi
-char	*replace_var(char *line, t_env *env); // mehdi
+char	*get_exp_var(char *line, t_env *env, int *j); //mehdi
+char	*get_env_var(char *var, t_env *env, int *j); // mehdi
+char	*replace_var(char *line, t_env *env, int *j); // mehdi
 void	replace_line(t_comp *cmpa, t_env *env); // mehdi
 void	join_words(t_comp *cmpa); // mehdi
 void	ft_comp_nd_del(t_comp **cmpa, t_comp *next); // mehdi

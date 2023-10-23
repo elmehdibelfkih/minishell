@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 18:03:26 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/22 15:42:55 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/22 20:41:06 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ bool	types_separation_redirections_1(t_comp **cmpa, char *tmp, t_list *prime)
 		t = (void *)ft_substr(tmp, 2, INT_MAX);
 		free(prime->content);
 		prime->content = t;
-		ft_comp_add_back(cmpa, ft_compnew(NULL, here_doc, false));
+		ft_comp_add_back(cmpa, ft_compnew("<<", here_doc, false));
 		if (!*(char *)(prime->content))
 			return (true);
 	}
@@ -77,7 +77,7 @@ bool	types_separation_redirections_1(t_comp **cmpa, char *tmp, t_list *prime)
 		t = (void *)ft_substr(tmp, 2, INT_MAX);
 		free(prime->content);
 		prime->content = t;
-		ft_comp_add_back(cmpa, ft_compnew(NULL, app_op, false));
+		ft_comp_add_back(cmpa, ft_compnew(">>", app_op, false));
 		if (!*(char *)(prime->content))
 			return (true);
 	}
@@ -93,7 +93,7 @@ bool	types_separation_redirections_2(t_comp **cmpa, char *tmp, t_list *prime)
 		t = (void *)ft_substr(tmp, 1, INT_MAX);
 		free(prime->content);
 		prime->content = t;
-		ft_comp_add_back(cmpa, ft_compnew(NULL, r_inp, false));
+		ft_comp_add_back(cmpa, ft_compnew("<", r_inp, false));
 		if (!*(char *)(prime->content))
 			return (true);
 	}
@@ -102,7 +102,7 @@ bool	types_separation_redirections_2(t_comp **cmpa, char *tmp, t_list *prime)
 		t = (void *)ft_substr(tmp, 1, INT_MAX);
 		free(prime->content);
 		prime->content = t;
-		ft_comp_add_back(cmpa, ft_compnew(NULL, r_out, false));
+		ft_comp_add_back(cmpa, ft_compnew(">", r_out, false));
 		if (!*(char *)(prime->content))
 			return (true);
 	}

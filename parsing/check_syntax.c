@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 11:52:58 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/22 17:35:16 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/22 22:23:11 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ void	child_process(char *delim, bool exp, t_env *env, int *fd)
 {
 	char	*tmp;
 	char	*c;
+	int		i;
 
 	close(fd[0]);
 	while (true) 
@@ -119,9 +120,10 @@ void	child_process(char *delim, bool exp, t_env *env, int *fd)
 			exit(1);
 		if (c && !ft_strncmp(c, delim, INT_MAX))
 			break ;
+		i = 0;
 		while (c && exp && ft_strchr(c, '$'))
 		{
-			tmp = replace_var(c, env);
+			tmp = replace_var(c, env, &i);
 			free(c);
 			c = tmp;
 		}
