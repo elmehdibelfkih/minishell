@@ -1,30 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tools.c                                            :+:      :+:    :+:   */
+/*   main_execution.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/17 07:02:49 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/20 21:12:00 by ebelfkih         ###   ########.fr       */
+/*   Created: 2023/10/05 19:55:44 by ebelfkih          #+#    #+#             */
+/*   Updated: 2023/10/06 03:17:40 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	exit_message(int i)
+int	main(int ac, char **av, char **envp)
 {
-	if (i == 1)
-		perror("malloc failed");
-	else if (i == 2)
-		perror("pipe failed");
-	else if (i == 3)
-		perror("fork failed");
-	exit(EXIT_FAILURE);
-}
-
-void	m_free(void **f)
-{
-	free(*f);
-	*f = NULL;
+    (void)ac;
+	(void)av;
+    (void)envp;
 }

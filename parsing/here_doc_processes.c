@@ -6,20 +6,11 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 20:48:59 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/17 11:07:26 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/24 19:25:20 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-bool	check_next(t_comp *cmpa)
-{
-	if (cmpa->next && (cmpa->next->tok == d_quote
-			|| cmpa->next->tok == s_quote
-			|| cmpa->next->tok == word || cmpa->next->tok == delimiter))
-		return (true);
-	return (false);
-}
 
 void	here_doc_processes(t_comp *cmpa)
 {
@@ -81,13 +72,29 @@ bool	here_doc_processes_assistant_2(t_comp **cmpa)
 	return (true);
 }
 
-void	ft_comp_n_del(t_comp **cmpa, t_comp *next, bool c)
+bool	open_here_doc(t_comp *cmpa, t_env *env)
 {
-	t_comp	*tmp;
+	int	fd;
 
-	if (c)
-		(*cmpa)->expanded = false;
-	tmp = next->next;
-	free(next);
-	(*cmpa)->next = tmp;
+	while (cmpa)
+	{
+		if (cmpa->tok == here_doc)
+		{
+			if (!cmpa->next)
+			{
+				printf("syntax error near unexpected token `newline'\n");
+				return (false);
+			}
+			else if (cmpa->next->tok != delimiter)
+			{
+				printf("syntax error near unexpected token `%s'\n",
+					cmpa->next->data);
+				return (false);
+			}
+			fd = new_fork(cmpa->next->data, cmpa->next->expanded, env);
+			cmpa->next->fd = fd;
+		}
+		cmpa = cmpa->next;
+	}
+	return (true);
 }

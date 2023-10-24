@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+         #
+#    By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/05 23:01:54 by ebelfkih          #+#    #+#              #
-#    Updated: 2023/10/23 16:59:07 by ybouchra         ###   ########.fr        #
+#    Updated: 2023/10/24 19:21:11 by ebelfkih         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,15 +19,16 @@ libft/ft_strjoin.c libft/ft_putstr_fd.c libft/ft_putchar_fd.c libft/ft_putendl_f
 libft/ft_striteri.c libft/ft_itoa.c libft/ft_strlcat.c libft/ft_split.c  libft/ft_lstnew.c libft/ft_lstadd_front.c libft/ft_lstsize.c \
 libft/ft_lstlast.c libft/ft_lstadd_back.c libft/ft_lstdelone.c libft/ft_lstclear.c libft/ft_lstiter.c libft/ft_lstmap.c \
 parsing/get_env.c parsing/read_inpute.c parsing/input_structuring.c parsing/input_structuring_2.c parsing/check_syntax.c parsing/quotes_processes.c \
-parsing/quotes_processes_2.c parsing/here_doc_processes.c parsing/tools.c parsing/get_final_struct.c parsing/redirections.c parsing/redirections_2.c \
-parsing/get_final_struct.c parsing/get_final_struct_2.c main_parsing.c \
-execution/exec_utils.c execution/execute.c 
+parsing/here_doc_processes.c parsing/get_final_struct.c parsing/redirections.c parsing/redirections_2.c \
+parsing/get_final_struct.c parsing/get_final_struct_2.c parsing/check.c parsing/expand_processes.c \
+execution/execute.c main_parsing.c 
+#execution/main_execution.c  
 
 INC  =  libft/libft.h minishell.h
 RM   = rm -f
 OBJ  = $(SRC:.c=.o)
 
-# mehdi : all clean
+mehdi : all clean
 
 all: $(NAME)
 
