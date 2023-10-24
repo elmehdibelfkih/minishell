@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 23:01:46 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/23 23:19:03 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/24 05:03:43 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,9 +130,5 @@ int		inp_red(t_redir	*red); // mehdi
 int		out_red(t_redir	*red); // mehdi
 char	**cmd_fill(t_comp *cmpa); // mehdi
 bool	cmd_struct_fill(t_comp *cmpa, t_cmd **cmd); // mehdi
-void	m_free(void **f); //mehdi
 void	ft_redir_clear(t_redir **head); // mehdi
-// char	*replace_var_assistant(char *line, int *j, int i, char *c, int *e); // mehdi
-
-// bool	first(t_list **prime, t_comp **cmpa, t_env *env); //mehdi
 #endif

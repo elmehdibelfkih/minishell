@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 05:32:03 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/23 23:19:19 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/24 05:21:31 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,12 @@ char	*get_exp_var(char *line, t_env *env, int *j)
 		{
 			start = i;
 			i++;
-			while (line[i] && !ft_strchr(" \'\"$", line[i]))
+			if (ft_isdigit(line[i]))
 				i++;
+			else
+				while (line[i] && !ft_strchr(" \'\"$", line[i])
+					&& ft_isalnum(line[i]))
+					i++;
 			ex = ft_substr(line, start + 1, i - start - 1);
 			return (get_env_var(ex, env, j));
 		}
@@ -49,6 +53,7 @@ char	*get_env_var(char *var, t_env *env, int *j)
 		}
 		env = env->next;
 	}
+	free(var);
 	return ("");
 }
 
@@ -76,11 +81,15 @@ char	*replace_var(char *line, t_env *env, int *j)
 		{
 			r = ft_substr(line, 0, i);
 			f = ft_strjoin(r, c);
-			*j = i + e - 1;
+			*j = i + e;
 			free (r);
 			i++;
-			while (line[i] && !ft_strchr(" \'\"$", line[i]))
+			if (ft_isdigit(line[i]))
 				i++;
+			else
+				while (line[i] && !ft_strchr(" \'\"$", line[i])
+					&& ft_isalnum(line[i]))
+					i++;
 			r = ft_strjoin(f, &line[i]);
 			free (f);
 			return (r);
