@@ -3,84 +3,65 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/10 02:53:59 by asettar           #+#    #+#             */
-/*   Updated: 2023/10/05 19:48:17 by ebelfkih         ###   ########.fr       */
+/*   Created: 2023/10/05 23:01:46 by ebelfkih          #+#    #+#             */
+/*   Updated: 2023/10/23 23:55:44 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include "libft/libft.h"
+# include <errno.h>
 # include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
-# include <string.h>
+# include <stdint.h>
 # include <sys/wait.h>
 # include <stdbool.h>
-# include <readline/readline.h>
 # include <readline/history.h>
-# include "libft/libft.h"
+# include <readline/readline.h>
 # include <sys/errno.h>
 # include <sys/ioctl.h>
 # include <stdint.h>
 # include <limits.h>
-# include <stdint.h>
+# include <fcntl.h>
 
-
-# define NO_INP -3
-# define NO_OUT -3
-# define FSIGNAL 128
-
-typedef enum s_type
+typedef enum s_component
 {
-    word,
-    space,
-    pipee,
-    double_quote,
-    single_quote,
-    redirect_input, //<
-    redirect_output, //>
-    here_doc, // <<
-    append_operator, // >>
-} t_type;
+	word,
+	space,
+	pipe_op,
+	d_quote,
+	s_quote,
+	r_inp,
+	r_out,
+	here_doc,
+	app_op,
+	delimiter,
+} t_component;
 
-
-typedef enum e_tok
+typedef struct s_comp
 {
-	WRD = word,
-	SPA = space,
-	DQU = double_quote,
-	SQU = single_quote,
-	INP = redirect_input,
-	OUT = redirect_output,
-	HER = here_doc,
-	APP = append_operator,
-	PIP = pipee,
-}	t_tok;
-
-
-typedef struct s_lex
-{
-	t_type			tok;
 	char			*data;
+	t_component		tok;
 	bool			expanded;
-	struct s_lex	*next;
-}	t_lex;
-
+	int				fd;
+	struct s_comp	*next;
+}	t_comp;
 
 
 typedef struct s_redir
 {
-	t_type			type;
-	char			*file;
-	int				flag;
+	t_component		tok;
+	char			*f_name;
 	int				fd;
 	struct s_redir	*next;
 }	t_redir;
 
-// env list
 typedef struct s_env
 {
 	char			*name;
@@ -90,22 +71,83 @@ typedef struct s_env
 
 typedef struct s_cmd
 {
-	t_list			*args;
 	char			**cmd;
-	t_redir			*redir;
 	int				inp;
 	int				out;
-	int				triger;
 	struct s_cmd	*next;
 }	t_cmd;
 
+
+
+
 void	execute(t_cmd **commands, t_env **env);
-char	**ft_split(char const *s, char c);
+int 	check_path(char *path);
+char	*find_path(char **paths, t_cmd *commands);
+char	**get_paths(t_env *env,char *s);
+void	ft_err(t_cmd *command);
+
+
+
+
+
 t_env	*ft_get_env(char **envp); // mehdi
 t_env	*ft_envnew(char *name, char *data); // mehdi
-void	ft_env_add_back(t_env **lst, t_env *new); // mehdi
 t_env	*ft_envlast(t_env *lst); // mehdi
+t_comp	*ft_compnew(char *data, t_component	tok, bool expanded); // mehdi
+t_comp	*ft_comp_last(t_comp *head); // mehdi
+void	ft_env_add_back(t_env **lst, t_env *new); // mehdi
 void	ft_envclear(t_env **lst); // mehdi
+t_cmd	*get_command(t_list **prime, t_comp **cmpa, t_env *env); // mehdi
+void	disperse(char *line, t_list **prime); // mehdi
+bool	check_quotes(t_list *prime); // mehdi
+void	disperse_assistant(char *line, t_list **prime, int start, int i); //mehdi
+void	ft_comp_add_back(t_comp **head, t_comp *new); // mehdi
+void	ft_comp_clear(t_comp **head); // mehdi
+void	types_separation(t_list *prime, t_comp **cmpa); // mehdi
+bool	types_separation_quotes(t_comp **cmpa, char *tmp); //mehdi
+bool	types_separation_pipe_space(t_comp **cmpa, char *tmp, t_list *prime); // mehdi
+bool	types_separation_redirections_1(t_comp **cmpa, char *tmp, t_list *prime); // mehdi
+bool	types_separation_redirections_2(t_comp **cmpa, char *tmp, t_list *prime); //mehdi
+bool	types_separation_word(t_comp **cmpa, char *tmp, t_list *prime); // mehdi
+bool	check_files(t_comp *cmpa); // mehdi
+bool	check_next(t_comp *cmpa); // mehdi
+void	here_doc_processes(t_comp *cmpa); // mehdi
+void	ft_comp_n_del(t_comp **cmpa, t_comp *next, bool c); // mehdi
+char	*get_exp_var(char *line, t_env *env, int *j); //mehdi
+char	*get_env_var(char *var, t_env *env, int *j); // mehdi
+char	*replace_var(char *line, t_env *env, int *j); // mehdi
+void	replace_line(t_comp *cmpa, t_env *env); // mehdi
+void	join_words(t_comp *cmpa); // mehdi
+void	ft_comp_nd_del(t_comp **cmpa, t_comp *next); // mehdi
+void	trim_quotes(t_comp *cmpa); // mehdi
+void	delete_spaces(t_comp *cmpa); //mehdi
+char	*join_quotes(t_comp *cmpa, t_comp *next); // mehdi
+void	here_doc_processes_assistant(t_comp **cmpa, bool	*c); // mehdi
+bool	here_doc_processes_assistant_2(t_comp **cmpa); // mehdi
+bool	open_here_doc(t_comp *cmpa, t_env *env); // mehdi
+int		new_fork(char *delim, bool exp, t_env *env); // mehdi
+void	child_process(char *delim, bool exp, t_env *env, int *fd); // mehdi
+void	exit_message(int i); // mehdi
+bool	prs(t_list **prime, t_comp **cmpa, t_env *env); // mehdi
+bool	check_pipe(t_comp *cmpa, int i); // mehdi
+t_redir	*ft_redirpnew(char *f_name, int fd, t_component	tok); // mehdi
+void	ft_redir_add_back(t_redir **head, t_redir *new); // mehdi
+t_redir	*ft_redir_last(t_redir *head); // mehdi
+void	ft_redir_clear(t_redir **head); // mehdi
+t_redir	*redir_fill(t_comp *cmpa); // mehdi
+void	ft_redir_nd_del(t_redir **redir, t_redir *next); // mehdi
+t_cmd	*ft_cmdnew(char **cmd, int in_fd, int ou_fd); // mehdi
+void	ft_cmd_add_back(t_cmd **head, t_cmd *new); // mehdi
+t_cmd	*ft_cmd_last(t_cmd *head); // mehdi
+void	ft_cmd_clear(t_cmd **head); // mehdi
+size_t	nb_cmd(t_comp *cmpa); // mehdi
+int		inp_red(t_redir	*red); // mehdi
+int		out_red(t_redir	*red); // mehdi
+int		get_fd(t_list *here_doc_fd); // mehdi
+char	**cmd_fill(t_comp *cmpa); // mehdi
+bool	cmd_struct_fill(t_comp *cmpa, t_cmd **cmd); // mehdi
+void	m_free(void **f); //mehdi
 
 
+void printFile(int fd);
 #endif

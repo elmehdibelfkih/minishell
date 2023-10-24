@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing_utils.c                                    :+:      :+:    :+:   */
+/*   get_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 18:25:45 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/05 19:47:48 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/10 18:38:01 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,24 @@
 
 t_env	*ft_get_env(char **envp)
 {
-    t_env *head_env;
-    char **spl;
+	t_env	*head_env;
+	char	**spl;
+	int		i;
 
-    head_env = NULL;
-    while(*envp)
-    {
-        spl = ft_split(*envp, '=');
-        ft_env_add_back(&head_env, ft_envnew(spl[0], spl[1]));
-        free(spl);
-        *envp++;
-    }
-    return(head_env);
+	i = 0;
+	head_env = NULL;
+	if (!envp)
+		return (NULL);
+	while (envp[i])
+	{
+		spl = ft_split(envp[i], '=');
+		ft_env_add_back(&head_env,
+			ft_envnew(ft_strdup(spl[0]), ft_strdup(spl[1])));
+		ft_clear(spl, INT_MAX);
+		i++;
+	}
+	return (head_env);
 }
-
 
 t_env	*ft_envnew(char *name, char *data)
 {
@@ -36,20 +40,10 @@ t_env	*ft_envnew(char *name, char *data)
 	new = (t_env *)malloc(sizeof(*new));
 	if (!new)
 		return (NULL);
-    new->name = name;
+	new->name = name;
 	new->data = data;
-    new->next = NULL;
+	new->next = NULL;
 	return (new);
-}
-
-void	ft_env_add_front(t_env **lst, t_env *new)
-{
-	if (!(*lst))
-		new->next = NULL;
-	if (!new)
-		return ;
-	new->next = *lst;
-	*lst = new;
 }
 
 void	ft_env_add_back(t_env **lst, t_env *new)
@@ -59,14 +53,20 @@ void	ft_env_add_back(t_env **lst, t_env *new)
 	if (!new)
 		return ;
 	if (*lst == NULL)
-		ft_env_add_front(lst, new);
+	{
+		if (!(*lst))
+			new->next = NULL;
+		if (!new)
+			return ;
+		new->next = *lst;
+		*lst = new;
+	}
 	else
 	{
 		p = ft_envlast(*lst);
 		p->next = new;
 	}
 }
-
 
 t_env	*ft_envlast(t_env *lst)
 {
@@ -86,6 +86,8 @@ void	ft_envclear(t_env **lst)
 		return ;
 	while (*lst)
 	{
+		free((*lst)->name);
+		free((*lst)->data);
 		t = (*lst)->next;
 		free(*lst);
 		*lst = t;
