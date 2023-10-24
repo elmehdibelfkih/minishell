@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:55:39 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/24 00:13:07 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/22 15:43:26 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,18 @@ t_cmd	*get_command(t_list **prime, t_comp **cmpa, t_env *env)
 			if (check_quotes(*prime))
 			{
 				if (prs(prime, cmpa, env))
+				{
+					ft_lstclear(prime, free);
 					if (cmd_struct_fill(*cmpa, &cmd))
-						return (ft_comp_clear(cmpa, 1), cmd);
-				ft_comp_clear(cmpa, 0);
+						return (ft_comp_clear(cmpa), cmd);
+				}
+				ft_lstclear(prime, free);
+				ft_comp_clear(cmpa);
 			}
 			else
 				printf("syntax error unclosed quote\n");
 			ft_lstclear(prime, free);
 		}
-		else
-			free(line);
 	}
 }
 
@@ -51,7 +53,6 @@ bool	prs(t_list **prime, t_comp **cmpa, t_env *env)
 	here_doc_processes(*cmpa);
 	replace_line(*cmpa, env);
 	trim_quotes(*cmpa);
-	ft_lstclear(prime, free);
 	if (!open_here_doc(*cmpa, env))
 		return (false);
 	if (!check_files(*cmpa))

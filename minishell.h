@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 23:01:46 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/24 05:03:43 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/23 23:55:44 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ typedef struct s_comp
 	struct s_comp	*next;
 }	t_comp;
 
+
 typedef struct s_redir
 {
 	t_component		tok;
@@ -76,6 +77,19 @@ typedef struct s_cmd
 	struct s_cmd	*next;
 }	t_cmd;
 
+
+
+
+void	execute(t_cmd **commands, t_env **env);
+int 	check_path(char *path);
+char	*find_path(char **paths, t_cmd *commands);
+char	**get_paths(t_env *env,char *s);
+void	ft_err(t_cmd *command);
+
+
+
+
+
 t_env	*ft_get_env(char **envp); // mehdi
 t_env	*ft_envnew(char *name, char *data); // mehdi
 t_env	*ft_envlast(t_env *lst); // mehdi
@@ -88,7 +102,7 @@ void	disperse(char *line, t_list **prime); // mehdi
 bool	check_quotes(t_list *prime); // mehdi
 void	disperse_assistant(char *line, t_list **prime, int start, int i); //mehdi
 void	ft_comp_add_back(t_comp **head, t_comp *new); // mehdi
-void	ft_comp_clear(t_comp **head, int i); // mehdi
+void	ft_comp_clear(t_comp **head); // mehdi
 void	types_separation(t_list *prime, t_comp **cmpa); // mehdi
 bool	types_separation_quotes(t_comp **cmpa, char *tmp); //mehdi
 bool	types_separation_pipe_space(t_comp **cmpa, char *tmp, t_list *prime); // mehdi
@@ -121,6 +135,7 @@ void	ft_redir_add_back(t_redir **head, t_redir *new); // mehdi
 t_redir	*ft_redir_last(t_redir *head); // mehdi
 void	ft_redir_clear(t_redir **head); // mehdi
 t_redir	*redir_fill(t_comp *cmpa); // mehdi
+void	ft_redir_nd_del(t_redir **redir, t_redir *next); // mehdi
 t_cmd	*ft_cmdnew(char **cmd, int in_fd, int ou_fd); // mehdi
 void	ft_cmd_add_back(t_cmd **head, t_cmd *new); // mehdi
 t_cmd	*ft_cmd_last(t_cmd *head); // mehdi
@@ -128,7 +143,11 @@ void	ft_cmd_clear(t_cmd **head); // mehdi
 size_t	nb_cmd(t_comp *cmpa); // mehdi
 int		inp_red(t_redir	*red); // mehdi
 int		out_red(t_redir	*red); // mehdi
+int		get_fd(t_list *here_doc_fd); // mehdi
 char	**cmd_fill(t_comp *cmpa); // mehdi
 bool	cmd_struct_fill(t_comp *cmpa, t_cmd **cmd); // mehdi
-void	ft_redir_clear(t_redir **head); // mehdi
+void	m_free(void **f); //mehdi
+
+
+void printFile(int fd);
 #endif

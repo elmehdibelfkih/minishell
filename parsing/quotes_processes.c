@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 05:32:03 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/24 05:21:31 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/22 22:19:38 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,8 @@ char	*get_exp_var(char *line, t_env *env, int *j)
 		{
 			start = i;
 			i++;
-			if (ft_isdigit(line[i]))
+			while (line[i] && !ft_strchr(" \'\"$", line[i]))
 				i++;
-			else
-				while (line[i] && !ft_strchr(" \'\"$", line[i])
-					&& ft_isalnum(line[i]))
-					i++;
 			ex = ft_substr(line, start + 1, i - start - 1);
 			return (get_env_var(ex, env, j));
 		}
@@ -53,14 +49,8 @@ char	*get_env_var(char *var, t_env *env, int *j)
 		}
 		env = env->next;
 	}
-	free(var);
 	return ("");
 }
-
-// char	*replace_var_assistant()
-// {
-
-// }
 
 char	*replace_var(char *line, t_env *env, int *j)
 {
@@ -81,17 +71,13 @@ char	*replace_var(char *line, t_env *env, int *j)
 		{
 			r = ft_substr(line, 0, i);
 			f = ft_strjoin(r, c);
-			*j = i + e;
+			*j = i + e - 1;
 			free (r);
 			i++;
-			if (ft_isdigit(line[i]))
+			while (line[i] && !ft_strchr(" \'\"$", line[i]))
 				i++;
-			else
-				while (line[i] && !ft_strchr(" \'\"$", line[i])
-					&& ft_isalnum(line[i]))
-					i++;
 			r = ft_strjoin(f, &line[i]);
-			free (f);
+			free (f);																				
 			return (r);
 		}
 		i++;

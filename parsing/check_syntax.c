@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 11:52:58 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/24 05:20:45 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/22 22:23:11 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,7 @@ bool	check_files(t_comp *cmpa)
 		return (false);
 	while (cmpa)
 	{
-		if (cmpa && (cmpa->tok == r_inp || cmpa->tok == r_out
-				|| cmpa->tok == app_op))
+		if (cmpa->tok == r_inp || cmpa->tok == r_out || cmpa->tok == app_op)
 		{
 			if (check_next(cmpa))
 				cmpa = cmpa->next;
@@ -33,7 +32,7 @@ bool	check_files(t_comp *cmpa)
 				return (false); 
 			}
 		}
-		else if (cmpa && cmpa->tok == pipe_op && !check_pipe(cmpa, 1))
+		else if (!check_pipe(cmpa, 1))
 			return (false);
 		else
 			cmpa = cmpa->next;
@@ -43,19 +42,19 @@ bool	check_files(t_comp *cmpa)
 
 bool	check_pipe(t_comp *cmpa, int i)
 {
-	if (cmpa && i == 0 && cmpa->tok == pipe_op)
+	if (i == 0 && cmpa->tok == pipe_op)
 	{
 		printf("%s\n", "syntax error near unexpected token `|'");
 		return (false);
 	}
-	else if (cmpa && cmpa->tok == pipe_op && !cmpa->next)
+	else if (cmpa->tok == pipe_op && cmpa->next->tok == pipe_op)
+	{
+		printf("%s\n", "syntax error near unexpected token `|'");
+		return (false);
+	}
+	else if (cmpa->tok == pipe_op && !cmpa->next)
 	{
 		printf("syntax error near unexpected token `newline'\n");
-		return (false);
-	}
-	else if (cmpa && cmpa->tok == pipe_op && cmpa->next->tok == pipe_op)
-	{
-		printf("%s\n", "syntax error near unexpected token `|'");
 		return (false);
 	}
 	return (true);
@@ -95,14 +94,15 @@ int	new_fork(char *delim, bool exp, t_env *env)
 	int		fd[2];
 
 	if (pipe(fd) == -1)
-		return (write(2, "error : pipe\n", 14), -1);
+		exit_message(2);
 	i = fork();
 	if (i == -1)
-		return (write(2, "error : fork\n", 14), -1);
+		exit_message(3);
 	close(fd[1]);
 	if (i == 0)
 		child_process(delim, exp, env, fd);
 	waitpid(i, &st, 0);
+	// printFile(fd[0]);
 	return (fd[0]);
 }
 
@@ -131,5 +131,22 @@ void	child_process(char *delim, bool exp, t_env *env, int *fd)
 		write(fd[1], "\n", 1);
 		free(c);
 	}
-	exit(0);
+	exit(1);
 }
+
+
+//////////
+
+// void printFile(int fd) {
+//     char buffer[1024];
+//     ssize_t bytes_read;
+//     while ((bytes_read = read(fd, buffer, sizeof(buffer))) > 0) {
+//         // Write the data from the file descriptor to standard output
+//         write(o, buffer, bytes_read);
+//     }
+
+//     if (bytes_read == -1) {
+//         perror("read");
+//         exit(EXIT_FAILURE);
+//     }
+// }

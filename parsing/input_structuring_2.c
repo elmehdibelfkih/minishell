@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 18:44:02 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/23 21:52:16 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/22 20:41:14 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ t_comp	*ft_comp_last(t_comp *head)
 	return (head);
 }
 
-void	ft_comp_clear(t_comp **head, int i)
+void	ft_comp_clear(t_comp **head)
 {
 	t_comp	*t;
 
@@ -95,12 +95,6 @@ void	ft_comp_clear(t_comp **head, int i)
 		return ;
 	while (*head)
 	{
-		if (i == 0 && ((*head)->tok == word || (*head)->tok == s_quote
-				|| (*head)->tok == d_quote || (*head)->tok == delimiter))
-		{
-			free((*head)->data);
-			(*head)->data = NULL;
-		}
 		t = (*head)->next;
 		free(*head);
 		*head = t;
