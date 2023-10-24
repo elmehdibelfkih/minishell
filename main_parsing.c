@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 19:55:36 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/22 17:43:53 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/23 17:36:58 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	main(int ac, char **argv, char **envp)
 	(void)ac;
 	(void)argv;
 	t_list *prime;
-	t_list *tmp;
+	t_cmd *tmp;
 	t_comp *cmpa;
 	t_env *env;
 	t_cmd	*cmd;
@@ -32,7 +32,6 @@ int	main(int ac, char **argv, char **envp)
 	cmpa = NULL;
 	cmd = NULL;
 	env = ft_get_env(envp);
-	cmd = get_command(&prime, &cmpa, env);
 	// while (true)
 	// {
 		// br = read(cmd->inp, c, 100);
@@ -43,17 +42,24 @@ int	main(int ac, char **argv, char **envp)
 		// write(cmd->inp, "wafiiiiiin azabi \n", 19);
 		
 	// }
-	while (cmd)
+	while (true)
 	{
-		i = -1;
-		while (cmd->cmd[++i])
-			printf("cmd : %s\n",cmd->cmd[i]);
-		printf("input  : %d\n", cmd->inp);
-		printf("output : %d\n", cmd->out);
-		printf("+================+\n");
-		cmd = cmd->next;
+		cmd = get_command(&prime, &cmpa, env);
+		tmp = cmd;
+		while (cmd)
+		{
+			i = -1;
+			while (cmd->cmd[++i])
+				printf("cmd : %s\n",cmd->cmd[i]);
+			printf("input  : %d\n", cmd->inp);
+			printf("output : %d\n", cmd->out);
+			printf("+================+\n");
+			cmd = cmd->next;
+		}
+		ft_cmd_clear(&tmp);
 	}
-	tmp = prime;
-	ft_lstclear(&tmp, free);
+	
+	// tmp = prime;
+	// ft_lstclear(&tmp, free);
 	// printf("%s\n", replace_var("mehdi $USdER 1337", env));
 }

@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 11:26:53 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/17 13:46:56 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/23 17:26:08 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,13 +71,4 @@ void	ft_redir_clear(t_redir **head)
 		free(*head);
 		*head = t;
 	}
-}
-
-void	ft_redir_nd_del(t_redir **redir, t_redir *next)
-{
-	t_redir	*tmp;
-
-	tmp = next->next;
-	free(next);
-	(*redir)->next = tmp;
 }

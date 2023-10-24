@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 05:32:03 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/22 22:19:38 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/23 23:19:19 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,11 @@ char	*get_env_var(char *var, t_env *env, int *j)
 	return ("");
 }
 
+// char	*replace_var_assistant()
+// {
+
+// }
+
 char	*replace_var(char *line, t_env *env, int *j)
 {
 	int		i;
@@ -77,7 +82,7 @@ char	*replace_var(char *line, t_env *env, int *j)
 			while (line[i] && !ft_strchr(" \'\"$", line[i]))
 				i++;
 			r = ft_strjoin(f, &line[i]);
-			free (f);																				
+			free (f);
 			return (r);
 		}
 		i++;

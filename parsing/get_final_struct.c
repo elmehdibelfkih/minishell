@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 11:42:56 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/20 13:57:09 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/23 16:19:33 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,10 @@ void	ft_cmd_clear(t_cmd **head)
 	while (*head)
 	{
 		ft_clear((*head)->cmd, INT_MAX);
+		if ((*head)->inp != 0)
+			close((*head)->inp);
+		if ((*head)->out != 1)
+			close((*head)->out);
 		t = (*head)->next;
 		free(*head);
 		*head = t;
