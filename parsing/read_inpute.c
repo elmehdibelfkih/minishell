@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:55:39 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/22 15:43:26 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/24 19:09:49 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,11 @@ t_cmd	*get_command(t_list **prime, t_comp **cmpa, t_env *env)
 {
 	t_cmd	*cmd;
 	char	*line;
-	char	*tmp;
 
 	cmd = NULL;
 	while (true)
 	{
-		tmp = readline ("minishell : ");
-		add_history(tmp);
-		line = ft_strtrim(tmp, " ");
-		free(tmp);
+		line = m_readline();
 		if (line && *line)
 		{
 			disperse(line, prime);
@@ -32,19 +28,29 @@ t_cmd	*get_command(t_list **prime, t_comp **cmpa, t_env *env)
 			if (check_quotes(*prime))
 			{
 				if (prs(prime, cmpa, env))
-				{
-					ft_lstclear(prime, free);
 					if (cmd_struct_fill(*cmpa, &cmd))
-						return (ft_comp_clear(cmpa), cmd);
-				}
-				ft_lstclear(prime, free);
-				ft_comp_clear(cmpa);
+						return (ft_comp_clear(cmpa, 1), cmd);
+				ft_comp_clear(cmpa, 0);
 			}
 			else
 				printf("syntax error unclosed quote\n");
 			ft_lstclear(prime, free);
 		}
+		else
+			free(line);
 	}
+}
+
+char	*m_readline(void)
+{
+	char	*line;
+	char	*tmp;
+
+	tmp = readline ("minishell : ");
+	add_history(tmp);
+	line = ft_strtrim(tmp, " ");
+	free(tmp);
+	return (line);
 }
 
 bool	prs(t_list **prime, t_comp **cmpa, t_env *env)
@@ -53,6 +59,7 @@ bool	prs(t_list **prime, t_comp **cmpa, t_env *env)
 	here_doc_processes(*cmpa);
 	replace_line(*cmpa, env);
 	trim_quotes(*cmpa);
+	ft_lstclear(prime, free);
 	if (!open_here_doc(*cmpa, env))
 		return (false);
 	if (!check_files(*cmpa))
@@ -99,23 +106,4 @@ void	disperse_assistant(char *line, t_list **prime, int start, int i)
 	else
 		ft_lstadd_back(prime,
 			ft_lstnew(ft_substr(line, start + 1, i - start - 1)));
-}
-
-bool	check_quotes(t_list *prime)
-{
-	char	*c;
-
-	while (prime)
-	{
-		c = (char *)prime->content;
-		if ((c[0] == '\'' && c[ft_strlen(c) - 1] != '\'')
-			|| (c[0] == '\'' && ft_strlen(c) == 1))
-			return (false);
-		else if ((c[0] == '\"' && c[ft_strlen(c) - 1] != '\"')
-			|| (c[0] == '\"' && ft_strlen(c) == 1))
-			return (false);
-		else
-			prime = prime->next;
-	}
-	return (true);
 }

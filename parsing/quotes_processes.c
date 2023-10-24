@@ -1,113 +1,105 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   quotes_processes.c                                 :+:      :+:    :+:   */
+/*   quotes_processes_2.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/13 05:32:03 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/22 22:19:38 by ebelfkih         ###   ########.fr       */
+/*   Created: 2023/10/14 06:55:25 by ebelfkih          #+#    #+#             */
+/*   Updated: 2023/10/17 08:24:44 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*get_exp_var(char *line, t_env *env, int *j)
-{
-	int		i;
-	int		start;
-	char	*ex;
-
-	i = 0;
-	while (line[i])
-	{
-		if (line[i] == '$')
-		{
-			start = i;
-			i++;
-			while (line[i] && !ft_strchr(" \'\"$", line[i]))
-				i++;
-			ex = ft_substr(line, start + 1, i - start - 1);
-			return (get_env_var(ex, env, j));
-		}
-		i++;
-	}
-	return ("");
-}
-
-char	*get_env_var(char *var, t_env *env, int *j)
-{
-	*j = 0;
-	while (env)
-	{
-		if (ft_strlen(env->name) == ft_strlen(var)
-			&& !ft_strncmp(env->name, var, ft_strlen(var)))
-		{
-			free(var);
-			*j = ft_strlen(env->data);
-			return (env->data);
-		}
-		env = env->next;
-	}
-	return ("");
-}
-
-char	*replace_var(char *line, t_env *env, int *j)
-{
-	int		i;
-	int		e;
-	char	*c;
-	char	*r;
-	char	*f;
-
-	if (!line)
-		return (NULL);
-	e = 0;
-	c = get_exp_var(line + (*j), env, &e);
-	i = *j;
-	while (line && line[i])
-	{
-		if (line && line[i] == '$')
-		{
-			r = ft_substr(line, 0, i);
-			f = ft_strjoin(r, c);
-			*j = i + e - 1;
-			free (r);
-			i++;
-			while (line[i] && !ft_strchr(" \'\"$", line[i]))
-				i++;
-			r = ft_strjoin(f, &line[i]);
-			free (f);																				
-			return (r);
-		}
-		i++;
-	}
-	return (NULL);
-}
-
-void	replace_line(t_comp *cmpa, t_env *env)
+void	trim_quotes(t_comp *cmpa)
 {
 	char	*tmp;
-	int		j;
+	t_comp	*ctmp;
+	t_comp	*ctm;
 
-	j = 0;
+	ctmp = cmpa;
+	ctm = cmpa;
 	while (cmpa)
 	{
-		if (cmpa->tok != delimiter && cmpa->expanded)
+		if (cmpa->tok == d_quote || cmpa->tok == s_quote)
 		{
-			tmp = replace_var(cmpa->data, env, &j);
-			if (tmp)
+			if (*(cmpa->data) == '\'')
+				tmp = ft_strtrim(cmpa->data, "\'");
+			else
+				tmp = ft_strtrim(cmpa->data, "\"");
+			free(cmpa->data);
+			cmpa->data = tmp;
+			cmpa->tok = word;
+		}
+		cmpa = cmpa->next;
+	}
+	join_words(ctmp);
+	delete_spaces(ctm);
+}
+
+void	join_words(t_comp *cmpa)
+{
+	while (cmpa)
+	{
+		if (cmpa->tok == word && check_next(cmpa))
+		{
+			while (check_next(cmpa))
 			{
-				free(cmpa->data);
-				cmpa->data = tmp;
+				cmpa->data = join_quotes(cmpa, cmpa->next);
+				ft_comp_nd_del(&cmpa, cmpa->next);
 			}
-			if (!tmp || !ft_strchr(tmp, '$'))
-				cmpa->expanded = false;
 		}
 		else
-		{
-			j = 0;
 			cmpa = cmpa->next;
-		}
 	}
+}
+
+void	ft_comp_nd_del(t_comp **cmpa, t_comp *next)
+{
+	t_comp	*tmp;
+
+	tmp = next->next;
+	free(next);
+	(*cmpa)->next = tmp;
+}
+
+void	delete_spaces(t_comp *cmpa)
+{
+	while (cmpa)
+	{
+		if (cmpa->next && cmpa->next->tok == space)
+			ft_comp_nd_del(&cmpa, cmpa->next);
+		else
+			cmpa = cmpa->next;
+	}
+}
+
+char	*join_quotes(t_comp *cmpa, t_comp *next)
+{
+	char	*t_first;
+	char	*t_last;
+	char	*ret;
+
+	t_first = NULL;
+	t_last = NULL;
+	if (*(cmpa->data) == '\'' && cmpa->tok != word && cmpa->tok != delimiter)
+		t_first = ft_strtrim(cmpa->data, "\'");
+	else if (*(cmpa->data) == '\"' && cmpa->tok != word
+		&& cmpa->tok != delimiter)
+		t_first = ft_strtrim(cmpa->data, "\"");
+	else
+		t_first = ft_strdup(cmpa->data);
+	if (*(next->data) == '\'' && next->tok != word)
+		t_last = ft_strtrim(next->data, "\'");
+	else if (*(next->data) == '\"' && next->tok != word)
+		t_last = ft_strtrim(next->data, "\"");
+	else
+		t_last = ft_strdup(next->data);
+	ret = ft_strjoin(t_first, t_last);
+	if (t_first)
+		free(t_first);
+	if (t_last)
+		free(t_last);
+	return (free(cmpa->data), free(next->data), ret);
 }

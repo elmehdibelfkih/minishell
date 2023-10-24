@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections_2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 13:42:09 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/24 00:59:41 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/10/23 21:52:43 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ t_redir	*redir_fill(t_comp *cmpa)
 int	inp_red(t_redir	*red)
 {
 	int	in_fd;
+
 	in_fd = 0;
 	while (red)
 	{
@@ -83,20 +84,4 @@ int	out_red(t_redir	*red)
 		red = red->next;
 	}
 	return (ou_fd);
-}
-
-int	get_fd(t_list *here_doc_fd)
-{
-	static int	i;
-	int			j;
-
-	j = 0;
-	while (here_doc_fd && j != i)
-	{
-		here_doc_fd = here_doc_fd->next;
-		j++;
-	}
-	i++;
-	j = *((int *)(here_doc_fd->content));
-	return (j);
 }
