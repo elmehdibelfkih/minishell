@@ -6,7 +6,7 @@
 /*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 23:01:46 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/24 19:49:10 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/10/25 02:14:31 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ typedef struct s_cmd
 
 void	execute(t_cmd **commands, t_env **env);
 int 	check_path(char *path);
-char	*find_path(char **paths, t_cmd *commands);
+char	*find_path(char **paths, char *cmd);
 char	**get_paths(t_env *env,char *s);
 void	ft_err(t_cmd *command);
 

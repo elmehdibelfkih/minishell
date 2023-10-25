@@ -6,7 +6,7 @@
 /*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 14:48:10 by ussef             #+#    #+#             */
-/*   Updated: 2023/10/23 23:55:31 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/10/25 02:13:12 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,27 +24,25 @@ if(path[--i] == '/')
 return(0);
 }
 
-char *find_path(char **paths, t_cmd *commands)
+char *find_path(char **paths, char *cmd)
 {
 	int i;
 	char *line;
-	char **cmd;
 
 	i = 0;
-	cmd = commands->cmd;
 	line = NULL;
 	while(paths[++i])
 		{	
 			if(check_path(paths[i]))
 			{
-				line = ft_strjoin(paths[i], *cmd);
+				line = ft_strjoin(paths[i], cmd);
 				if(!access(line, F_OK)) 
 					return(line);
 				free(line);
 			}
 			else
 			{
-			line = ft_strjoin(ft_strjoin(paths[i], "/"), *cmd);
+			line = ft_strjoin(ft_strjoin(paths[i], "/"), cmd);
 				if(!access(line, F_OK)) 
 					return(line);
 				free(line);
