@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 19:55:36 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/24 18:47:38 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/25 01:49:21 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	main(int ac, char **argv, char **envp)
 				// ssize_t bytes_read;
 
 				// while ((bytes_read = read(cmd->inp, buffer, sizeof(buffer))) > 0) {
-				// 	write(1, buffer, bytes_read);
+				// 	write(cmd->out, buffer, bytes_read);
 				// }
 
 				// if (bytes_read == -1) {

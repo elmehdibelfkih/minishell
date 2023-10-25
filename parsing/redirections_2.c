@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 13:42:09 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/23 21:52:43 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/25 01:41:53 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	out_red(t_redir	*red)
 			if (ou_fd != 1)
 				close (ou_fd);
 			if (red->tok == r_out)
-				ou_fd = open(red->f_name, O_WRONLY | O_CREAT, 0777);
+				ou_fd = open(red->f_name, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 			else
 				ou_fd = open(red->f_name, O_WRONLY | O_CREAT | O_APPEND, 0777);
 			if (ou_fd == -1)

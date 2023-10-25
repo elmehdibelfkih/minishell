@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 23:01:46 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/24 19:22:34 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/24 22:39:39 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # include <readline/readline.h>
 # include <sys/errno.h>
 # include <sys/ioctl.h>
-# include <stdint.h>
+# include <stdint.h> 
 # include <limits.h>
 # include <fcntl.h>
 
