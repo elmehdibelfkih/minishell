@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 21:21:57 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/26 00:23:10 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/26 02:27:59 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,18 @@ void	echo(char **cmd, int fd)
 	}
 	if (s)
 		write(fd, "\n", 1);
+}
+
+void	pwd(int fd)
+{
+	int		i;
+	char	*path;
+
+	i = -1;
+	path = getcwd(NULL, 0);
+	while (path[++i])
+		write(fd, &path[i], 1);
+	write(fd, "\n", 1);
+	free (path);
+	return ;
 }
