@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 19:14:05 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/26 02:26:48 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/26 04:36:04 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,13 @@ void	ft_comp_n_del(t_comp **cmpa, t_comp *next, bool c)
 	(*cmpa)->next = tmp;
 }
 
-bool	check_builtins(t_cmd *cmd)
+bool	check_builtins(t_cmd *cmd, t_env *envp)
 {
 	if (!ft_strncmp("echo", cmd->cmd[0], INT_MAX))
-		return(echo(cmd->cmd, cmd->out), true);
+		return (echo(cmd->cmd, cmd->out), true);
 	else if (!ft_strncmp("pwd", cmd->cmd[0], INT_MAX))
-		return(pwd(cmd->out), true);
+		return (pwd(cmd->out), true);
+	else if (!ft_strncmp("env", cmd->cmd[0], INT_MAX))
+		return (env(envp, cmd->out), true);
 	return (false);
 }

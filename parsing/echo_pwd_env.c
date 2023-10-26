@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 21:21:57 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/26 02:27:59 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/26 04:37:43 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,4 +76,22 @@ void	pwd(int fd)
 	write(fd, "\n", 1);
 	free (path);
 	return ;
+}
+
+void	env(t_env *env, int fd)
+{
+	int	i;
+
+	while(env)
+	{
+		i = -1;
+		while (env->name[++i])
+			write(fd, &env->name[i], 1);
+		write(fd, "=", 1);
+		i = -1;
+		while (env->data[++i])
+			write(fd, &env->data[i], 1);
+		write(fd, "\n", 1);
+		env = env->next;
+	}
 }
