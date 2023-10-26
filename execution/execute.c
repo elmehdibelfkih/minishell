@@ -6,7 +6,7 @@
 /*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 10:32:35 by ybouchra          #+#    #+#             */
-/*   Updated: 2023/10/26 08:01:48 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/10/26 08:05:10 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,8 +98,8 @@ void	_cmds(char **paths, t_cmd *commands, t_exec_info *exec_info)
 
 void	execute(t_cmd **commands, t_env **env)
 {
-	t_exec_info	exec_info;
 	char		**paths;
+	t_exec_info	exec_info;
 
 	paths = get_paths(*env, "PATH");
 	if (!paths)
