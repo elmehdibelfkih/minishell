@@ -6,7 +6,7 @@
 /*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 10:32:35 by ybouchra          #+#    #+#             */
-/*   Updated: 2023/10/26 07:32:53 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/10/26 08:01:48 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,13 +75,13 @@ void	_cmds(char **paths, t_cmd *commands, t_exec_info *exec_info)
 	{
 		if (commands->next)
 			_pipe(exec_info);
-		pid = fork();
-		if (pid == -1)
+		exec_info->pid = fork();
+		if (exec_info->pid == -1)
 		{
 			perror("minishell: fork");
 			exit(1);
 		}
-		if (pid == 0)
+		if (exec_info->pid == 0)
 			exec_cmd(commands, paths, exec_info);
 		if (commands->next)
 		{
