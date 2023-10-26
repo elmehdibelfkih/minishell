@@ -6,7 +6,7 @@
 /*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 23:01:46 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/25 02:14:31 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/10/26 05:12:20 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,11 @@ typedef struct s_comp
 	struct s_comp	*next;
 }	t_comp;
 
+typedef struct  s_exec_info
+{
+	int fd[2];
+	char *path;
+}t_exec_info;
 
 typedef struct s_redir
 {
