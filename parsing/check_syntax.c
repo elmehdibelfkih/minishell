@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 11:52:58 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/25 01:43:36 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/26 05:17:24 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ bool	check_files(t_comp *cmpa)
 				else
 					printf("syntax error near unexpected token `%s'\n",
 						cmpa->next->data);
-				return (false); 
+				return (exit_status = 258, false);
 			}
 		}
 		else if (cmpa && cmpa->tok == pipe_op && !check_pipe(cmpa, 1))
@@ -46,17 +46,17 @@ bool	check_pipe(t_comp *cmpa, int i)
 	if (cmpa && i == 0 && cmpa->tok == pipe_op)
 	{
 		printf("%s\n", "syntax error near unexpected token `|'");
-		return (false);
+		return (exit_status = 258, false);
 	}
 	else if (cmpa && cmpa->tok == pipe_op && !cmpa->next)
 	{
 		printf("syntax error near unexpected token `newline'\n");
-		return (false);
+		return (exit_status = 258, false);
 	}
 	else if (cmpa && cmpa->tok == pipe_op && cmpa->next->tok == pipe_op)
 	{
 		printf("%s\n", "syntax error near unexpected token `|'");
-		return (false);
+		return (exit_status = 258, false);
 	}
 	return (true);
 }
