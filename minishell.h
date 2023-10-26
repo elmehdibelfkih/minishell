@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 23:01:46 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/26 05:07:04 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/26 09:16:25 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,6 @@ bool	here_doc_processes_assistant_2(t_comp **cmpa); // mehdi
 bool	open_here_doc(t_comp *cmpa, t_env *env); // mehdi
 int		new_fork(char *delim, bool exp, t_env *env); // mehdi
 void	child_process(char *delim, bool exp, t_env *env, int *fd); // mehdi
-void	exit_message(int i); // mehdi
 bool	prs(t_list **prime, t_comp **cmpa, t_env *env); // mehdi
 bool	check_pipe(t_comp *cmpa, int i); // mehdi
 t_redir	*ft_redirpnew(char *f_name, int fd, t_component	tok); // mehdi
@@ -138,4 +137,8 @@ int		echo_start(char **cmd, bool *s); // mehdi
 void	pwd(int fd); // mehdi
 bool	check_builtins(t_cmd *cmd, t_env *env); // mehdi
 void	env(t_env *env, int fd); // mehdi
+void	perr(char *str, char *str2); // mehdi
+void	put_export(t_env *env, int fd); // mehdi
+void	export(t_cmd *cmd, t_env *env, int fd); // mehdi
+
 #endif

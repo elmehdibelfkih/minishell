@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 19:14:05 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/26 04:36:04 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/26 08:45:52 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,21 @@ bool	check_builtins(t_cmd *cmd, t_env *envp)
 	else if (!ft_strncmp("env", cmd->cmd[0], INT_MAX))
 		return (env(envp, cmd->out), true);
 	return (false);
+}
+
+void	perr(char *str, char *str2)
+{
+	int	i;
+
+	i = -1;
+	while (str[++i])
+		write(2, &str[i], 1);
+	if (!str2)
+		return ;
+	write(2, "`", 1);
+	i = -1;
+	while (str2[++i])
+		write(2, &str2[i], 1);
+	write(2, "\'", 1);
+	write(2, "\n", 1);
 }

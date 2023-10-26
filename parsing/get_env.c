@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 18:25:45 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/10 18:38:01 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/26 08:07:14 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ t_env	*ft_get_env(char **envp)
 	head_env = NULL;
 	if (!envp)
 		return (NULL);
+	// split tkhwira
 	while (envp[i])
 	{
 		spl = ft_split(envp[i], '=');

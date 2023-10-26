@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 11:52:58 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/26 05:17:24 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/26 08:45:10 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ bool	check_files(t_comp *cmpa)
 			else
 			{
 				if (!cmpa->next)
-					printf("syntax error near unexpected token `newline'\n");
+					perr("syntax error near unexpected token `newline\n'", NULL);
 				else
-					printf("syntax error near unexpected token `%s'\n",
+					perr("syntax error near unexpected token ",
 						cmpa->next->data);
 				return (exit_status = 258, false);
 			}
@@ -45,17 +45,17 @@ bool	check_pipe(t_comp *cmpa, int i)
 {
 	if (cmpa && i == 0 && cmpa->tok == pipe_op)
 	{
-		printf("%s\n", "syntax error near unexpected token `|'");
+		perr("syntax error near unexpected token `|'\n", NULL);
 		return (exit_status = 258, false);
 	}
 	else if (cmpa && cmpa->tok == pipe_op && !cmpa->next)
 	{
-		printf("syntax error near unexpected token `newline'\n");
+		perr("syntax error near unexpected token `newline\n'", NULL);
 		return (exit_status = 258, false);
 	}
 	else if (cmpa && cmpa->tok == pipe_op && cmpa->next->tok == pipe_op)
 	{
-		printf("%s\n", "syntax error near unexpected token `|'");
+		perr("syntax error near unexpected token `|'\n", NULL);
 		return (exit_status = 258, false);
 	}
 	return (true);
@@ -68,10 +68,10 @@ int	new_fork(char *delim, bool exp, t_env *env)
 	int		fd[2];
 
 	if (pipe(fd) == -1)
-		return (write(2, "error : pipe\n", 14), -1);
+		return (perr("error : pipe\n", NULL), -1);
 	i = fork();
 	if (i == -1)
-		return (write(2, "error : fork\n", 14), -1);
+		return (perr("error : fork\n", NULL), -1);
 	if (i == 0)
 		child_process(delim, exp, env, fd);
 	waitpid(i, &st, 0);
