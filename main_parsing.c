@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 19:55:36 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/26 05:35:30 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/27 01:08:45 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,13 @@ int	main(int ac, char **argv, char **envp)
 		cmd = get_command(&prime, &cmpa, env);
 		exit_status = 0;
 		tmp = cmd;
+		// printf("%s\n", env->next->name);
 		while (cmd)
 		{
 			// i = -1;
 			// while (cmd->cmd[++i])
 			// {
-				check_builtins(cmd, env);
+				check_builtins(cmd, &env);
 			// }
 			// 	printf("cmd : %s\n",cmd->cmd[i]);
 			// printf("input  : %d\n", cmd->inp);

@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 23:01:46 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/26 09:16:25 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/27 22:44:45 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,10 +135,12 @@ char	*m_readline(void); //mehdi
 void	echo(char **cmd, int fd); // mehdi
 int		echo_start(char **cmd, bool *s); // mehdi
 void	pwd(int fd); // mehdi
-bool	check_builtins(t_cmd *cmd, t_env *env); // mehdi
+bool	check_builtins(t_cmd *cmd, t_env **env); // mehdi
 void	env(t_env *env, int fd); // mehdi
 void	perr(char *str, char *str2); // mehdi
 void	put_export(t_env *env, int fd); // mehdi
-void	export(t_cmd *cmd, t_env *env, int fd); // mehdi
+void	m_export(t_cmd *cmd, t_env **env, int fd); // mehdi
+void	new_data(t_env **env, char *name, char *data, bool e); // mehdi
+void	export_assistant(t_env **env, char *cmd, int j); // mehdi
 
 #endif
