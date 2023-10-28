@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 11:52:58 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/26 08:45:10 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/28 06:52:47 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ bool	check_files(t_comp *cmpa)
 			else
 			{
 				if (!cmpa->next)
-					perr("syntax error near unexpected token `newline\n'", NULL);
+					perr("syntax error near unexpected token `newline'\n", NULL);
 				else
 					perr("syntax error near unexpected token ",
 						cmpa->next->data);
@@ -50,7 +50,7 @@ bool	check_pipe(t_comp *cmpa, int i)
 	}
 	else if (cmpa && cmpa->tok == pipe_op && !cmpa->next)
 	{
-		perr("syntax error near unexpected token `newline\n'", NULL);
+		perr("syntax error near unexpected token `newline'\n", NULL);
 		return (exit_status = 258, false);
 	}
 	else if (cmpa && cmpa->tok == pipe_op && cmpa->next->tok == pipe_op)

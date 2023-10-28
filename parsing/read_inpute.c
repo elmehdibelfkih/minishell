@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:55:39 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/26 05:50:56 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/28 06:13:13 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,10 @@ t_cmd	*get_command(t_list **prime, t_comp **cmpa, t_env *env)
 				ft_comp_clear(cmpa, 0);
 			}
 			else
+			{
 				printf("syntax error unclosed quote\n");
+				exit_status = 1;
+			}
 			ft_lstclear(prime, free);
 		}
 		else
