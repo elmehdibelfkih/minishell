@@ -6,13 +6,13 @@
 /*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 14:48:10 by ussef             #+#    #+#             */
-/*   Updated: 2023/10/28 06:16:50 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/10/28 16:33:22 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	check_path(char *path)
+int	verif_path(char *path)
 {
 	int	i;
 
@@ -30,9 +30,11 @@ char	*find_path(char **paths, char *cmd)
 	int		i;
 
 	i = 0;
+	if (*cmd && cmd[0] == '.' && cmd[1] == '/' && !access(cmd, X_OK))
+		return (cmd);
 	while (paths[++i])
 	{
-		if (check_path(paths[i]))
+		if (verif_path(paths[i]))
 		{
 			line = ft_strjoin(paths[i], cmd);
 			if (!access(line, F_OK))

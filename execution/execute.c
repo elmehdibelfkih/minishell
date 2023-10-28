@@ -6,7 +6,7 @@
 /*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 10:32:35 by ybouchra          #+#    #+#             */
-/*   Updated: 2023/10/28 07:42:46 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/10/28 16:38:26 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	_pipe(t_exec_info *exec_info)
 	}
 	return (0);
 }
-int		err_path(t_cmd *command, char **paths, t_exec_info *exec_info)
+int		check_paths(t_cmd *command, char **paths, t_exec_info *exec_info)
 {
 		exec_info->path = find_path(paths, command->cmd[0]);
 		if (!exec_info->path)
@@ -58,16 +58,11 @@ int		err_path(t_cmd *command, char **paths, t_exec_info *exec_info)
 		}
 	return(1);
 }
-int hundle_sig(int sig)
-{
-	printf("%d\n", sig);
-}
+
 
 void	exec_cmd(t_cmd *command, char **paths, t_exec_info *exec_info, t_env *env)
 {
 	
-	signal(SIGINT, hundle_sig);
-	signal(SIGQUIT, hundle_sig); //// here;
 	if (command->next)
 	{
 		close(exec_info->fd[0]);
@@ -75,11 +70,11 @@ void	exec_cmd(t_cmd *command, char **paths, t_exec_info *exec_info, t_env *env)
 	}
 	if (check_builtins(command, &env))
 		exit(0);
-	if(!err_path(command, paths, exec_info))
+	if(!check_paths(command, paths, exec_info))
 		exit(0); 
 	check_redir(command);
-
-	if(!execve(exec_info->path, command->cmd, NULL))
+	char **envp = list_to_tab(env);
+	if(!execve(exec_info->path, command->cmd, envp))
 	{
 		perror("minishell: execve");
 		exit_status = 1;
@@ -89,41 +84,36 @@ void	exec_cmd(t_cmd *command, char **paths, t_exec_info *exec_info, t_env *env)
 	}
 
 
+
 void	all_cmds(char **paths, t_cmd *commands, t_exec_info *exec_info, t_env *env)
 {
-	exec_info->def_inp = dup(0);
-	exec_info->def_out = dup(1);
-	while (commands)
-	{
-		if (commands->next)
-			_pipe(exec_info);
-		
-		exec_info->pid = fork();
-		if (exec_info->pid == -1)
-		{
-			perror("minishell: fork");
-			exit_status = 1;
-			exit(1);
-		}
-		if (exec_info->pid == 0)
-		{
-			exec_cmd(commands, paths, exec_info, env);	
-			exit(0);
-		}
-		else
+		save_fd(exec_info);
+		while (commands)
 		{
 			if (commands->next)
+				_pipe(exec_info);	
+			exec_info->pid = fork();
+			if (exec_info->pid == -1)
 			{
-				close(exec_info->fd[1]);
-				dup2(exec_info->fd[0], 0);
+				perror("minishell: fork");
+				exit_status = 1;
+				exit(1);
 			}
+			if (exec_info->pid == 0)
+			{
+				exec_cmd(commands, paths, exec_info, env);	
+				exit(0);
+			}
+			if (commands->next)
+			{
+				dup2(exec_info->fd[0], 0);
+				(close(exec_info->fd[1]), close(exec_info->fd[0]));
+			}
+			commands = commands->next;
 		}
-		commands = commands->next;
-	}
-	(dup2(exec_info->def_out, 1), dup2(exec_info->def_inp, 0));
-	(close(exec_info->def_out), close(exec_info->def_inp));
-	while (wait(NULL) != -1)
-		;
+		reset_fd(exec_info);
+		while (wait(NULL) != -1)
+			;
 }
 
 void	execute(t_cmd **commands, t_env **env)
@@ -134,7 +124,7 @@ void	execute(t_cmd **commands, t_env **env)
 	paths = get_paths(*env, "PATH");
 	if (!paths)
 	{
-		write(2, "1_No such file or directory\n", 28);
+		write(2, "No such file or directory\n", 28);
 		exit_status = 1;
 		
 	}

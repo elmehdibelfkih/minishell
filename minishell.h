@@ -6,7 +6,7 @@
 /*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 23:01:46 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/28 07:32:52 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/10/28 16:47:06 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,12 +89,15 @@ typedef struct s_cmd
 }	t_cmd;
 
 void	execute(t_cmd **commands, t_env **env);
-int		check_path(char *path);
-char	*find_path(char **paths, char *cmd);
 char	**get_paths(t_env *env, char *s);
+char	*find_path(char **paths, char *cmd);
+int		check_paths(t_cmd *command, char **paths, t_exec_info *exec_info);
 void	ft_err(t_cmd *command);
 int		_env(t_cmd *commands, t_env *env);
-int		_unset(t_cmd *commands, t_env *env);//ussef
+int		_unset(t_cmd *commands, t_env *env);
+void    save_fd(t_exec_info *exec_info);
+void	reset_fd( t_exec_info *exec_info);
+char	**list_to_tab(t_env *env);//ussef
 t_env	*ft_get_env(char **envp); // mehdi
 t_env	*ft_envnew(char *name, char *data); // mehdi
 t_env	*ft_envlast(t_env *lst); // mehdi
