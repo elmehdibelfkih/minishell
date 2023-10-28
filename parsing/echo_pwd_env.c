@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 21:21:57 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/27 07:53:22 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/28 00:00:51 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,18 +85,16 @@ void	env(t_env *env, int fd)
 	while (env)
 	{
 		i = -1;
-		while (env->name[++i])
-			write(fd, &env->name[i], 1);
-		if (!env->data)
+		if(env->data)
 		{
+			while (env->name[++i])
+				write(fd, &env->name[i], 1);
+			write(fd, "=", 1);
+			i = -1;
+			while (env->data[++i])
+				write(fd, &env->data[i], 1);
 			write(fd, "\n", 1);
-			return ;
 		}
-		write(fd, "=", 1);
-		i = -1;
-		while (env->data[++i])
-			write(fd, &env->data[i], 1);
-		write(fd, "\n", 1);
 		env = env->next;
 	}
 }

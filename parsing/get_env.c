@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 18:25:45 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/26 08:07:14 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/27 23:52:43 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,21 @@
 t_env	*ft_get_env(char **envp)
 {
 	t_env	*head_env;
-	char	**spl;
 	int		i;
+	int		j;
 
 	i = 0;
 	head_env = NULL;
 	if (!envp)
 		return (NULL);
-	// split tkhwira
 	while (envp[i])
 	{
-		spl = ft_split(envp[i], '=');
+		j = -1;
+		while (envp[i][++j] && envp[i][j] != '=')
+			;
 		ft_env_add_back(&head_env,
-			ft_envnew(ft_strdup(spl[0]), ft_strdup(spl[1])));
-		ft_clear(spl, INT_MAX);
+			ft_envnew(ft_substr(envp[i], 0, j),
+				ft_substr(envp[i], j + 1, INT_MAX)));
 		i++;
 	}
 	return (head_env);
