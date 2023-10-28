@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   quotes_processes.c                                 :+:      :+:    :+:   */
+/*   expand_processes.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 05:32:03 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/24 19:10:27 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/26 05:36:51 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,9 @@ char	*get_exp_var(char *line, t_env *env, int *j)
 		{
 			start = i;
 			i++;
-			if (ft_isdigit(line[i]))
+			if (line[i] == '?')
+				i++;
+			else if (ft_isdigit(line[i]))
 				i++;
 			else
 				while (line[i] && !ft_strchr(" \'\"$", line[i])
@@ -44,6 +46,8 @@ char	*get_env_var(char *var, t_env *env, int *j)
 	*j = 0;
 	while (env)
 	{
+		if (var[0] == '?')
+			return (ft_itoa(exit_status));
 		if (ft_strlen(env->name) == ft_strlen(var)
 			&& !ft_strncmp(env->name, var, ft_strlen(var)))
 		{
@@ -63,6 +67,8 @@ char	*replace_var_assistant(char *line, char *f, int i)
 
 	i++;
 	if (ft_isdigit(line[i]))
+		i++;
+	else if (line[i] == '?')
 		i++;
 	else
 		while (line[i] && !ft_strchr(" \'\"$", line[i])

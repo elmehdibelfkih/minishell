@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 19:14:05 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/24 19:25:32 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/27 22:44:52 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,33 @@ void	ft_comp_n_del(t_comp **cmpa, t_comp *next, bool c)
 	tmp = next->next;
 	free(next);
 	(*cmpa)->next = tmp;
+}
+
+bool	check_builtins(t_cmd *cmd, t_env **envp)
+{
+	if (!ft_strncmp("echo", cmd->cmd[0], INT_MAX))
+		return (echo(cmd->cmd, cmd->out), true);
+	else if (!ft_strncmp("pwd", cmd->cmd[0], INT_MAX))
+		return (pwd(cmd->out), true);
+	else if (!ft_strncmp("env", cmd->cmd[0], INT_MAX))
+		return (env(*envp, cmd->out), true);
+	else if (!ft_strncmp("export", cmd->cmd[0], INT_MAX))
+		return (m_export(cmd, envp, cmd->out), true);
+	return (false);
+}
+
+void	perr(char *str, char *str2)
+{
+	int	i;
+
+	i = -1;
+	while (str[++i])
+		write(2, &str[i], 1);
+	if (!str2)
+		return ;
+	write(2, "`", 1);
+	i = -1;
+	while (str2[++i])
+		write(2, &str2[i], 1);
+	write(2, "\'", 1);
 }

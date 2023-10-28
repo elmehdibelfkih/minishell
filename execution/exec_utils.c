@@ -6,7 +6,7 @@
 /*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 14:48:10 by ussef             #+#    #+#             */
-/*   Updated: 2023/10/26 08:03:30 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/10/28 06:16:50 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,5 +73,6 @@ void	ft_err(t_cmd *command)
 		write(2, "bash: ", 6);
 		write(2, command->cmd[0], ft_strlen(command->cmd[0]));
 		write(2, ": command not found\n", 20);
+		exit_status = 127;
 	}
 }

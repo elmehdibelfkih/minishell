@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:55:39 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/24 19:09:49 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/26 05:50:56 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	*m_readline(void)
 	char	*line;
 	char	*tmp;
 
-	tmp = readline ("minishell : ");
+	tmp = readline ("\033[32mminishell 👽$ \033[0m");
 	add_history(tmp);
 	line = ft_strtrim(tmp, " ");
 	free(tmp);
