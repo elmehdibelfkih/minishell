@@ -6,7 +6,7 @@
 /*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 10:32:35 by ybouchra          #+#    #+#             */
-/*   Updated: 2023/10/28 16:38:26 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/10/28 17:07:55 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,6 @@ void	execute(t_cmd **commands, t_env **env)
 	{
 		write(2, "No such file or directory\n", 28);
 		exit_status = 1;
-		
 	}
 	all_cmds(paths, *commands, &exec_info, *env);
 }

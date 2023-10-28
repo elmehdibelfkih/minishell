@@ -6,7 +6,7 @@
 /*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 23:01:46 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/28 16:47:06 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/10/28 17:07:34 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,8 @@ typedef struct s_cmd
 	int				out;
 	struct s_cmd	*next;
 }	t_cmd;
+void		handle_sigint(int sig);
+void		handle_sigQ(int sig);
 
 void	execute(t_cmd **commands, t_env **env);
 char	**get_paths(t_env *env, char *s);

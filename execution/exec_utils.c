@@ -6,7 +6,7 @@
 /*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 14:48:10 by ussef             #+#    #+#             */
-/*   Updated: 2023/10/28 16:33:22 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/10/28 17:22:41 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char	*find_path(char **paths, char *cmd)
 			line = ft_strjoin(paths[i], cmd);
 			if (!access(line, F_OK))
 				return (line);
-			free(line);
+			ree(line);
 		}
 		else
 		{
