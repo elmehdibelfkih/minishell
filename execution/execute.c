@@ -6,7 +6,7 @@
 /*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 10:32:35 by ybouchra          #+#    #+#             */
-/*   Updated: 2023/10/30 12:00:09 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/10/30 13:57:04 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,23 +50,20 @@ int	_pipe(t_exec_info *exec_info)
 }
 int		check_paths(t_cmd *command, char **paths, t_exec_info *exec_info)
 {
-	// if(!paths || !*paths)
-	// 	{
-	// 		write(2, "bash: ", 6);
-	// 		write(2, command->cmd[0], ft_strlen(command->cmd[0]));
-	// 		write(2, " : No such file or directory\n", 30);
-	// 		exit_status = 1;
-	// 		return(free(paths), 0);
-	// 	}
-	// 	else
-	// 	{
+	if(!paths || !*paths)
+		{
+			ft_err_1(command);
+			return(free(paths), 0);
+		}
+		else
+		{
 			exec_info->path = find_path(paths, command->cmd[0]);
 			if (!exec_info->path)
 			{
-				ft_err_1(command);
+				ft_err_127(command);
 				return(0);
 			}
-		// }
+		}
 	return(1);
 }
 
@@ -120,16 +117,15 @@ void	all_cmds(char **paths, t_cmd *commands, t_exec_info *exec_info, t_env *env)
 				{
 					dup2(exec_info->fd[0], 0);
 					(close(exec_info->fd[1]), close(exec_info->fd[0]));
-				}
-					
+				}	
 					// free(exec_info->envp);
-					// free(exec_info->path);
 			}
 			commands = commands->next;
 		}
 		reset_fd(exec_info);
 		while (wait(NULL) != -1)
 			;
+		// free(exec_info->path);
 }
 
 void	execute(t_cmd **commands, t_env **env)
@@ -138,8 +134,8 @@ void	execute(t_cmd **commands, t_env **env)
 	t_exec_info	exec_info;
 
 	paths = get_paths(*env, "PATH");
-	if (!paths)
-		ft_err_1(*commands);
+	// if (!paths)
+	// 	ft_err_1(*commands);
 	all_cmds(paths, *commands, &exec_info, *env);
 	free(paths);
 			
