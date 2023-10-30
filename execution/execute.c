@@ -6,7 +6,7 @@
 /*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 10:32:35 by ybouchra          #+#    #+#             */
-/*   Updated: 2023/10/30 13:57:04 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/10/30 16:41:06 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,11 +90,12 @@ void	exec_cmd(t_cmd *command, char **paths, t_exec_info *exec_info, t_env *env)
 	}
 	}
 
-
-
-void	all_cmds(char **paths, t_cmd *commands, t_exec_info *exec_info, t_env *env)
+void	all_cmds(char **paths, t_cmd *commands, t_exec_info *exec_info, t_env **env)
 {
 		save_fd(exec_info);
+		if (!commands->next && check_builtins(commands, env)) {
+			return ;
+		}
 		while (commands)
 		{
 			if (commands->next)
@@ -107,25 +108,20 @@ void	all_cmds(char **paths, t_cmd *commands, t_exec_info *exec_info, t_env *env)
 				exit(1);
 			}
 			if (exec_info->pid == 0)
-			{
-				exec_cmd(commands, paths, exec_info, env);
-				exit(0);
-			}
-			else
-			{
-				if (commands->next)
+				exec_cmd(commands, paths, exec_info, *env);
+				
+			if (commands->next)
 				{
 					dup2(exec_info->fd[0], 0);
 					(close(exec_info->fd[1]), close(exec_info->fd[0]));
 				}	
 					// free(exec_info->envp);
-			}
+					// free(exec_info->path);
 			commands = commands->next;
 		}
 		reset_fd(exec_info);
 		while (wait(NULL) != -1)
 			;
-		// free(exec_info->path);
 }
 
 void	execute(t_cmd **commands, t_env **env)
@@ -134,9 +130,9 @@ void	execute(t_cmd **commands, t_env **env)
 	t_exec_info	exec_info;
 
 	paths = get_paths(*env, "PATH");
-	// if (!paths)
-	// 	ft_err_1(*commands);
-	all_cmds(paths, *commands, &exec_info, *env);
+	all_cmds(paths, *commands, &exec_info, env);
 	free(paths);
+	// free(exec_info.path);
+	// free(exec_info.envp);
 			
 }

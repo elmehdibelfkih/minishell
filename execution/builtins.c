@@ -6,42 +6,52 @@
 /*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 07:12:16 by ybouchra          #+#    #+#             */
-/*   Updated: 2023/10/28 02:50:15 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/10/30 17:40:02 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-// int _env(t_cmd *command, int tmp_env)
-// {
 
-
-// 		if (!ft_strncmp(command->cmd[0], "env", INT_MAX))
-// 		{
-// 			while(env)
-// 			{
-// 				printf("%s=%s\n",env->name, env->data);
-// 				tmp_env = env->next;
-// 			}
-// 			return(1);
-// 		}
-// 		return(0);
-// }
-
-int  _unset(t_cmd *commands, t_env *env)
+void	env_delone(t_env **env, char *target)
 {
-	t_env *next_env;
-
-			while(env)
-			{
-				if(!ft_strncmp(env->next->name, commands->cmd[1], INT_MAX))
-					{
-						next_env = env->next->next;
-						env->next = next_env;
-						
-					}
-				env = env->next;
+	t_env	*temp;
+	t_env	*current;
+	
+	current = *env;
+	if (!env || !*env)
+		return ;
+		
+		if(!ft_strncmp((*env)->name, target, INT_MAX))
+		{
+			temp = *env;
+			(*env) = (*env)->next;
+			return(free(temp->data),free(temp->name),free(temp));
 		}
-	return(0);
+		while(current)
+			{
+				if(!ft_strncmp((current)->next->name, target, INT_MAX))
+				{
+					temp = (current)->next;
+					(current)->next = (current)->next->next;
+					return(free(temp->data),free(temp->name),free(temp));
+				}
+				current = (current)->next;
+			}
+}
+
+int  _unset(t_cmd *commands, t_env **env)
+{
+	int i;
+
+	i	= 0;
+	if (commands->cmd[1] == NULL)
+		return (write(2, "unset: not enough arguments\n", 29), 0);
+	while (commands->cmd[++i])
+	{
+		env_delone(env, commands->cmd[i]);
+	}
+	return (1);
+
 
 }

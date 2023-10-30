@@ -6,7 +6,7 @@
 /*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 16:03:56 by ybouchra          #+#    #+#             */
-/*   Updated: 2023/10/30 00:32:04 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/10/30 14:07:40 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,31 +45,27 @@ char	**list_to_tab(t_env *env)
         return (arr);
 }
 
-
 void reset_fd( t_exec_info *exec_info)
 {
 	(dup2(exec_info->def_out, 1), dup2(exec_info->def_inp, 0));
 	(close(exec_info->def_out), close(exec_info->def_inp));
 }
 
-// void		handle_sigint(int sig)
-// {	
-// 	(void)sig;
-// 	// printf("%d\n", sig);
-// 	if(sig == SIGINT)
-// 	{
-// 		printf("\nCTR + C\n");
-//         exit_status = 1;
-// 	}	
-
-// }
-
-// void    handle_sigQ(int sig)
-// {	
-// 	(void)sig;
-
-// 		printf("exit \n");
-//         exit(0);
-        
-//     }
-       
+	void    handle_sigquit(int sig)
+	{	
+		(void)sig;
+		if(sig == SIGQUIT)
+		{
+			exit(0);
+		}
+	}
+	void		handle_sigint(int sig)
+	{
+		if (sig == SIGINT)
+		{
+			printf("\n");	
+			rl_on_new_line();
+			rl_replace_line("", 0);
+			rl_redisplay();
+		}
+	}

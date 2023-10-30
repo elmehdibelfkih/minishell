@@ -6,33 +6,14 @@
 /*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 19:55:36 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/30 08:15:35 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/10/30 14:07:15 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 
-	void    handle_sigquit(int sig)
-	{	
-		(void)sig;
-		if(sig == SIGQUIT)
-		{
-			exit(0);
-		}
-	}
 
-	void		handle_sigint(int sig)
-	{
-		// (void)sig;
-		if (sig == SIGINT)
-		{
-			printf("\n");	
-			rl_on_new_line();
-			rl_replace_line("", 0);
-			rl_redisplay();
-		}
-	}
 
 int	main(int ac, char **argv, char **envp)
 {
@@ -62,3 +43,4 @@ int	main(int ac, char **argv, char **envp)
 		ft_cmd_clear(&cmd);
 	}
 }
+

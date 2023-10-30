@@ -4,6 +4,7 @@
         "x": "c",
         "__locale": "c",
         "ios": "c",
-        "readline.h": "c"
+        "readline.h": "c",
+        "iterator": "c"
     }
 }

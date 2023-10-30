@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 19:14:05 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/27 22:44:52 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/30 15:13:30 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,12 @@ bool	check_builtins(t_cmd *cmd, t_env **envp)
 		return (echo(cmd->cmd, cmd->out), true);
 	else if (!ft_strncmp("pwd", cmd->cmd[0], INT_MAX))
 		return (pwd(cmd->out), true);
-	else if (!ft_strncmp("env", cmd->cmd[0], INT_MAX))
-		return (env(*envp, cmd->out), true);
 	else if (!ft_strncmp("export", cmd->cmd[0], INT_MAX))
 		return (m_export(cmd, envp, cmd->out), true);
+	else if (!ft_strncmp("unset", cmd->cmd[0], INT_MAX))
+		return (_unset(cmd, envp), true);
+	else if (!ft_strncmp("env", cmd->cmd[0], INT_MAX))
+		return (env(*envp, cmd->out), true);
 	return (false);
 }
 
