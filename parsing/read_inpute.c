@@ -6,7 +6,7 @@
 /*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:55:39 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/28 17:19:51 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/10/30 08:10:13 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@ t_cmd	*get_command(t_list **prime, t_comp **cmpa, t_env *env)
 	cmd = NULL;
 	while (true)
 	{
-		signal(SIGINT, handle_sigint);
-		signal(SIGTERM, handle_sigQ);
 		line = m_readline();
 		if (!line)
 			return NULL;

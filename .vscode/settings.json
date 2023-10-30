@@ -3,6 +3,7 @@
         "minishell.h": "c",
         "x": "c",
         "__locale": "c",
-        "ios": "c"
+        "ios": "c",
+        "readline.h": "c"
     }
 }

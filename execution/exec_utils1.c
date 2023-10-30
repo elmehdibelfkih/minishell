@@ -6,7 +6,7 @@
 /*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 16:03:56 by ybouchra          #+#    #+#             */
-/*   Updated: 2023/10/28 17:17:17 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/10/30 00:32:04 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,22 +52,24 @@ void reset_fd( t_exec_info *exec_info)
 	(close(exec_info->def_out), close(exec_info->def_inp));
 }
 
-void		handle_sigint(int sig)
-{	
-	(void)sig;
-	// printf("%d\n", sig);
-	if(sig == SIGINT)
-	{
-		printf("\nCTR + C\n");
-		exit(0);
-	}	
+// void		handle_sigint(int sig)
+// {	
+// 	(void)sig;
+// 	// printf("%d\n", sig);
+// 	if(sig == SIGINT)
+// 	{
+// 		printf("\nCTR + C\n");
+//         exit_status = 1;
+// 	}	
 
-}
+// }
 
-void    handle_sigQ(int sig)
-{	
-	(void)sig;
-	printf("%d\n", sig);
-	if(sig == SIGQUIT)
-		printf("\n CTR + /\n");
-}
+// void    handle_sigQ(int sig)
+// {	
+// 	(void)sig;
+
+// 		printf("exit \n");
+//         exit(0);
+        
+//     }
+       

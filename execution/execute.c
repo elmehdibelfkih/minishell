@@ -6,7 +6,7 @@
 /*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 10:32:35 by ybouchra          #+#    #+#             */
-/*   Updated: 2023/10/28 17:07:55 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/10/30 12:00:09 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,21 +44,31 @@ int	_pipe(t_exec_info *exec_info)
 	{
 		perror("minishell: pipe");
 		exit_status = 1;
-		exit(1);
+		return(1);
 	}
 	return (0);
 }
 int		check_paths(t_cmd *command, char **paths, t_exec_info *exec_info)
 {
-		exec_info->path = find_path(paths, command->cmd[0]);
-		if (!exec_info->path)
-		{
-			ft_err(command);
-			return(0);
-		}
+	// if(!paths || !*paths)
+	// 	{
+	// 		write(2, "bash: ", 6);
+	// 		write(2, command->cmd[0], ft_strlen(command->cmd[0]));
+	// 		write(2, " : No such file or directory\n", 30);
+	// 		exit_status = 1;
+	// 		return(free(paths), 0);
+	// 	}
+	// 	else
+	// 	{
+			exec_info->path = find_path(paths, command->cmd[0]);
+			if (!exec_info->path)
+			{
+				ft_err_1(command);
+				return(0);
+			}
+		// }
 	return(1);
 }
-
 
 void	exec_cmd(t_cmd *command, char **paths, t_exec_info *exec_info, t_env *env)
 {
@@ -67,20 +77,20 @@ void	exec_cmd(t_cmd *command, char **paths, t_exec_info *exec_info, t_env *env)
 	{
 		close(exec_info->fd[0]);
 		dup2(exec_info->fd[1], 1);
+		close(exec_info->fd[1]);
 	}
 	if (check_builtins(command, &env))
 		exit(0);
 	if(!check_paths(command, paths, exec_info))
 		exit(0); 
 	check_redir(command);
-	char **envp = list_to_tab(env);
-	if(!execve(exec_info->path, command->cmd, envp))
+	exec_info->envp = list_to_tab(env);
+	if(!execve(exec_info->path, command->cmd, exec_info->envp))
 	{
 		perror("minishell: execve");
 		exit_status = 1;
-		exit(1);
+		return(free(exec_info->envp), free(exec_info->path));
 	}
-
 	}
 
 
@@ -101,13 +111,19 @@ void	all_cmds(char **paths, t_cmd *commands, t_exec_info *exec_info, t_env *env)
 			}
 			if (exec_info->pid == 0)
 			{
-				exec_cmd(commands, paths, exec_info, env);	
+				exec_cmd(commands, paths, exec_info, env);
 				exit(0);
 			}
-			if (commands->next)
+			else
 			{
-				dup2(exec_info->fd[0], 0);
-				(close(exec_info->fd[1]), close(exec_info->fd[0]));
+				if (commands->next)
+				{
+					dup2(exec_info->fd[0], 0);
+					(close(exec_info->fd[1]), close(exec_info->fd[0]));
+				}
+					
+					// free(exec_info->envp);
+					// free(exec_info->path);
 			}
 			commands = commands->next;
 		}
@@ -123,9 +139,8 @@ void	execute(t_cmd **commands, t_env **env)
 
 	paths = get_paths(*env, "PATH");
 	if (!paths)
-	{
-		write(2, "No such file or directory\n", 28);
-		exit_status = 1;
-	}
+		ft_err_1(*commands);
 	all_cmds(paths, *commands, &exec_info, *env);
+	free(paths);
+			
 }

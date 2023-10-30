@@ -6,7 +6,7 @@
 /*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 23:01:46 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/28 17:07:34 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/10/30 11:36:38 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 # include <limits.h>
 # include <fcntl.h>
 # include <signal.h>
+
 
 int	exit_status;
 
@@ -60,6 +61,7 @@ typedef struct s_exec_info
 {
 	int		fd[2];
 	char	*path;
+	char	**envp;
 	int		def_inp;
 	int		def_out;
 	pid_t	pid;
@@ -87,15 +89,16 @@ typedef struct s_cmd
 	int				out;
 	struct s_cmd	*next;
 }	t_cmd;
-void		handle_sigint(int sig);
-void		handle_sigQ(int sig);
 
+void	handle_sigint(int sig);
+void	handle_sigquit(int sig);
 void	execute(t_cmd **commands, t_env **env);
 char	**get_paths(t_env *env, char *s);
 char	*find_path(char **paths, char *cmd);
 int		check_paths(t_cmd *command, char **paths, t_exec_info *exec_info);
-void	ft_err(t_cmd *command);
-int		_env(t_cmd *commands, t_env *env);
+void	ft_err_127(t_cmd *command);
+void	ft_err_1(t_cmd *command);
+// int	_env(t_cmd *commands, t_env *env);
 int		_unset(t_cmd *commands, t_env *env);
 void    save_fd(t_exec_info *exec_info);
 void	reset_fd( t_exec_info *exec_info);
