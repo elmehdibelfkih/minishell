@@ -6,7 +6,7 @@
 /*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 07:12:16 by ybouchra          #+#    #+#             */
-/*   Updated: 2023/10/30 17:40:02 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/10/30 17:40:56 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,4 @@ int  _unset(t_cmd *commands, t_env **env)
 		env_delone(env, commands->cmd[i]);
 	}
 	return (1);
-
-
 }

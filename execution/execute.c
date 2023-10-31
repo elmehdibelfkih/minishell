@@ -6,7 +6,7 @@
 /*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 10:32:35 by ybouchra          #+#    #+#             */
-/*   Updated: 2023/10/30 16:41:06 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/10/31 21:18:38 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,10 @@ int	check_redir(t_cmd *commands)
 		if (out != 1)
 		{
 			dup2(out, 1);
-			close(out);
 		}
 		if (inp != 0)
 		{
 			dup2(inp, 0);
-			close(inp);
 		}
 		return (1);
 	}
@@ -131,7 +129,8 @@ void	execute(t_cmd **commands, t_env **env)
 
 	paths = get_paths(*env, "PATH");
 	all_cmds(paths, *commands, &exec_info, env);
-	free(paths);
+	ft_clear(paths, INT_MAX);
+	// free(paths);
 	// free(exec_info.path);
 	// free(exec_info.envp);
 			
