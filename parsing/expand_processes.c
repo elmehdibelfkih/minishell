@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 05:32:03 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/28 07:18:41 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/31 16:38:53 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,6 @@ char	*replace_var(char *line, t_env *env, int *j)
 	char	*r;
 	char	*f;
 
-	// if (!ft_strncmp(line, "$", INT_MAX))
-	// 	return (ft_strdup("$"));
 	e = 0;
 	c = get_exp_var(line + (*j), env, &e);
 	i = *j;
