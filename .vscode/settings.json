@@ -5,6 +5,10 @@
         "__locale": "c",
         "ios": "c",
         "readline.h": "c",
-        "iterator": "c"
+        "iterator": "c",
+        "limits.h": "c",
+        "signal.h": "c",
+        "wait.h": "c",
+        "fcntl.h": "c"
     }
 }

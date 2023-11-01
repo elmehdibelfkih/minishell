@@ -6,7 +6,7 @@
 #    By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/05 23:01:54 by ebelfkih          #+#    #+#              #
-#    Updated: 2023/10/30 06:12:09 by ybouchra         ###   ########.fr        #
+#    Updated: 2023/11/01 06:22:41 by ybouchra         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ libft/ft_lstlast.c libft/ft_lstadd_back.c libft/ft_lstdelone.c libft/ft_lstclear
 parsing/get_env.c parsing/read_inpute.c parsing/input_structuring.c parsing/input_structuring_2.c parsing/check_syntax.c parsing/quotes_processes.c \
 parsing/here_doc_processes.c parsing/get_final_struct.c parsing/redirections.c parsing/redirections_2.c \
 parsing/get_final_struct.c parsing/get_final_struct_2.c parsing/check.c parsing/expand_processes.c \
-parsing/echo_pwd_env.c parsing/export.c \
+parsing/echo_pwd_env.c parsing/export.c  \
 execution/exec_utils.c execution/execute.c execution/builtins.c execution/exec_utils1.c main.c 
 
 INC  =  libft/libft.h minishell.h

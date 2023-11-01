@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 18:25:45 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/27 23:52:43 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/31 22:02:51 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_env	*ft_get_env(char **envp)
 
 	i = 0;
 	head_env = NULL;
-	if (!envp)
+	if (!envp && !envp[0])
 		return (NULL);
 	while (envp[i])
 	{

@@ -6,7 +6,7 @@
 /*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 16:03:56 by ybouchra          #+#    #+#             */
-/*   Updated: 2023/10/30 14:07:40 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/11/01 05:16:50 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,10 @@ void reset_fd( t_exec_info *exec_info)
 	void    handle_sigquit(int sig)
 	{	
 		(void)sig;
-		if(sig == SIGQUIT)
-		{
+			rl_on_new_line();
+			rl_replace_line("exit", 0);
 			exit(0);
-		}
+		
 	}
 	void		handle_sigint(int sig)
 	{
@@ -68,4 +68,5 @@ void reset_fd( t_exec_info *exec_info)
 			rl_replace_line("", 0);
 			rl_redisplay();
 		}
+
 	}

@@ -6,7 +6,7 @@
 /*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 10:32:35 by ybouchra          #+#    #+#             */
-/*   Updated: 2023/10/31 21:18:38 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/11/01 05:00:57 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,14 +107,11 @@ void	all_cmds(char **paths, t_cmd *commands, t_exec_info *exec_info, t_env **env
 			}
 			if (exec_info->pid == 0)
 				exec_cmd(commands, paths, exec_info, *env);
-				
 			if (commands->next)
 				{
 					dup2(exec_info->fd[0], 0);
 					(close(exec_info->fd[1]), close(exec_info->fd[0]));
-				}	
-					// free(exec_info->envp);
-					// free(exec_info->path);
+				}
 			commands = commands->next;
 		}
 		reset_fd(exec_info);
@@ -130,8 +127,5 @@ void	execute(t_cmd **commands, t_env **env)
 	paths = get_paths(*env, "PATH");
 	all_cmds(paths, *commands, &exec_info, env);
 	ft_clear(paths, INT_MAX);
-	// free(paths);
-	// free(exec_info.path);
-	// free(exec_info.envp);
 			
 }
