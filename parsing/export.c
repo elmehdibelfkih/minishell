@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 07:36:33 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/28 23:33:36 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/11/01 04:38:49 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ void	export_assistant(t_env **env, char *cmd, int j)
 	{
 		perr("export: ", cmd);
 		perr(": not a valid identifier\n", NULL);
+		exit_status = 1;
 	}
 	else if (cmd[j] == '+' && cmd[j + 1] == '=')
 		new_data(env, ft_substr(cmd, 0, j),

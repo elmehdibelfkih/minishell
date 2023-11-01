@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 20:48:59 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/24 19:25:20 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/11/01 04:35:42 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,14 +82,13 @@ bool	open_here_doc(t_comp *cmpa, t_env *env)
 		{
 			if (!cmpa->next)
 			{
-				printf("syntax error near unexpected token `newline'\n");
-				return (false);
+				write(2, "syntax error near unexpected token `newline'\n", 46);
+				return (exit_status = 258, false);
 			}
 			else if (cmpa->next->tok != delimiter)
 			{
-				printf("syntax error near unexpected token `%s'\n",
-					cmpa->next->data);
-				return (false);
+				perr("syntax error near unexpected token ", cmpa->next->data);
+				return (exit_status = 258, false);
 			}
 			fd = new_fork(cmpa->next->data, cmpa->next->expanded, env);
 			cmpa->next->fd = fd;

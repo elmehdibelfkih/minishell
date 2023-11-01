@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:55:39 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/31 17:00:11 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/10/31 22:23:51 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,11 @@ t_cmd	*get_command(t_list **prime, t_comp **cmpa, t_env *env)
 						return (ft_comp_clear(cmpa, 1), cmd);
 				ft_comp_clear(cmpa, 0);
 			}
-			write(2, "syntax error unclosed quote\n", 29);
-			exit_status = 1;
+			else
+			{
+				write(2, "syntax error unclosed quote\n", 29);
+				exit_status = 1;
+			}
 			ft_lstclear(prime, free);
 		}
 		else

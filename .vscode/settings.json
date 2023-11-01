@@ -11,6 +11,7 @@
         "locale": "c",
         "ostream": "c",
         "new": "c",
-        "istream": "c"
+        "istream": "c",
+        "sstream": "c"
     }
 }

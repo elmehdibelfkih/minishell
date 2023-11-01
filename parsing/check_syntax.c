@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 11:52:58 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/28 06:52:47 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/11/01 04:37:25 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,10 @@ int	new_fork(char *delim, bool exp, t_env *env)
 	int		fd[2];
 
 	if (pipe(fd) == -1)
-		return (perr("error : pipe\n", NULL), -1);
+		return (exit_status = 1, perr("error : pipe\n", NULL), -1);
 	i = fork();
 	if (i == -1)
-		return (perr("error : fork\n", NULL), -1);
+		return (exit_status = 1, perr("error : fork\n", NULL), -1);
 	if (i == 0)
 		child_process(delim, exp, env, fd);
 	waitpid(i, &st, 0);
