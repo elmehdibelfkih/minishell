@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 11:52:58 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/11/01 04:37:25 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/11/01 08:36:48 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ bool	check_files(t_comp *cmpa)
 				else
 					perr("syntax error near unexpected token ",
 						cmpa->next->data);
-				return (exit_status = 258, false);
+				return (g_exit_status = 258, false);
 			}
 		}
 		else if (cmpa && cmpa->tok == pipe_op && !check_pipe(cmpa, 1))
@@ -46,17 +46,17 @@ bool	check_pipe(t_comp *cmpa, int i)
 	if (cmpa && i == 0 && cmpa->tok == pipe_op)
 	{
 		perr("syntax error near unexpected token `|'\n", NULL);
-		return (exit_status = 258, false);
+		return (g_exit_status = 258, false);
 	}
 	else if (cmpa && cmpa->tok == pipe_op && !cmpa->next)
 	{
 		perr("syntax error near unexpected token `newline'\n", NULL);
-		return (exit_status = 258, false);
+		return (g_exit_status = 258, false);
 	}
 	else if (cmpa && cmpa->tok == pipe_op && cmpa->next->tok == pipe_op)
 	{
 		perr("syntax error near unexpected token `|'\n", NULL);
-		return (exit_status = 258, false);
+		return (g_exit_status = 258, false);
 	}
 	return (true);
 }
@@ -68,10 +68,10 @@ int	new_fork(char *delim, bool exp, t_env *env)
 	int		fd[2];
 
 	if (pipe(fd) == -1)
-		return (exit_status = 1, perr("error : pipe\n", NULL), -1);
+		return (g_exit_status = 1, perr("error : pipe\n", NULL), -1);
 	i = fork();
 	if (i == -1)
-		return (exit_status = 1, perr("error : fork\n", NULL), -1);
+		return (g_exit_status = 1, perr("error : fork\n", NULL), -1);
 	if (i == 0)
 		child_process(delim, exp, env, fd);
 	waitpid(i, &st, 0);

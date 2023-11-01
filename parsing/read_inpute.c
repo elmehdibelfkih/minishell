@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:55:39 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/31 22:23:51 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/11/01 08:36:48 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,9 @@ t_cmd	*get_command(t_list **prime, t_comp **cmpa, t_env *env)
 	while (true)
 	{
 		line = m_readline();
-		if (line && *line)
+		if (!line)
+			return (NULL);
+		if (*line)
 		{
 			disperse(line, prime);
 			free(line);
@@ -35,7 +37,7 @@ t_cmd	*get_command(t_list **prime, t_comp **cmpa, t_env *env)
 			else
 			{
 				write(2, "syntax error unclosed quote\n", 29);
-				exit_status = 1;
+				g_exit_status = 1;
 			}
 			ft_lstclear(prime, free);
 		}

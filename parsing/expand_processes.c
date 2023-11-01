@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 05:32:03 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/31 16:38:53 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/11/01 08:36:48 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	*get_env_var(char *var, t_env *env, int *j)
 	while (env)
 	{
 		if (var[0] == '?')
-			return (free(var), ft_itoa(exit_status));
+			return (free(var), ft_itoa(g_exit_status));
 		if (ft_strlen(env->name) == ft_strlen(var)
 			&& !ft_strncmp(env->name, var, ft_strlen(var)))
 		{

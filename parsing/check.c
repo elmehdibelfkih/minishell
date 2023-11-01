@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 19:14:05 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/31 22:41:50 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/11/01 07:21:16 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ bool	check_builtins(t_cmd *cmd, t_env **envp)
 		return (env(*envp, cmd->out), true);
 	else if (!ft_strncmp("export", cmd->cmd[0], INT_MAX))
 		return (m_export(cmd, envp, cmd->out), true);
+	else if (!ft_strncmp("unset", cmd->cmd[0], INT_MAX))
+		return (_unset(cmd, envp), true);
 	return (false);
 }
 

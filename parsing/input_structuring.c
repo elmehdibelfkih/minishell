@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 18:03:26 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/22 20:41:06 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/11/01 08:38:20 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ void	types_separation(t_list *prime, t_comp **cmpa)
 			c = types_separation_pipe_space(cmpa, tmp, prime);
 		else if ((*tmp == '<' && *(tmp + 1) == '<')
 			|| (*tmp == '>' && *(tmp + 1) == '>'))
-			c = types_separation_redirections_1(cmpa, tmp, prime);
+			c = types_separation_redir_1(cmpa, tmp, prime);
 		else if (*tmp == '<' || *tmp == '>')
-			c = types_separation_redirections_2(cmpa, tmp, prime);
+			c = types_separation_redir_2(cmpa, tmp, prime);
 		else if (!ft_strchr(" |<>\0", *tmp))
 			c = types_separation_word(cmpa, tmp, prime);
 		if (c)
@@ -59,7 +59,7 @@ bool	types_separation_word(t_comp **cmpa, char *tmp, t_list *prime)
 	return (false);
 }
 
-bool	types_separation_redirections_1(t_comp **cmpa, char *tmp, t_list *prime)
+bool	types_separation_redir_1(t_comp **cmpa, char *tmp, t_list *prime)
 {
 	void	*t;
 
@@ -84,7 +84,7 @@ bool	types_separation_redirections_1(t_comp **cmpa, char *tmp, t_list *prime)
 	return (false);
 }
 
-bool	types_separation_redirections_2(t_comp **cmpa, char *tmp, t_list *prime)
+bool	types_separation_redir_2(t_comp **cmpa, char *tmp, t_list *prime)
 {
 	void	*t;
 

@@ -6,134 +6,126 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 10:32:35 by ybouchra          #+#    #+#             */
-/*   Updated: 2023/10/06 03:07:34 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/11/01 08:36:48 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../minishell.h"
 
+int	check_redir(t_cmd *commands)
+{
+	int	inp;
+	int	out;
 
-// void	display_cmds(t_cmd *cmd)
-// {
+	inp = commands->inp;
+	out = commands->out;
+	if (out == -1 || inp == -1)
+		return (0);
+	if (out != 1 || inp != 0)
+	{
+		if (out != 1)
+		{
+			dup2(out, 1);
+		}
+		if (inp != 0)
+		{
+			dup2(inp, 0);
+		}
+		return (1);
+	}
+	return (0);
+}
 
-// 	printf("--------------------------------------------------------\n");
-// 	while (cmd)
-// 	{
-// 		printf("args: \n\t");
-// 		t_list	*lst;
-// 		lst = cmd->args;
-// 		while (lst)
-// 		{
-// 			printf("%s ", lst->content);
-// 			lst = lst->next;
-// 		}
-// 		printf("\nredirections: \n");
-// 		t_redir *redir;
-// 		redir = cmd->redir;
-// 		char	*type[] = {"INP", "OUT", "HER", "APP"};
-// 		while (redir)
-// 		{
-// 			printf("\ttype : %s\n\t", type[redir->type - 5]);
-// 			printf("file : %s\n", redir->file);
-// 			redir = redir->next;
-// 		}
-// 		cmd = cmd->next;
-// 		printf("-------\n");
-// 	}
-// 	printf("--------------------------------------------------------\n");
-// }
+int	_pipe(t_exec_info *exec_info)
+{
+	if (pipe(exec_info->fd) == -1)
+	{
+		perror("minishell: pipe");
+		g_exit_status = 1;
+		return (1);
+	}
+	return (0);
+}
 
-// char **get_path(t_env *env,char *s)
-// {
-// 	char **pp;
+int	check_paths(t_cmd *command, char **paths, t_exec_info *exec_info)
+{
+	if (!paths || !*paths)
+	{
+		ft_err_1(command);
+		return (free(paths), 0);
+	}
+	else
+	{
+		exec_info->path = find_path(paths, command->cmd[0]);
+		if (!exec_info->path)
+		{
+			ft_err_127(command);
+			return (0);
+		}
+	}
+	return (1);
+}
 
-// 	while(env)
-// 	{
-// 		if(!ft_strcmp(env->name, s))
-// 		{
-// 			pp = ft_split(env->data , ':');
-// 			return (pp);
-// 		}
-// 		env = env->next;
-// 	}
-// 	return (NULL);
-// }
-// int get_len(t_cmd *cmd)
-// {
-// 	int len = 0;
-// 	t_list *lst = cmd->args;
-// 	while(lst)
-// 	{
-// 		len++;
-// 		lst = lst->next;
-// 	}
-// 	return(len);
-// }
+void	exec_cmd(t_cmd *command, char **paths,
+	t_exec_info *exec_info, t_env *env)
+{
+	if (command->next)
+	{
+		close(exec_info->fd[0]);
+		dup2(exec_info->fd[1], 1);
+		close(exec_info->fd[1]);
+	}
+	if (check_builtins(command, &env))
+		exit(0);
+	if (!check_paths(command, paths, exec_info))
+		exit(0); 
+	check_redir(command);
+	exec_info->envp = list_to_tab(env);
+	if (!execve(exec_info->path, command->cmd, exec_info->envp))
+	{
+		perror("minishell: execve");
+		g_exit_status = 1;
+		return (free(exec_info->envp), free(exec_info->path));
+	}
+}
 
-// void insert_cmds(t_cmd *command)
-// {
-// 	int len = get_len(command);
-// 	t_list *lst = command->args;
-// 	command->cmd = malloc(sizeof(char*) * (len + 1));
-// 	if(!command->cmd)
-// 		return;
-// 	int i = 0;
-// 	while(lst)
-// 	{
-// 		command->cmd[i++] = ft_strdup(lst->content);
-// 		lst = lst->next;
-// 	}
-// 	command->cmd[i] = NULL;
-	
-// 	}
+void	all_cmds(char **paths, t_cmd *commands,
+	t_exec_info *exec_info, t_env **env)
+{
+	save_fd(exec_info);
+	if (!commands->next && check_builtins(commands, env))
+		return ;
+	while (commands)
+	{
+		if (commands->next)
+			_pipe(exec_info);
+		exec_info->pid = fork();
+		if (exec_info->pid == -1)
+		{
+			perror("minishell: fork");
+			g_exit_status = 1;
+			exit(1);
+		}
+		if (exec_info->pid == 0)
+			exec_cmd(commands, paths, exec_info, *env);
+		if (commands->next)
+		{
+			dup2(exec_info->fd[0], 0);
+			(close(exec_info->fd[1]), close(exec_info->fd[0]));
+		}
+		commands = commands->next;
+	}
+	reset_fd(exec_info);
+	while (wait(NULL) != -1)
+		;
+}
 
-// int ft_exec_cmd(char **path, char **args)
-// {
-// 		int i;
-// 		char *line;
-// 		pid_t pid;
-		
-// 		line = NULL;
-// 		pid = fork();
-// 		if(pid == -1)
-// 			return(0);
-// 		i = -1;
-// 		if(pid == 0)
-// 		{
-// 			while(path[++i])
-// 			{	
-// 				line = ft_strjoin(ft_strjoin(path[i], "/"), *args);
-// 				if(!access(line, F_OK)) 
-// 				{
-// 					if(!execve(line, args, NULL))
-// 						free(line);
-// 				}
-// 				free(line);
-// 			}
-// 		return(write(1,"0_No such file or directory\n", 26), exit(0), 0);
-// 		}
-// 		else
-// 		{
-// 			wait(0);
-// 		}
-// 	return(1);
-// }
+void	execute(t_cmd **commands, t_env **env)
+{
+	char		**paths;
+	t_exec_info	exec_info;
 
-// void	execute(t_cmd **commands, t_env **env)
-// {
-// 	char	**paths;
-// 	display_cmds(*commands);
-
-// 	insert_cmds(*commands);
-// 	paths = get_path(*env, "PATH");
-// 	if(!paths)
-// 		write(1,"1_No such file or directory\n", 26);
-		
-// 	if(!ft_exec_cmd(paths, (*commands)->cmd))
-// 	{
-// 		write(1,"2_No such file or directory\n", 26);
-// 		exit(0);
-// 	}
-	
-// }
+	paths = get_paths(*env, "PATH");
+	all_cmds(paths, *commands, &exec_info, env);
+	ft_clear(paths, INT_MAX);
+}
