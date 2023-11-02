@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_inpute.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:55:39 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/30 08:10:13 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/11/01 08:36:48 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ t_cmd	*get_command(t_list **prime, t_comp **cmpa, t_env *env)
 	{
 		line = m_readline();
 		if (!line)
-			return NULL;
-		if (line && *line)
+			return (NULL);
+		if (*line)
 		{
 			disperse(line, prime);
 			free(line);
@@ -35,12 +35,14 @@ t_cmd	*get_command(t_list **prime, t_comp **cmpa, t_env *env)
 				ft_comp_clear(cmpa, 0);
 			}
 			else
-				printf("syntax error unclosed quote\n");
+			{
+				write(2, "syntax error unclosed quote\n", 29);
+				g_exit_status = 1;
+			}
 			ft_lstclear(prime, free);
 		}
 		else
 			free(line);
-		return(NULL);
 	}
 }
 
@@ -49,7 +51,7 @@ char	*m_readline(void)
 	char	*line;
 	char	*tmp;
 
-	tmp = readline ("\033[32mminishell 👽$ \033[0m");
+	tmp = readline ("minishell 👽$ ");
 	add_history(tmp);
 	line = ft_strtrim(tmp, " ");
 	free(tmp);
@@ -77,8 +79,8 @@ void	disperse(char *line, t_list **prime)
 	char	c;
 
 	start = 0;
-	i = 0;
-	while (line[i])
+	i = -1;
+	while (line[++i])
 	{
 		if (line[i] && (line[i] == '\'' || line[i] == '\"'))
 		{
@@ -94,7 +96,6 @@ void	disperse(char *line, t_list **prime)
 				return ;
 			start = i;
 		}
-		i++;
 	}
 	disperse_assistant(line, prime, start, i);
 }

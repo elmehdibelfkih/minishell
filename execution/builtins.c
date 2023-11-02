@@ -6,7 +6,7 @@
 /*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 07:12:16 by ybouchra          #+#    #+#             */
-/*   Updated: 2023/11/01 06:44:37 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/11/01 10:36:12 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,44 +17,38 @@ void	env_delone(t_env **env, char *target)
 	t_env	*temp;
 	t_env	*current;
 
+	current = *env;
 	if (!env || !*env)
 		return ;
-		
-		if(!ft_strncmp((*env)->name, target, INT_MAX))
+	if (!ft_strncmp((*env)->name, target, INT_MAX))
+	{
+		temp = *env;
+		(*env) = (*env)->next;
+		temp = NULL;
+		return (free(temp->data), free(temp->name), free(temp));
+	}
+	while (current)
+	{
+		if (current && current->next && !ft_strncmp
+			((current)->next->name, target, INT_MAX))
 		{
-			temp = *env;
-				(*env) = (*env)->next;
-			printf("%s\n", (*env)->next->name);
-			
-			return(free(temp->data),free(temp->name),free(temp));
+			temp = (current)->next;
+			(current)->next = (current)->next->next;
+			temp = NULL;
+			return (free(temp->data), free(temp->name), free(temp));
 		}
-	current = *env;	
-		while((*env))
-			{
-				if(!ft_strncmp(((*env))->next->name, target, INT_MAX))
-				{
-					temp = ((*env))->next;
-					((*env))->next = ((*env))->next->next;
-					return(free(temp->data),free(temp->name),free(temp));
-				}
-				(*env) = ((*env))->next;
-			}
+		current = (current)->next;
+	}
 }
 
-
-int  _unset(t_cmd *commands, t_env **env)
+int	_unset(t_cmd *commands, t_env **env)
 {
-	int i;
+	int	i;
 
-	i	= 0;
-	if (!env || !env[0])
-	return(0);
+	i = 0;
 	if (commands->cmd[1] == NULL)
 		return (write(2, "unset: not enough arguments\n", 29), 0);
 	while (commands->cmd[++i])
-	{
-		// if( is_exist(env,commands->cmd[i]))
 		env_delone(env, commands->cmd[i]);
-	}
 	return (1);
 }

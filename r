@@ -1,0 +1,10 @@
+Makefile
+a.out
+execution
+libft
+main.c
+main.o
+minishell
+minishell.h
+parsing
+r

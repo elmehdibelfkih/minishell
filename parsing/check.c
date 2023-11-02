@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 19:14:05 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/30 15:13:30 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/11/01 07:21:16 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,16 +53,18 @@ void	ft_comp_n_del(t_comp **cmpa, t_comp *next, bool c)
 
 bool	check_builtins(t_cmd *cmd, t_env **envp)
 {
+	if (!cmd->cmd[0])
+		return (false);
 	if (!ft_strncmp("echo", cmd->cmd[0], INT_MAX))
 		return (echo(cmd->cmd, cmd->out), true);
 	else if (!ft_strncmp("pwd", cmd->cmd[0], INT_MAX))
 		return (pwd(cmd->out), true);
+	else if (!ft_strncmp("env", cmd->cmd[0], INT_MAX))
+		return (env(*envp, cmd->out), true);
 	else if (!ft_strncmp("export", cmd->cmd[0], INT_MAX))
 		return (m_export(cmd, envp, cmd->out), true);
 	else if (!ft_strncmp("unset", cmd->cmd[0], INT_MAX))
 		return (_unset(cmd, envp), true);
-	else if (!ft_strncmp("env", cmd->cmd[0], INT_MAX))
-		return (env(*envp, cmd->out), true);
 	return (false);
 }
 
@@ -79,5 +81,5 @@ void	perr(char *str, char *str2)
 	i = -1;
 	while (str2[++i])
 		write(2, &str2[i], 1);
-	write(2, "\'", 1);
+	write(2, "\'\n", 3);
 }

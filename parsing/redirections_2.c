@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections_2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 13:42:09 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/25 01:41:53 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/11/01 14:26:23 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,10 @@ int	inp_red(t_redir	*red)
 				in_fd = red->fd;
 			if (in_fd == -1)
 			{
-				printf("%s: No such file or directory\n", red->f_name);
+				write(2, "minishell: ", 10);
+				write(2, red->f_name, ft_strlen(red->f_name));
+				write(2, " : No such file or directory\n", 30);
+				g_exit_status = 1;
 				return (-1);
 			}
 		}
@@ -77,7 +80,10 @@ int	out_red(t_redir	*red)
 				ou_fd = open(red->f_name, O_WRONLY | O_CREAT | O_APPEND, 0777);
 			if (ou_fd == -1)
 			{
-				printf("%s: No such file or directory\n", red->f_name);
+				write(2, "minishell: ", 10);
+				write(2, red->f_name, ft_strlen(red->f_name));
+				write(2, " : No such file or directory\n", 30);
+				g_exit_status = 1;
 				return (-1);
 			}
 		}

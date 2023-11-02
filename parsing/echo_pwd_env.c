@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo_pwd_env.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 21:21:57 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/31 22:21:15 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/10/28 06:49:10 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void	env(t_env *env, int fd)
 	while (env)
 	{
 		i = -1;
-		if(env->data)
+		if (env->data)
 		{
 			while (env->name[++i])
 				write(fd, &env->name[i], 1);

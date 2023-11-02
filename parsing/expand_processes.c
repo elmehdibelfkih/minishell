@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 05:32:03 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/26 05:36:51 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/11/01 08:36:48 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*get_exp_var(char *line, t_env *env, int *j)
 			i++;
 			if (line[i] == '?')
 				i++;
-			else if (ft_isdigit(line[i]))
+			else if (!ft_isalpha(line[i]))
 				i++;
 			else
 				while (line[i] && !ft_strchr(" \'\"$", line[i])
@@ -47,7 +47,7 @@ char	*get_env_var(char *var, t_env *env, int *j)
 	while (env)
 	{
 		if (var[0] == '?')
-			return (ft_itoa(exit_status));
+			return (free(var), ft_itoa(g_exit_status));
 		if (ft_strlen(env->name) == ft_strlen(var)
 			&& !ft_strncmp(env->name, var, ft_strlen(var)))
 		{
@@ -66,7 +66,7 @@ char	*replace_var_assistant(char *line, char *f, int i)
 	char	*r;
 
 	i++;
-	if (ft_isdigit(line[i]))
+	if (!ft_isalpha(line[i]))
 		i++;
 	else if (line[i] == '?')
 		i++;
@@ -92,10 +92,12 @@ char	*replace_var(char *line, t_env *env, int *j)
 	i = *j;
 	while (line && line[i])
 	{
-		if (line && line[i] == '$')
+		if (line && line[i] == '$' && line[i + 1])
 		{
 			r = ft_substr(line, 0, i);
 			f = ft_strjoin(r, c);
+			if (line[i + 1] && line[i + 1] == '?')
+				free(c);
 			*j = i + e;
 			free (r);
 			return (replace_var_assistant(line, f, i));

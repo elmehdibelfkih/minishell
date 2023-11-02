@@ -6,59 +6,18 @@
 /*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 14:48:10 by ussef             #+#    #+#             */
-/*   Updated: 2023/10/30 11:42:31 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/11/02 17:36:40 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	verif_path(char *path)
-{
-	int	i;
-
-	i = 0;
-	while (path[i])
-		i++;
-	if (path[--i] == '/')
-		return (1);
-	return (0);
-}
-
-char	*find_path(char **paths, char *cmd)
-{
-	char	*line, *tmp_line;
-	int		i;
-
-	i = -1;
-	if (*cmd && cmd[0] == '.' && cmd[1] == '/' && !access(cmd, X_OK))
-		return (cmd);
-	while (paths[++i])
-	{
-		if (verif_path(paths[i]))
-		{
-			line = ft_strjoin(paths[i], cmd);
-			if (!access(line, F_OK))
-				return (line);
-			free(line);
-		}
-		else
-		{
-			tmp_line = ft_strjoin(paths[i], "/");
-			line = ft_strjoin(tmp_line, cmd);
-			if (!access(line, F_OK))
-				return (free(tmp_line), line);
-			free(line);
-		}
-	}
-	return (NULL);
-}
-
 char	**get_paths(t_env *env, char *s)
 {
 	char	**paths;
 
-	if(!env)
-		return(NULL);
+	if (!env)
+		return (NULL);
 	while (env)
 	{
 		if (!ft_strncmp(env->name, s, INT_MAX))
@@ -71,25 +30,70 @@ char	**get_paths(t_env *env, char *s)
 	return (NULL);
 }
 
-void	ft_err_127(t_cmd *command)
+int	verif_path(char *path)
 {
-	if (command->cmd[0])
-	{
-		write(2, "bash: ", 6);
-		write(2, command->cmd[0], ft_strlen(command->cmd[0]));
-		write(2, ": command not found\n", 20);
-		exit_status = 127;
-		return;
-	}
+	int		i;
+
+	i = 0;
+	while (path[i])
+		i++;
+	if (path[--i] == '/')
+		return (1);
+	return (0);
 }
 
-void	ft_err_1(t_cmd *command)
+char	*absolute_path(char **paths, char *cmd)
 {
-	if (command->cmd[0])
+	char	*line;
+	char	*tmp_line;
+	int		i;
+
+	i = -1;
+				
+	while (paths[++i])
 	{
-			write(2, "bash: ", 6);
-			write(2, command->cmd[0], ft_strlen(command->cmd[0]));
-			write(2, " : No such file or directory\n", 30);
-			exit_status = 1;
+		if (verif_path(paths[i]))
+		{
+			line = ft_strjoin(paths[i], cmd);
+			if (!access(line, F_OK))
+				return (line);
+		}
+		else
+		{
+			tmp_line = ft_strjoin(paths[i], "/");
+			line = ft_strjoin(tmp_line, cmd);
+			if (!access(line, F_OK))
+				return (free(tmp_line), line);
+		}
+		free(line);
 	}
+	return (NULL);
+}
+
+char	*relative_path(t_cmd *command, char *cmd)
+{
+	(void)command;
+	if (cmd && (cmd[0] == '.' || cmd[0] == '/'))
+	{
+		if (cmd[0] == '.' && !cmd[1])
+			ft_err_2(command);
+		else if (cmd[0] == '/' )
+			ft_err_126(command);
+		else if (cmd[1] == '/' && (!cmd[2] || cmd[2] == '/'))
+			ft_err_126(command);
+		else if (cmd[1] == '/' && !access(cmd, X_OK))
+			return (cmd);
+	}
+	return (NULL);
+}
+
+int	_pipe(t_exec_info *exec_info)
+{
+	if (pipe(exec_info->fd) == -1)
+	{
+		perror("minishell: pipe");
+		g_exit_status = 1;
+		return (1);
+	}
+	return (0);
 }
