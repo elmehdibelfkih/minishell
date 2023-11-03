@@ -6,7 +6,7 @@
 /*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 21:21:57 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/11/02 23:23:23 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/11/03 20:31:39 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,18 +65,22 @@ void	echo(char **cmd, int fd)
 	g_exit_status = 0;
 }
 
-void	pwd(int fd)
+char	*pwd(bool p, int fd, t_env *env)
 {
 	int		i;
 	char	*path;
 
 	i = -1;
 	path = getcwd(NULL, 0);
+	if (!path)
+		path = ft_strdup(o_pwd(env)->data);
+	if (p == false)
+		return (ft_strdup(path));
 	while (path[++i])
 		write(fd, &path[i], 1);
 	write(fd, "\n", 1);
 	free (path);
-	return ;
+	return (NULL);
 }
 
 void	env(t_env *env, int fd)
@@ -86,7 +90,7 @@ void	env(t_env *env, int fd)
 	while (env)
 	{
 		i = -1;
-		if (env->data)
+		if (env->data && env->name)
 		{
 			while (env->name[++i])
 				write(fd, &env->name[i], 1);
@@ -98,4 +102,15 @@ void	env(t_env *env, int fd)
 		}
 		env = env->next;
 	}
+}
+
+t_env	*o_pwd(t_env *env)
+{
+	while (env)
+	{
+		if (!env->name)
+			return (env);
+		env = env->next;
+	}
+	return (NULL);
 }

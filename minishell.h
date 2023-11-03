@@ -6,7 +6,7 @@
 /*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 23:01:46 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/11/02 22:07:49 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/11/03 21:19:15 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ typedef struct s_cmd
 }	t_cmd;
 
 void	handle_sigint(int sig);
-void	execute(t_cmd **commands, t_env **env);
+int		execute(t_cmd **commands, t_env **env);
 char	**get_paths(t_env *env, char *s);
 void	check_paths(t_cmd *command, char **paths, t_exec_info *exec_info);
 char	*absolute_path(char **paths, char *cmd);
@@ -141,7 +141,7 @@ void	here_doc_processes(t_comp *cmpa);
 void	ft_comp_n_del(t_comp **cmpa, t_comp *next, bool c);
 void	ft_redir_clear(t_redir **head);
 void	echo(char **cmd, int fd);
-void	pwd(int fd);
+char	*pwd(bool p, int fd, t_env *env);
 void	here_doc_processes_assistant(t_comp **cmpa, bool	*c);
 void	child_process(char *delim, bool exp, t_env *env, int *fd);
 void	export_assistant(t_env **env, char *cmd, int j);
@@ -172,5 +172,8 @@ int		inp_red(t_redir	*red);
 int		new_fork(char *delim, bool exp, t_env *env);
 int		out_red(t_redir	*red);
 int		echo_start(char **cmd, bool *s);
+void	m_cd(t_cmd *cmd, t_env *env);
+t_env	*o_pwd(t_env *env);
+char	*update_path(char *path);
 
 #endif

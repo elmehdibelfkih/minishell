@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections_2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 13:42:09 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/11/03 03:02:11 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/11/01 08:36:48 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ int	inp_red(t_redir	*red)
 				in_fd = red->fd;
 			if (in_fd == -1)
 			{
-				write(2, "minishell: ", 10);
 				write(2, red->f_name, ft_strlen(red->f_name));
 				write(2, " : No such file or directory\n", 30);
 				g_exit_status = 1;
@@ -80,7 +79,6 @@ int	out_red(t_redir	*red)
 				ou_fd = open(red->f_name, O_WRONLY | O_CREAT | O_APPEND, 0777);
 			if (ou_fd == -1)
 			{
-				write(2, "minishell: ", 10);
 				write(2, red->f_name, ft_strlen(red->f_name));
 				write(2, " : No such file or directory\n", 30);
 				g_exit_status = 1;
