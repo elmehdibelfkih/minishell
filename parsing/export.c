@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 07:36:33 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/11/01 08:36:48 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/11/02 03:33:43 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	put_export(t_env *env, int fd)
 	{
 		write(fd, "declare -x ", 11);
 		i = -1;
-		while (env->name[++i])
+		while (env->name && env->name[++i])
 			write(fd, &env->name[i], 1);
 		if (env->data)
 		{

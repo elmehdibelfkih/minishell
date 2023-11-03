@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 10:32:35 by ybouchra          #+#    #+#             */
-/*   Updated: 2023/11/01 08:36:48 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/11/02 11:25:37 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,8 @@ void	exec_cmd(t_cmd *command, char **paths,
 		dup2(exec_info->fd[1], 1);
 		close(exec_info->fd[1]);
 	}
+	if (command->inp == -1)
+		exit (1);
 	if (check_builtins(command, &env))
 		exit(0);
 	if (!check_paths(command, paths, exec_info))

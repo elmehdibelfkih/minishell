@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 14:48:10 by ussef             #+#    #+#             */
-/*   Updated: 2023/11/01 08:36:48 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/11/01 08:45:22 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	ft_err_127(t_cmd *command)
 {
 	if (command->cmd[0])
 	{
-		write(2, "minishell : ", 6);
+		write(2, "minishell : ", 13);
 		write(2, command->cmd[0], ft_strlen(command->cmd[0]));
 		write(2, ": command not found\n", 20);
 		g_exit_status = 127;
@@ -90,7 +90,7 @@ void	ft_err_1(t_cmd *command)
 {
 	if (command->cmd[0])
 	{
-		write(2, "minishell : ", 6);
+		write(2, "minishell : ", 13);
 		write(2, command->cmd[0], ft_strlen(command->cmd[0]));
 		write(2, " : No such file or directory\n", 30);
 		g_exit_status = 1;
