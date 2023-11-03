@@ -6,7 +6,7 @@
 /*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 16:03:56 by ybouchra          #+#    #+#             */
-/*   Updated: 2023/11/02 17:36:12 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/11/03 00:30:58 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,53 +33,5 @@ void	handle_sigint(int sig)
 		rl_replace_line("", 0);
 		rl_redisplay();
 		g_exit_status = 1;
-	}
-}
-
-void	ft_err_std(t_cmd *command)
-{
-	if (command->cmd[0])
-	{
-		write(2, "minishell : ", 12);
-		write(2, command->cmd[0], ft_strlen(command->cmd[0]));
-		write(2, ": command not found\n", 20);
-		g_exit_status = 127;
-		exit(127);
-	}
-}
-void	ft_err_126(t_cmd *command)
-{
-	if (command->cmd[0])
-	{
-		write(2, "minishell : ", 12);
-		write(2, command->cmd[0], ft_strlen(command->cmd[0]));
-		write(2, ": is a directory\n", 17);
-		g_exit_status = 126;
-		exit(126);
-	}
-}
-
-void	ft_err_127(t_cmd *command)
-{
-	if (command->cmd[0])
-	{
-		write(2, "minishell : ", 12);
-		write(2, command->cmd[0], ft_strlen(command->cmd[0]));
-		write(2, ": No such file or directory\n", 30);
-		g_exit_status = 127;
-		exit(127);
-	}
-}
-void	ft_err_2(t_cmd *command)
-{
-	if (command->cmd[0])
-	{
-		write(2, "minishell : ", 12);
-		write(2, command->cmd[0], ft_strlen(command->cmd[0]));
-		write(2, ": filename argument require\n", 28);
-		write(2, command->cmd[0], ft_strlen(command->cmd[0]));
-		write(2, ": usage: . filename [arguments]n", 28);
-		g_exit_status = 2;
-		exit(2);
 	}
 }

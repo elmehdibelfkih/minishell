@@ -6,37 +6,13 @@
 /*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 10:32:35 by ybouchra          #+#    #+#             */
-/*   Updated: 2023/11/02 17:25:17 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/11/03 03:27:59 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	check_redir(t_cmd *commands)
-{
-	int	inp;
-	int	out;
 
-	inp = commands->inp;
-	out = commands->out;
-	if (out == -1 || inp == -1)
-		return (0);
-	if (out != 1 || inp != 0)
-	{
-		if (out != 1)
-		{
-			dup2(out, 1);
-			// close(out);
-		}
-		if (inp != 0)
-		{
-			dup2(inp, 0);
-			// close(inp);
-		}
-		return (1);
-	}
-	return (0);
-}
 
 void	check_paths(t_cmd *command, char **paths, t_exec_info *exec_info)
 {
@@ -46,14 +22,10 @@ void	check_paths(t_cmd *command, char **paths, t_exec_info *exec_info)
 		ft_err_127(command);
 	else 
 	{
-		if (command->cmd[0] && (command->cmd[0][0] == '.' || command->cmd[0][0] == '/') && command->cmd[0][1] != '.')
-		{
-			exec_info->path = relative_path(command, command->cmd[0]);
-			if (!exec_info->path)
-				ft_err_127(command);
-		}
+		if (command->cmd[0] && (command->cmd[0][0] == '.' || command->cmd[0][0] == '/') )
+			 path_err(command, command->cmd[0]);
 		else
-		{
+		{	
 			exec_info->path = absolute_path(paths, command->cmd[0]);
 			if (!exec_info->path)
 				ft_err_std(command);
@@ -95,14 +67,14 @@ void exited(void)
 		else if (WIFSIGNALED(g_exit_status)) 
 		{
 			g_exit_status = WTERMSIG(g_exit_status);
+			g_exit_status += 128;
 			printf("Child process  exited with status %d\n", g_exit_status) ;
         }
 }
+
 void	all_cmds(char **paths, t_cmd *commands,
 t_exec_info *exec_info, t_env **env)
 {
-	if (!commands->next && check_builtins(commands, env))
-		return ;
 	while (commands)
 	{
 		if (commands->next)
@@ -124,7 +96,8 @@ t_exec_info *exec_info, t_env **env)
 		commands = commands->next;
 	}
 	reset_fd(exec_info);
-	while (waitpid(exec_info->pid, &g_exit_status, 0) != -1)
+	waitpid(exec_info->pid, &g_exit_status, 0);
+	while (wait(NULL) > 0)
 		;
 	exited();
 }
@@ -135,7 +108,12 @@ void	execute(t_cmd **commands, t_env **env)
 	t_exec_info	exec_info;
 
 	paths = get_paths(*env, "PATH");
-	save_fd(&exec_info);
-	all_cmds(paths, *commands, &exec_info, env);
+	if (!(*commands)->next && check_builtins(*commands, env))
+		return ;
+	else
+	{
+		save_fd(&exec_info);
+		all_cmds(paths, *commands, &exec_info, env);
+	}
 	ft_clear(paths, INT_MAX);
 }

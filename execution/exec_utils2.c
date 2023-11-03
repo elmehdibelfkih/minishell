@@ -6,7 +6,7 @@
 /*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 12:11:40 by ybouchra          #+#    #+#             */
-/*   Updated: 2023/11/01 12:31:38 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/11/03 02:50:38 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,39 @@ char	**list_to_tab(t_env *env)
 	}
 	arr[++len] = NULL;
 	return (arr);
+}
+
+int	check_redir(t_cmd *commands)
+{
+	int	inp;
+	int	out;
+
+	inp = commands->inp;
+	out = commands->out;
+	if (out == -1 || inp == -1)
+		return (0);
+	if (out != 1 || inp != 0)
+	{
+		if (out != 1)
+		{
+			dup2(out, 1);
+		}
+		if (inp != 0)
+		{
+			dup2(inp, 0);
+		}
+		return (1);
+	}
+	return (0);
+}
+
+int	_pipe(t_exec_info *exec_info)
+{
+	if (pipe(exec_info->fd) == -1)
+	{
+		perror("minishell: pipe");
+		g_exit_status = 1;
+		return (1);
+	}
+	return (0);
 }

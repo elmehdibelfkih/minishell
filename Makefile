@@ -6,7 +6,7 @@
 #    By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/05 23:01:54 by ebelfkih          #+#    #+#              #
-#    Updated: 2023/11/01 12:35:41 by ybouchra         ###   ########.fr        #
+#    Updated: 2023/11/02 22:08:52 by ybouchra         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ parsing/get_env.c parsing/read_inpute.c parsing/input_structuring.c parsing/inpu
 parsing/here_doc_processes.c parsing/get_final_struct.c parsing/redirections.c parsing/redirections_2.c \
 parsing/get_final_struct.c parsing/get_final_struct_2.c parsing/check.c parsing/expand_processes.c \
 parsing/echo_pwd_env.c parsing/export.c \
-execution/exec_utils.c execution/execute.c execution/builtins.c execution/exec_utils1.c execution/exec_utils2.c main.c 
+execution/exec_utils.c execution/execute.c execution/builtins.c execution/exec_utils1.c execution/exec_utils2.c execution/ft_errs.c main.c 
 
 INC  =  libft/libft.h minishell.h
 RM   = rm -f

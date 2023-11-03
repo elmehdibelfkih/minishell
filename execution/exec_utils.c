@@ -6,7 +6,7 @@
 /*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 14:48:10 by ussef             #+#    #+#             */
-/*   Updated: 2023/11/02 17:36:40 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/11/02 23:48:54 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@ char	*absolute_path(char **paths, char *cmd)
 	int		i;
 
 	i = -1;
-				
+	if (cmd[0] == '.' && cmd[1] == '/' && !access(cmd, X_OK))
+			return (cmd);		
 	while (paths[++i])
 	{
 		if (verif_path(paths[i]))
@@ -70,30 +71,25 @@ char	*absolute_path(char **paths, char *cmd)
 	return (NULL);
 }
 
-char	*relative_path(t_cmd *command, char *cmd)
-{
-	(void)command;
-	if (cmd && (cmd[0] == '.' || cmd[0] == '/'))
+void	path_err(t_cmd *command, char *cmd)
+{	
+	
+	if (cmd[0] == '.' && cmd[1] == '/' && access(cmd, F_OK))
+		ft_err_127(command);
+	else if (cmd[0] == '.' && cmd[1] == '/' && access(cmd, X_OK))
+		ft_err_126_A(command);
+
+	else if (cmd && (cmd[0] == '.' || cmd[0] == '/') )
 	{
-		if (cmd[0] == '.' && !cmd[1])
+		if (cmd[0] == '.' && !cmd[1]) // .
 			ft_err_2(command);
-		else if (cmd[0] == '/' )
+		else if (cmd[0] == '/' && !cmd[1] ) // /
 			ft_err_126(command);
-		else if (cmd[1] == '/' && (!cmd[2] || cmd[2] == '/'))
-			ft_err_126(command);
-		else if (cmd[1] == '/' && !access(cmd, X_OK))
-			return (cmd);
+		else if (cmd[0] == '.' && cmd[1] == '.' ) // ..
+			ft_err_std(command);
+		else if ((cmd[1] == '.' || cmd[1] == '/') && (!cmd[2] || cmd[2] == '/' || cmd[2] == '.')) // ./  .// ./. ///  //.
+			ft_err_126(command);				
 	}
-	return (NULL);
 }
 
-int	_pipe(t_exec_info *exec_info)
-{
-	if (pipe(exec_info->fd) == -1)
-	{
-		perror("minishell: pipe");
-		g_exit_status = 1;
-		return (1);
-	}
-	return (0);
-}
+

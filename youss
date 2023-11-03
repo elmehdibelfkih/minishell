@@ -1,6 +1,12 @@
 Makefile
-a.out
+a
+aaa
+aas
+ds
+dsd
+dsds
 execution
+g
 libft
 main.c
 main.o
@@ -8,3 +14,12 @@ minishell
 minishell.h
 parsing
 r
+s
+sad
+sas
+sd
+x
+xx
+xxx
+y
+youss
