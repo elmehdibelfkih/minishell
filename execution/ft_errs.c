@@ -6,12 +6,11 @@
 /*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 15:21:54 by ybouchra          #+#    #+#             */
-/*   Updated: 2023/11/02 22:07:11 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/11/04 09:08:04 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
 
 void	ft_err_std(t_cmd *command)
 {
@@ -24,6 +23,7 @@ void	ft_err_std(t_cmd *command)
 		exit(127);
 	}
 }
+
 void	ft_err_126(t_cmd *command)
 {
 	if (command->cmd[0])
@@ -47,6 +47,7 @@ void	ft_err_127(t_cmd *command)
 		exit(127);
 	}
 }
+
 void	ft_err_2(t_cmd *command)
 {
 	if (command->cmd[0])
@@ -61,7 +62,7 @@ void	ft_err_2(t_cmd *command)
 	}
 }
 
-void	ft_err_126_A(t_cmd *command)
+void	ft_err_621(t_cmd *command)
 {
 	if (command->cmd[0])
 	{

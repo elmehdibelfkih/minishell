@@ -6,17 +6,18 @@
 /*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 21:22:44 by ybouchra          #+#    #+#             */
-/*   Updated: 2023/11/03 21:22:54 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/11/04 08:58:17 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void lst_clear(t_env *lst)
+void	lst_clear(t_env *lst)
 {
 	free(lst->data);
 	free(lst->name);
 	free(lst);
+	lst = NULL;
 }
 
 void	env_delone(t_env **env, char *target)
@@ -31,8 +32,7 @@ void	env_delone(t_env **env, char *target)
 		temp = *env;
 		(*env) = (*env)->next;
 		lst_clear(temp);
-        temp = NULL;
-        return;
+		return ;
 	}
 	current = *env;
 	while (current)
@@ -43,8 +43,7 @@ void	env_delone(t_env **env, char *target)
 			temp = (current)->next;
 			(current)->next = (current)->next->next;
 			lst_clear(temp);
-            temp = NULL;
-            return;
+			return ;
 		}
 		current = (current)->next;
 	}
@@ -61,4 +60,3 @@ int	_unset(t_cmd *commands, t_env **env)
 		env_delone(env, commands->cmd[i]);
 	return (1);
 }
-

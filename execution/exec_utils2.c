@@ -6,7 +6,7 @@
 /*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 12:11:40 by ybouchra          #+#    #+#             */
-/*   Updated: 2023/11/03 02:50:38 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/11/04 09:47:05 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,19 @@ int	_pipe(t_exec_info *exec_info)
 		perror("minishell: pipe");
 		g_exit_status = 1;
 		return (1);
+	}
+	return (0);
+}
+
+int	is_exist(char *s, int c)
+{
+	if (!s)
+		return (0);
+	while (*s)
+	{
+		if (*s == c)
+			return (1);
+		s++;
 	}
 	return (0);
 }
