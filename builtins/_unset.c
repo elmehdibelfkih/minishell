@@ -1,31 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.c                                         :+:      :+:    :+:   */
+/*   _unset.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/27 07:12:16 by ybouchra          #+#    #+#             */
-/*   Updated: 2023/11/01 08:26:21 by ebelfkih         ###   ########.fr       */
+/*   Created: 2023/11/03 21:22:44 by ybouchra          #+#    #+#             */
+/*   Updated: 2023/11/04 08:58:17 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	lst_clear(t_env *lst)
+{
+	free(lst->data);
+	free(lst->name);
+	free(lst);
+	lst = NULL;
+}
 
 void	env_delone(t_env **env, char *target)
 {
 	t_env	*temp;
 	t_env	*current;
 
-	current = *env;
 	if (!env || !*env)
 		return ;
 	if (!ft_strncmp((*env)->name, target, INT_MAX))
 	{
 		temp = *env;
 		(*env) = (*env)->next;
-		return (free(temp->data), free(temp->name), free(temp));
+		lst_clear(temp);
+		return ;
 	}
+	current = *env;
 	while (current)
 	{
 		if (current && current->next && !ft_strncmp
@@ -33,10 +42,7 @@ void	env_delone(t_env **env, char *target)
 		{
 			temp = (current)->next;
 			(current)->next = (current)->next->next;
-			free(temp->data);
-			free(temp->name);
-			free(temp);
-			temp = NULL;
+			lst_clear(temp);
 			return ;
 		}
 		current = (current)->next;

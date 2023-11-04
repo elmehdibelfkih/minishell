@@ -3,67 +3,48 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 10:32:35 by ybouchra          #+#    #+#             */
-/*   Updated: 2023/11/02 11:25:37 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/11/04 09:54:06 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	check_redir(t_cmd *commands)
+void	exited(void)
 {
-	int	inp;
-	int	out;
-
-	inp = commands->inp;
-	out = commands->out;
-	if (out == -1 || inp == -1)
-		return (0);
-	if (out != 1 || inp != 0)
+	if (WIFEXITED(g_exit_status))
+		g_exit_status = WEXITSTATUS(g_exit_status);
+	else if (WIFSIGNALED(g_exit_status))
 	{
-		if (out != 1)
-		{
-			dup2(out, 1);
-		}
-		if (inp != 0)
-		{
-			dup2(inp, 0);
-		}
-		return (1);
+		g_exit_status = WTERMSIG(g_exit_status);
+		g_exit_status += 128;
 	}
-	return (0);
 }
 
-int	_pipe(t_exec_info *exec_info)
+char	*check_paths(t_cmd *command, char **paths, t_exec_info *exec_info)
 {
-	if (pipe(exec_info->fd) == -1)
-	{
-		perror("minishell: pipe");
-		g_exit_status = 1;
-		return (1);
-	}
-	return (0);
-}
-
-int	check_paths(t_cmd *command, char **paths, t_exec_info *exec_info)
-{
+	exec_info->path = NULL;
 	if (!paths || !*paths)
-	{
-		ft_err_1(command);
-		return (free(paths), 0);
-	}
+		ft_err_127(command);
 	else
 	{
-		exec_info->path = find_path(paths, command->cmd[0]);
+		if (command->cmd[0][0] == '.' && command->cmd[0][1] == '/' 
+			&& !access(command->cmd[0], X_OK))
+			return (exec_info->path = command->cmd[0]);
+		if (command->cmd[0] && !access(command->cmd[0], X_OK))
+			return(exec_info->path = command->cmd[0]);
+		path_err_msg(command, command->cmd[0]);
+		exec_info->path = absolute_path(paths, command->cmd[0]);
 		if (!exec_info->path)
 		{
-			ft_err_127(command);
-			return (0);
+			if(is_exist(command->cmd[0], '/'))
+				ft_err_127(command);
+			ft_err_std(command);
 		}
 	}
-	return (1);
+	return(NULL);
 }
 
 void	exec_cmd(t_cmd *command, char **paths,
@@ -76,27 +57,23 @@ void	exec_cmd(t_cmd *command, char **paths,
 		close(exec_info->fd[1]);
 	}
 	if (command->inp == -1)
-		exit (1);
+		exit(1);
 	if (check_builtins(command, &env))
 		exit(0);
-	if (!check_paths(command, paths, exec_info))
-		exit(0); 
 	check_redir(command);
+	check_paths(command, paths, exec_info);
 	exec_info->envp = list_to_tab(env);
 	if (!execve(exec_info->path, command->cmd, exec_info->envp))
 	{
 		perror("minishell: execve");
 		g_exit_status = 1;
-		return (free(exec_info->envp), free(exec_info->path));
+		return (ft_clear(exec_info->envp, INT_MAX), free(exec_info->path));
 	}
 }
 
 void	all_cmds(char **paths, t_cmd *commands,
 	t_exec_info *exec_info, t_env **env)
 {
-	save_fd(exec_info);
-	if (!commands->next && check_builtins(commands, env))
-		return ;
 	while (commands)
 	{
 		if (commands->next)
@@ -118,16 +95,22 @@ void	all_cmds(char **paths, t_cmd *commands,
 		commands = commands->next;
 	}
 	reset_fd(exec_info);
-	while (wait(NULL) != -1)
+	waitpid(exec_info->pid, &g_exit_status, 0);
+	while (wait(NULL) > 0)
 		;
+	exited();
 }
 
-void	execute(t_cmd **commands, t_env **env)
+int	execute(t_cmd **commands, t_env **env)
 {
-	char		**paths;
 	t_exec_info	exec_info;
+	char		**paths;
 
 	paths = get_paths(*env, "PATH");
+	if (!(*commands)->next && check_builtins(*commands, env))
+		return (ft_clear(paths, INT_MAX));
+	save_fd(&exec_info);
 	all_cmds(paths, *commands, &exec_info, env);
 	ft_clear(paths, INT_MAX);
+	return (0);
 }

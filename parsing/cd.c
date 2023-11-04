@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 16:48:12 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/11/02 11:51:50 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/11/04 09:03:02 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@ void	m_cd(t_cmd *cmd, t_env *env)
 	char	*path;
 	char	*newpath;
 	char	*u_path;
-	char *t;
-	
+	char	*t;
+
 	// chdir("1/2");
 	// return ;
 	if (!cmd->cmd[1])
-		return ;
+		return;
 	if (cmd->cmd[1][ft_strlen(cmd->cmd[1] - 1)] != '/')
 		t = ft_strjoin("/", cmd->cmd[1]);
 	else
@@ -41,8 +41,8 @@ void	m_cd(t_cmd *cmd, t_env *env)
 	// 	return ;
 	// }
 	newpath = ft_strjoin(path, t);
-	free (path);
-	free (t);
+	free(path);
+	free(t);
 	u_path = update_path(newpath);
 	printf("> %s\n", u_path);
 	if (chdir(u_path))
@@ -50,7 +50,7 @@ void	m_cd(t_cmd *cmd, t_env *env)
 		if (!o_pwd(env))
 		{
 			ft_env_add_back(&env, ft_envnew(NULL, ft_strdup(newpath)));
-			free (newpath);
+			free(newpath);
 			return ;
 		}
 		free(o_pwd(env)->data);
@@ -61,22 +61,22 @@ void	m_cd(t_cmd *cmd, t_env *env)
 
 char	*update_path(char *path)
 {
-	int	i;
-	int	j;
-	
+	int i;
+	int j;
+
 	j = 0;
 	i = ft_strlen(path);
 	while (i > 3)
 	{
 		if (path[i] == '.' && path[i - 1] == '.' && path[i - 2] == '/')
 		{
-			i -=3;
+			i -= 3;
 			j++;
 		}
 		i--;
 	}
-	i = ft_strlen(path) - ((j+1) * 3);
-	while(i && j)
+	i = ft_strlen(path) - ((j + 1) * 3);
+	while (i && j)
 	{
 		if (path[i] == '/')
 		{

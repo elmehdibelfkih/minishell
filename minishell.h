@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 23:01:46 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/11/02 06:05:13 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/11/04 23:20:49 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,17 +90,25 @@ typedef struct s_cmd
 }	t_cmd;
 
 void	handle_sigint(int sig);
-void	handle_sigquit(int sig);
-void	execute(t_cmd **commands, t_env **env);
+int		execute(t_cmd **commands, t_env **env);
 char	**get_paths(t_env *env, char *s);
-char	*find_path(char **paths, char *cmd);
-int		check_paths(t_cmd *command, char **paths, t_exec_info *exec_info);
-void	ft_err_127(t_cmd *command);
-void	ft_err_1(t_cmd *command);
+char	*check_paths(t_cmd *command, char **paths, t_exec_info *exec_info);
+char	*absolute_path(char **paths, char *cmd);
+void	path_err_msg(t_cmd *command, char *cmd);
+int		check_redir(t_cmd *commands);
+int		_pipe(t_exec_info *exec_info);
 int		_unset(t_cmd *commands, t_env **env);
+int		__exit(t_cmd *commands);
+void	ft_err_std(t_cmd *command);
+void	ft_err_2(t_cmd *command);
+void	ft_err_126(t_cmd *command);
+void	ft_err_621(t_cmd *command);
+void	ft_err_127(t_cmd *command);
 void	save_fd(t_exec_info *exec_info);
 void	reset_fd( t_exec_info *exec_info);
+int		is_exist(char *s, int c);
 char	**list_to_tab(t_env *env);
+int		size_env(t_env *env);
 t_env	*ft_get_env(char **envp);
 t_env	*ft_envnew(char *name, char *data);
 t_env	*ft_envlast(t_env *lst);
@@ -169,4 +177,5 @@ int		echo_start(char **cmd, bool *s);
 void	m_cd(t_cmd *cmd, t_env *env);
 t_env	*o_pwd(t_env *env);
 char	*update_path(char *path);
+
 #endif
