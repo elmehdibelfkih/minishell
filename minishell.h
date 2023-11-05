@@ -6,7 +6,7 @@
 /*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 23:01:46 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/11/04 09:53:26 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/11/05 07:04:19 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ int		execute(t_cmd **commands, t_env **env);
 char	**get_paths(t_env *env, char *s);
 char	*check_paths(t_cmd *command, char **paths, t_exec_info *exec_info);
 char	*absolute_path(char **paths, char *cmd);
-void	path_err_msg(t_cmd *command, char *cmd);
+void	path_err_msg(t_cmd *command, char *cmd, char **paths);
 int		check_redir(t_cmd *commands);
 int		_pipe(t_exec_info *exec_info);
 int		_unset(t_cmd *commands, t_env **env);
@@ -107,6 +107,7 @@ void	ft_err_127(t_cmd *command);
 void	save_fd(t_exec_info *exec_info);
 void	reset_fd( t_exec_info *exec_info);
 int		is_exist(char *s, int c);
+int		is_directory(char *cmd, char **paths);
 char	**list_to_tab(t_env *env);
 int		size_env(t_env *env);
 t_env	*ft_get_env(char **envp);

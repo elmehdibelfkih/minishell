@@ -6,7 +6,7 @@
 /*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 16:03:56 by ybouchra          #+#    #+#             */
-/*   Updated: 2023/11/03 21:40:14 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/11/05 07:37:12 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,42 @@ void	handle_sigint(int sig)
 		rl_redisplay();
 		g_exit_status = 1;
 	}
+}
+char *valid_cmd(char *cmd)
+{
+	int	 i;
+
+	i = 0;
+	if(!cmd)
+		return (NULL);
+	
+	if(cmd[i] && cmd[i] == '/')
+	{
+		while (cmd[i] == '/' && cmd[i + 1])
+			{	
+				i++;
+			}
+		return(ft_strjoin("/" ,cmd + i));
+	}
+	return(NULL);
+
+}
+int	is_directory(char *cmd, char **paths)
+{
+	int	i;
+	char *tmp;
+	
+	i = -1;
+	
+	tmp = valid_cmd(cmd);
+	printf("----------%s\n", tmp);
+	while(paths[++i])
+	{	
+		if (!ft_strncmp(tmp, paths[i], ft_strlen(tmp)))
+		{
+					printf("%s==%s\n", paths[i], tmp);
+				return(free(tmp),1);
+		}
+	}
+	return(free(tmp), 0);
 }

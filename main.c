@@ -6,7 +6,7 @@
 /*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 19:55:36 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/11/03 21:29:11 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/11/05 01:33:28 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	main(int ac, char **argv, char **envp)
 		cmd = get_command(&prime, &cmpa, env);
 		if (!cmd)
 		{
-			write(2, "exit", 4);
+			write(2, "exit\n", 5);
 			break ;
 		}
 		execute(&cmd, &env);
