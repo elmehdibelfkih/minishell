@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 19:55:36 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/11/03 21:29:11 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/11/06 00:00:11 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,16 @@ int	main(int ac, char **argv, char **envp)
 	prime = NULL;
 	cmpa = NULL;
 	cmd = NULL;
-	rl_catch_signals = 0;
 	env = ft_get_env(envp);
+	rl_catch_signals = 0;
 	signal(SIGINT, handle_sigint);
+	signal(SIGQUIT, handle_sigint);
 	while (true)
 	{
 		cmd = get_command(&prime, &cmpa, env);
 		if (!cmd)
 		{
-			write(2, "exit", 4);
+			write(2, "exit\n", 5);
 			break ;
 		}
 		execute(&cmd, &env);

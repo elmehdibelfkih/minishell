@@ -6,7 +6,7 @@
 /*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 10:32:35 by ybouchra          #+#    #+#             */
-/*   Updated: 2023/11/04 09:54:06 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/11/05 17:55:22 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,20 +26,20 @@ void	exited(void)
 char	*check_paths(t_cmd *command, char **paths, t_exec_info *exec_info)
 {
 	exec_info->path = NULL;
-	if (!paths || !*paths)
+	if (!paths || !*paths )
 		ft_err_127(command);
 	else
-	{
-		if (command->cmd[0][0] == '.' && command->cmd[0][1] == '/' 
-			&& !access(command->cmd[0], X_OK))
+	{	
+		path_err_msg(command, command->cmd[0], paths);
+		if (command->cmd[0][0] == '.' && command->cmd[0][1] == '/' && !access(command->cmd[0], X_OK))
 			return (exec_info->path = command->cmd[0]);
-		if (command->cmd[0] && !access(command->cmd[0], X_OK))
-			return(exec_info->path = command->cmd[0]);
-		path_err_msg(command, command->cmd[0]);
+		else if(!access(command->cmd[0], X_OK) && !is_directory(command->cmd[0], paths) && 
+			is_exist(command->cmd[0], '/'))
+			return (exec_info->path = command->cmd[0]);
 		exec_info->path = absolute_path(paths, command->cmd[0]);
 		if (!exec_info->path)
 		{
-			if(is_exist(command->cmd[0], '/'))
+			if((is_exist(command->cmd[0], '/') && access(command->cmd[0], F_OK)))
 				ft_err_127(command);
 			ft_err_std(command);
 		}
@@ -71,9 +71,16 @@ void	exec_cmd(t_cmd *command, char **paths,
 	}
 }
 
+void ft_handler(int sig)
+{
+	(void)sig;
+	printf("\n");
+}
+
 void	all_cmds(char **paths, t_cmd *commands,
 	t_exec_info *exec_info, t_env **env)
 {
+	signal(SIGINT, ft_handler);
 	while (commands)
 	{
 		if (commands->next)
@@ -83,10 +90,13 @@ void	all_cmds(char **paths, t_cmd *commands,
 		{
 			perror("minishell: fork");
 			g_exit_status = 1;
-			exit(1);
+			break;
 		}
 		if (exec_info->pid == 0)
+		{
+			signal(SIGINT, SIG_DFL);
 			exec_cmd(commands, paths, exec_info, *env);
+		}
 		if (commands->next)
 		{
 			dup2(exec_info->fd[0], 0);
@@ -96,6 +106,7 @@ void	all_cmds(char **paths, t_cmd *commands,
 	}
 	reset_fd(exec_info);
 	waitpid(exec_info->pid, &g_exit_status, 0);
+	signal(SIGINT, handle_sigint);
 	while (wait(NULL) > 0)
 		;
 	exited();
@@ -107,7 +118,7 @@ int	execute(t_cmd **commands, t_env **env)
 	char		**paths;
 
 	paths = get_paths(*env, "PATH");
-	if (!(*commands)->next && check_builtins(*commands, env))
+	if ((!(*commands)->next && check_builtins(*commands, env)))
 		return (ft_clear(paths, INT_MAX));
 	save_fd(&exec_info);
 	all_cmds(paths, *commands, &exec_info, env);

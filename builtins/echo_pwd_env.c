@@ -6,7 +6,7 @@
 /*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 21:21:57 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/11/03 20:31:39 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/11/05 18:22:14 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,17 @@ char	*pwd(bool p, int fd, t_env *env)
 	return (NULL);
 }
 
-void	env(t_env *env, int fd)
+void	env(t_env *env,t_cmd *command, int fd)
 {
 	int	i;
 
+	if(command->cmd[1] && ft_strncmp(command->cmd[1], "-i", 2))
+	{
+		write(2, "env: ", 5);
+		write(2, command->cmd[1], ft_strlen(command->cmd[1]));
+		write(2, ": No such file or directory\n", 28);
+		exit(127);
+	}	
 	while (env)
 	{
 		i = -1;
