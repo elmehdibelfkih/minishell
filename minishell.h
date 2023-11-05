@@ -6,7 +6,7 @@
 /*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 23:01:46 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/11/05 07:04:19 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/11/05 18:14:04 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ void	ft_comp_clear(t_comp **head, int i);
 void	types_separation(t_list *prime, t_comp **cmpa);
 void	ft_env_add_back(t_env **lst, t_env *new);
 void	ft_envclear(t_env **lst);
-void	env(t_env *env, int fd);
+void	env(t_env *env,t_cmd *command, int fd);
 void	perr(char *str, char *str2);
 void	put_export(t_env *env, int fd);
 void	m_export(t_cmd *cmd, t_env **env, int fd);

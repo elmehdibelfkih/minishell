@@ -9,6 +9,7 @@
         "limits.h": "c",
         "signal.h": "c",
         "wait.h": "c",
-        "fcntl.h": "c"
+        "fcntl.h": "c",
+        "ostream": "c"
     }
 }

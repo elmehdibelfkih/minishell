@@ -6,7 +6,7 @@
 /*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 16:03:56 by ybouchra          #+#    #+#             */
-/*   Updated: 2023/11/05 14:18:07 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/11/05 18:25:18 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	handle_sigint(int sig)
 		g_exit_status = 1;
 	}
 }
+
 char *valid_cmd(char *cmd)
 {
 	int	 i;
@@ -46,9 +47,7 @@ char *valid_cmd(char *cmd)
 	if(cmd[i] && cmd[i] == '/')
 	{
 		while (cmd[i] == '/' && cmd[i + 1])
-			{
-				i++;
-			}
+			i++;
 		return(ft_strjoin("/" ,cmd + i));
 	}
 	return(NULL);

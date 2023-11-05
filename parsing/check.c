@@ -6,7 +6,7 @@
 /*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 19:14:05 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/11/04 03:57:06 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/11/05 17:59:57 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ bool	check_builtins(t_cmd *cmd, t_env **envp)
 	else if (!ft_strncmp("pwd", cmd->cmd[0], INT_MAX))
 		return (pwd(true, cmd->out, *envp), true);
 	else if (!ft_strncmp("env", cmd->cmd[0], INT_MAX))
-		return (env(*envp, cmd->out), true);
+		return (env(*envp, cmd, cmd->out), true);
 	else if (!ft_strncmp("export", cmd->cmd[0], INT_MAX))
 		return (m_export(cmd, envp, cmd->out), true);
 	else if (!ft_strncmp("unset", cmd->cmd[0], INT_MAX))
