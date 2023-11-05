@@ -6,7 +6,7 @@
 /*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 16:03:56 by ybouchra          #+#    #+#             */
-/*   Updated: 2023/11/05 18:25:18 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/11/05 23:23:19 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	handle_sigint(int sig)
 {		
 	if (sig == SIGINT)
 	{
+		
 		printf("\n");
 		rl_on_new_line();
 		rl_replace_line("", 0);
