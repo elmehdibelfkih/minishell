@@ -6,7 +6,7 @@
 /*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 16:03:56 by ybouchra          #+#    #+#             */
-/*   Updated: 2023/11/05 07:37:12 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/11/05 14:18:07 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	reset_fd(t_exec_info *exec_info)
 }
 
 void	handle_sigint(int sig)
-{
+{		
 	if (sig == SIGINT)
 	{
 		printf("\n");
@@ -46,7 +46,7 @@ char *valid_cmd(char *cmd)
 	if(cmd[i] && cmd[i] == '/')
 	{
 		while (cmd[i] == '/' && cmd[i + 1])
-			{	
+			{
 				i++;
 			}
 		return(ft_strjoin("/" ,cmd + i));
@@ -54,6 +54,7 @@ char *valid_cmd(char *cmd)
 	return(NULL);
 
 }
+
 int	is_directory(char *cmd, char **paths)
 {
 	int	i;
@@ -62,14 +63,10 @@ int	is_directory(char *cmd, char **paths)
 	i = -1;
 	
 	tmp = valid_cmd(cmd);
-	printf("----------%s\n", tmp);
 	while(paths[++i])
 	{	
 		if (!ft_strncmp(tmp, paths[i], ft_strlen(tmp)))
-		{
-					printf("%s==%s\n", paths[i], tmp);
 				return(free(tmp),1);
-		}
 	}
 	return(free(tmp), 0);
 }

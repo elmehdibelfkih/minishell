@@ -6,7 +6,7 @@
 /*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 10:32:35 by ybouchra          #+#    #+#             */
-/*   Updated: 2023/11/05 07:38:30 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/11/05 13:57:05 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,18 @@ void	exited(void)
 
 char	*check_paths(t_cmd *command, char **paths, t_exec_info *exec_info)
 {
+	exec_info->path = NULL;
 	if (!paths || !*paths)
 		ft_err_127(command);
 	else
 	{	
 		path_err_msg(command, command->cmd[0], paths);
-		if(!access(command->cmd[0], X_OK) && !is_directory(command->cmd[0], paths) )
+		if (command->cmd[0][0] == '.' && command->cmd[0][1] == '/' && !access(command->cmd[0], X_OK))
 			return (exec_info->path = command->cmd[0]);
-			exec_info->path = absolute_path(paths, command->cmd[0]);
+		else if(!access(command->cmd[0], X_OK) && !is_directory(command->cmd[0], paths) && 
+			is_exist(command->cmd[0], '/'))
+			return (exec_info->path = command->cmd[0]);
+		exec_info->path = absolute_path(paths, command->cmd[0]);
 		if (!exec_info->path)
 		{
 			if(is_exist(command->cmd[0], '/') && access(command->cmd[0], F_OK))

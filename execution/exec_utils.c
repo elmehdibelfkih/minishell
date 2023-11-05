@@ -6,7 +6,7 @@
 /*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 14:48:10 by ussef             #+#    #+#             */
-/*   Updated: 2023/11/05 07:06:25 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/11/05 10:18:14 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,6 @@ char	*absolute_path(char **paths, char *cmd)
 	int		i;
 
 	i = -1;
-		if (cmd[0] == '.' && cmd[1] == '/' && !access(cmd, X_OK))
-				return (cmd);
 	while (paths[++i])
 	{
 		if (format_path(paths[i]))
@@ -87,11 +85,14 @@ void	path_err_msg(t_cmd *command, char *cmd, char **paths)
 			ft_err_126(command);
 		if (cmd[0] == '.' && cmd[1] == '.') // ..
 			ft_err_std(command);
-		if (cmd[0] == '/' && !access(cmd, F_OK) && is_directory(command->cmd[0], paths)) // ..
+		if (cmd[0] != '.' && !access(cmd, X_OK) && !is_exist(cmd, '/'))
+			ft_err_std(command);
+		if (cmd[0] == '/' && !access(cmd, F_OK) && is_directory(command->cmd[0], paths)) 
 			ft_err_126(command);
+		
 		if ((cmd[0] == '.' || cmd[0] == '/')) //    ( .. // ./ /.)
 		{
-			if ((cmd[1] == '.' || cmd[1] == '/') && !cmd[2])
+			if ((cmd[1] == '.' || cmd[1] == '/') && (!cmd[2] || cmd[2] == '/'))
 				ft_err_126(command);
 		}
 	}

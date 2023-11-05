@@ -6,7 +6,7 @@
 /*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 19:55:36 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/11/05 01:33:28 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/11/05 14:05:49 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,11 @@ int	main(int ac, char **argv, char **envp)
 	cmd = NULL;
 	rl_catch_signals = 0;
 	env = ft_get_env(envp);
-	signal(SIGINT, handle_sigint);
+
 	while (true)
 	{
+		signal(SIGINT, handle_sigint);
+		signal(SIGQUIT, handle_sigint);
 		cmd = get_command(&prime, &cmpa, env);
 		if (!cmd)
 		{
