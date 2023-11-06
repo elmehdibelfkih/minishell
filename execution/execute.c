@@ -6,7 +6,7 @@
 /*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 10:32:35 by ybouchra          #+#    #+#             */
-/*   Updated: 2023/11/05 17:55:22 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/11/06 19:43:17 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,16 +71,10 @@ void	exec_cmd(t_cmd *command, char **paths,
 	}
 }
 
-void ft_handler(int sig)
-{
-	(void)sig;
-	printf("\n");
-}
-
 void	all_cmds(char **paths, t_cmd *commands,
 	t_exec_info *exec_info, t_env **env)
 {
-	signal(SIGINT, ft_handler);
+	signal(SIGINT, SIG_IGN);
 	while (commands)
 	{
 		if (commands->next)

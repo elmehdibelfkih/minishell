@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_syntax.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 11:52:58 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/11/06 00:02:04 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/11/05 23:59:05 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,18 +60,13 @@ bool	check_pipe(t_comp *cmpa, int i)
 	}
 	return (true);
 }
-void sig_h(int sig)
-{
-	(void)sig;
-	printf("\n");
-}
 
 int	new_fork(char *delim, bool exp, t_env *env)
 {
 	pid_t	i;
 	int		st;
 	int		fd[2];
-	
+
 	if (pipe(fd) == -1)
 		return (g_exit_status = 1, perr("error : pipe\n", NULL), -1);
 	signal(SIGINT, SIG_IGN);
@@ -80,13 +75,12 @@ int	new_fork(char *delim, bool exp, t_env *env)
 		return (g_exit_status = 1, perr("error : fork\n", NULL), -1);
 	if (i == 0)
 	{
-		rl_catch_signals = 1;	
+		rl_catch_signals = 1;
 		signal(SIGINT, SIG_DFL);
 		child_process(delim, exp, env, fd);
-		
 	}
-		rl_catch_signals = 0;
 	waitpid(i, &st, 0);
+	rl_catch_signals = 0;
 	signal(SIGINT, handle_sigint);
 	close(fd[1]);
 	return (fd[0]);
@@ -99,7 +93,6 @@ void	child_process(char *delim, bool exp, t_env *env, int *fd)
 	int		i;
 
 	close(fd[0]);
-
 	while (true) 
 	{
 		c = readline("> ");
