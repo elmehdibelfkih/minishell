@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 13:42:09 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/11/07 01:03:14 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/11/07 03:35:19 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ int	inp_red(t_redir	*red)
 {
 	int	in_fd;
 
-	in_fd = 0;
 	while (red)
 	{
 		if (red->tok == r_inp || red->tok == here_doc)
@@ -51,15 +50,17 @@ int	inp_red(t_redir	*red)
 				in_fd = red->fd;
 			if (in_fd == -1)
 			{
-				write(2, red->f_name, ft_strlen(red->f_name));
-				perror(" ");
-				g_exit_status = 1;
-				return (-1);
+				if (red->tok != here_doc)
+				{
+					write(2, red->f_name, ft_strlen(red->f_name));
+					perror(" ");
+				}
+				return (g_exit_status = 1 , -1);
 			}
 		}
 		red = red->next;
 	}
-	return (in_fd);
+	return (0);
 }
 
 int	out_red(t_redir	*red)
