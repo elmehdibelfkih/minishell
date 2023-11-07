@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 23:01:46 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/11/07 11:48:41 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/11/07 13:17:16 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,6 @@ void	path_err_msg(t_cmd *command, char *cmd, char **paths);
 int		check_redir(t_cmd *commands);
 int		_pipe(t_exec_info *exec_info);
 int		_unset(t_cmd *commands, t_env **env);
-int		_cd(t_cmd *command, t_env *env);
 int		__exit(t_cmd *commands);
 void	ft_err_std(t_cmd *command);
 void	ft_err_2(t_cmd *command);
@@ -180,5 +179,7 @@ void	m_cd(t_cmd *cmd, t_env *env);
 t_env	*o_pwd(t_env *env);
 char	*update_path(char *path);
 char	*join_path(char *dir, t_env *env, bool p);
+
+bool	get_cmd_a(t_list **prime, t_comp **cmpa, t_env *env, t_cmd **cmd);
 
 #endif

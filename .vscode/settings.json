@@ -12,6 +12,12 @@
         "ostream": "c",
         "new": "c",
         "istream": "c",
-        "sstream": "c"
+        "sstream": "c",
+        "__threading_support": "c",
+        "cstddef": "c",
+        "cstdio": "c",
+        "cstring": "c",
+        "ctime": "c",
+        "cwchar": "c"
     }
 }

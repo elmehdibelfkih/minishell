@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_inpute.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:55:39 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/11/05 14:19:36 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/11/07 13:19:38 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,18 +27,8 @@ t_cmd	*get_command(t_list **prime, t_comp **cmpa, t_env *env)
 		{
 			disperse(line, prime);
 			free(line);
-			if (check_quotes(*prime))
-			{
-				if (prs(prime, cmpa, env))
-					if (cmd_struct_fill(*cmpa, &cmd))
-						return (ft_comp_clear(cmpa, 1), cmd);
-				ft_comp_clear(cmpa, 0);
-			}
-			else
-			{
-				write(2, "syntax error unclosed quote\n", 29);
-				g_exit_status = 1;
-			}
+			if (get_cmd_a(prime, cmpa, env, &cmd))
+				return (cmd);
 			ft_lstclear(prime, free);
 		}
 		else
@@ -46,16 +36,22 @@ t_cmd	*get_command(t_list **prime, t_comp **cmpa, t_env *env)
 	}
 }
 
-char	*m_readline(void)
+bool	get_cmd_a(t_list **prime, t_comp **cmpa, t_env *env, t_cmd **cmd)
 {
-	char	*line;
-	char	*tmp;
-
-	tmp = readline ("minishell 👽$ ");
-	add_history(tmp);
-	line = ft_strtrim(tmp, " ");
-	free(tmp);
-	return (line);
+	if (check_quotes(*prime))
+	{
+		if (prs(prime, cmpa, env))
+			if (cmd_struct_fill(*cmpa, cmd))
+				return (ft_comp_clear(cmpa, 1), true);
+		ft_comp_clear(cmpa, 0);
+	}
+	else
+	{
+		write(2, "syntax error unclosed quote\n", 29);
+		g_exit_status = 1;
+		return (false);
+	}
+	return (false);
 }
 
 bool	prs(t_list **prime, t_comp **cmpa, t_env *env)

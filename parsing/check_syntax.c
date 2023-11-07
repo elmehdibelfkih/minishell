@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 11:52:58 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/11/07 11:56:03 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/11/07 13:05:33 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,11 +68,11 @@ int	new_fork(char *delim, bool exp, t_env *env)
 	int		fd[2];
 
 	if (pipe(fd) == -1)
-		return (g_exit_status = 1, perr("error : pipe\n", NULL), -1);
+		return (g_exit_status = 1, perror("pipe: "), -1);
 	signal(SIGINT, SIG_IGN);
 	i = fork();
 	if (i == -1)
-		return (g_exit_status = 1, perr("error : fork\n", NULL), -1);
+		return (g_exit_status = 1, perror("pipe: "), -1);
 	if (i == 0)
 	{
 		rl_catch_signals = 1;

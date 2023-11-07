@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 13:42:09 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/11/07 11:54:26 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/11/07 13:20:53 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,4 +89,16 @@ int	out_red(t_redir	*red)
 		red = red->next;
 	}
 	return (ou_fd);
+}
+
+char	*m_readline(void)
+{
+	char	*line;
+	char	*tmp;
+
+	tmp = readline ("minishell 👽$ ");
+	add_history(tmp);
+	line = ft_strtrim(tmp, " ");
+	free(tmp);
+	return (line);
 }
