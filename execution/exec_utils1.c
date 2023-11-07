@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils1.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 16:03:56 by ybouchra          #+#    #+#             */
-/*   Updated: 2023/11/06 12:48:40 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/11/07 11:51:42 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	reset_fd(t_exec_info *exec_info)
 }
 
 void	handle_sigint(int sig)
-{		
+{
 	if (sig == SIGINT)
 	{
 		printf("\n");
@@ -36,35 +36,33 @@ void	handle_sigint(int sig)
 	}
 }
 
-char *valid_cmd(char *cmd)
+char	*valid_cmd(char *cmd)
 {
-	int	 i;
+	int	i;
 
 	i = 0;
-	if(!cmd)
+	if (!cmd)
 		return (NULL);
-	
 	if(cmd[i] && cmd[i] == '/')
 	{
 		while (cmd[i] == '/')
 			i++;
-		return(ft_strjoin("/" ,cmd + i));
+		return (ft_strjoin("/" ,cmd + i));
 	}
-	return(cmd);
-
+	return (cmd);
 }
 
 int	is_directory(char *cmd, char **paths)
 {
-	int	i;
-	char *tmp;
-	
+	int		i;
+	char	*tmp;
+
 	i = -1;
 	if(!paths)
-		return(0);
+		return (0);
 	tmp = valid_cmd(cmd);
 	while(paths[++i])
-	{	
+	{
 		if (!ft_strncmp(tmp, paths[i], ft_strlen(tmp)))
 				return(free(tmp),1);
 	}

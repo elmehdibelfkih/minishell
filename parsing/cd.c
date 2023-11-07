@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 16:48:12 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/11/07 11:00:50 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/11/07 11:57:17 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void	m_cd(t_cmd *cmd, t_env *env)
 {
 	char	*path;
 	char	*newpath;
-	// char	*u_path;
 	char	*t;
 
 	if (!cmd->cmd[1])
@@ -47,7 +46,7 @@ void	m_cd(t_cmd *cmd, t_env *env)
 		}
 		free(o_pwd(env)->data);
 		o_pwd(env)->data = ft_strdup(ft_strdup(t));
-			printf("%s\n", t);
+		printf("%s\n", t);
 		free (t);
 		return ;
 	}
@@ -89,7 +88,6 @@ void	m_cd(t_cmd *cmd, t_env *env)
 	}
 }
 
-
 char	*join_path(char *dir, t_env *env, bool p)
 {
 	char	*path;
@@ -109,10 +107,4 @@ char	*join_path(char *dir, t_env *env, bool p)
 	free (newpath);
 	free (t);
 	return (path);
-	
 }
-
-// char	*update_path(char *path)
-// {
-	
-// }

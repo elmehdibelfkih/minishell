@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 11:52:58 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/11/07 03:28:27 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/11/07 11:56:03 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,11 +84,7 @@ int	new_fork(char *delim, bool exp, t_env *env)
 	signal(SIGINT, handle_sigint);
 	close(fd[1]);
 	if (st == 2)
-	{
-		g_exit_status = 1;
-		close (fd[0]);
-		return (-1);
-	}
+		return (g_exit_status = 1, close (fd[0]), -1);
 	return (fd[0]);
 }
 
