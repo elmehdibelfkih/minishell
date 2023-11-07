@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 19:14:05 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/11/05 17:59:57 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/11/06 22:55:57 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ bool	check_builtins(t_cmd *cmd, t_env **envp)
 		return (__exit(cmd), true);
 	else if (!ft_strncmp("cd", cmd->cmd[0], INT_MAX))
 		return (m_cd(cmd, *envp), true);
+	// else if (!ft_strncmp("cd", cmd->cmd[0], INT_MAX))
+	// 	return (_cd(cmd, *envp), true);
 	return (false);
 }
 

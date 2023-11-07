@@ -6,7 +6,7 @@
 /*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 14:48:10 by ussef             #+#    #+#             */
-/*   Updated: 2023/11/05 18:24:40 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/11/06 12:56:09 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void	path_err_msg(t_cmd *command, char *cmd, char **paths)
 			ft_err_126(command);
 		if ((cmd[0] == '.' || cmd[0] == '/')) //    ( .. // ./ /.)
 		{
-			if ((cmd[1] == '.' || cmd[1] == '/') && (!cmd[2]))
+			if ((cmd[1] == '.' || cmd[1] == '/') && (access(cmd, F_OK)) )
 				ft_err_126(command);
 		}
 	}

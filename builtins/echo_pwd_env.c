@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo_pwd_env.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 21:21:57 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/11/05 18:22:14 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/11/06 23:12:24 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,9 +89,9 @@ void	env(t_env *env,t_cmd *command, int fd)
 
 	if(command->cmd[1] && ft_strncmp(command->cmd[1], "-i", 2))
 	{
-		write(2, "env: ", 5);
+		write(2, "env: ", 6);
 		write(2, command->cmd[1], ft_strlen(command->cmd[1]));
-		write(2, ": No such file or directory\n", 28);
+		write(2, ": No such file or directory\n", 29);
 		exit(127);
 	}	
 	while (env)

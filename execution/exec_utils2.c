@@ -6,7 +6,7 @@
 /*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 12:11:40 by ybouchra          #+#    #+#             */
-/*   Updated: 2023/11/04 09:47:05 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/11/06 19:40:45 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ int	check_redir(t_cmd *commands)
 		{
 			dup2(inp, 0);
 		}
+		if (commands->cmd[0] == NULL)
+			exit(0);
 		return (1);
 	}
 	return (0);

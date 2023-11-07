@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 16:48:12 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/11/04 09:03:02 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/11/06 23:22:19 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ void	m_cd(t_cmd *cmd, t_env *env)
 	char	*u_path;
 	char	*t;
 
-	// chdir("1/2");
-	// return ;
 	if (!cmd->cmd[1])
 		return;
 	if (cmd->cmd[1][ft_strlen(cmd->cmd[1] - 1)] != '/')
@@ -28,18 +26,18 @@ void	m_cd(t_cmd *cmd, t_env *env)
 	else
 		t = ft_strdup(cmd->cmd[1]);
 	path = pwd(false, 0, env);
-	// if (!chdir(cmd->cmd[1]))
-	// {
-	// 	if (!o_pwd(env))
-	// 	{
-	// 		ft_env_add_back(&env, ft_envnew(NULL, ft_strdup(cmd->cmd[1])));
-	// 		return ;
-	// 	}
-	// 	free(o_pwd(env)->data);
-	// 	o_pwd(env)->data = ft_strdup(cmd->cmd[1]);
-	// 	free (t);
-	// 	return ;
-	// }
+	if (!chdir(cmd->cmd[1]))
+	{
+		if (!o_pwd(env))
+		{
+			ft_env_add_back(&env, ft_envnew(NULL, ft_strdup(cmd->cmd[1])));
+			return ;
+		}
+		free(o_pwd(env)->data);
+		o_pwd(env)->data = ft_strdup(cmd->cmd[1]);
+		free (t);
+		return ;
+	}
 	newpath = ft_strjoin(path, t);
 	free(path);
 	free(t);

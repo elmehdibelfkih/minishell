@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 13:42:09 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/11/01 08:36:48 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/11/07 01:03:14 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	inp_red(t_redir	*red)
 			if (in_fd == -1)
 			{
 				write(2, red->f_name, ft_strlen(red->f_name));
-				write(2, " : No such file or directory\n", 30);
+				perror(" ");
 				g_exit_status = 1;
 				return (-1);
 			}
@@ -80,7 +80,7 @@ int	out_red(t_redir	*red)
 			if (ou_fd == -1)
 			{
 				write(2, red->f_name, ft_strlen(red->f_name));
-				write(2, " : No such file or directory\n", 30);
+				perror(" ");
 				g_exit_status = 1;
 				return (-1);
 			}

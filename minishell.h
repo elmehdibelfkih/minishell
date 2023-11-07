@@ -6,7 +6,7 @@
 /*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 23:01:46 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/11/05 18:14:04 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/11/06 14:18:55 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ void	path_err_msg(t_cmd *command, char *cmd, char **paths);
 int		check_redir(t_cmd *commands);
 int		_pipe(t_exec_info *exec_info);
 int		_unset(t_cmd *commands, t_env **env);
+int		_cd(t_cmd *command, t_env *env);
 int		__exit(t_cmd *commands);
 void	ft_err_std(t_cmd *command);
 void	ft_err_2(t_cmd *command);
