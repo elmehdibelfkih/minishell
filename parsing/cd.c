@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 16:48:12 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/11/07 09:16:07 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/11/07 11:00:50 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	m_cd(t_cmd *cmd, t_env *env)
 {
 	char	*path;
-	// char	*newpath;
+	char	*newpath;
 	// char	*u_path;
 	char	*t;
 
@@ -25,6 +25,7 @@ void	m_cd(t_cmd *cmd, t_env *env)
 	t = join_path(cmd->cmd[1], env, 0);
 	if (!chdir(path))
 	{
+		printf("hi 1 \n");
 		if (!o_pwd(env))
 		{
 			ft_env_add_back(&env, ft_envnew(NULL, ft_strdup(path)));
@@ -35,21 +36,56 @@ void	m_cd(t_cmd *cmd, t_env *env)
 		free (t);
 		return ;
 	}
-	else if (!chdir(t))
+	else if (ft_strncmp(t, "..", INT_MAX) && !chdir(t))
 	{
+		printf("hi 2 \n");
 		if (!o_pwd(env))
 		{
+			printf("%s\n", t);
 			ft_env_add_back(&env, ft_envnew(NULL, ft_strdup(t)));
 			return ;
 		}
 		free(o_pwd(env)->data);
 		o_pwd(env)->data = ft_strdup(ft_strdup(t));
+			printf("%s\n", t);
 		free (t);
 		return ;
 	}
 	else if (!ft_strncmp(t, "..", INT_MAX) && chdir(t))
 	{
-		
+		perror("cd : ");
+		printf("hi 3 \n");
+		newpath = ft_strjoin(path, "/");
+		free (path);
+		path = ft_strjoin(newpath, "..");
+		if (!o_pwd(env))
+		{
+			ft_env_add_back(&env, ft_envnew(NULL, ft_strdup(path)));
+			return ;
+		}
+		free(o_pwd(env)->data);
+		o_pwd(env)->data = ft_strdup(ft_strdup(path));
+		perror("cd : ");
+		return ;
+	}
+	else
+	{
+		printf("hi 4 \n");
+		if (!ft_strncmp(t, "..", INT_MAX))
+		{
+			perror("cd : ");
+			if (!o_pwd(env))
+			{
+				ft_env_add_back(&env, ft_envnew(NULL, ft_strdup(path)));
+				perror("cd : ");
+				return ;
+			}
+			free(o_pwd(env)->data);
+			o_pwd(env)->data = ft_strdup(ft_strdup(path));
+			return ;
+		}
+		perror("cd : ");
+		return ;
 	}
 }
 
