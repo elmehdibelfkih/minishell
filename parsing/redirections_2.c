@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 13:42:09 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/11/07 13:20:53 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/11/07 13:47:31 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	inp_red(t_redir	*red)
 		}
 		red = red->next;
 	}
-	return (0);
+	return (in_fd);
 }
 
 int	out_red(t_redir	*red)
