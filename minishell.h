@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 23:01:46 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/11/06 14:18:55 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/11/07 09:08:44 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,5 +179,6 @@ int		echo_start(char **cmd, bool *s);
 void	m_cd(t_cmd *cmd, t_env *env);
 t_env	*o_pwd(t_env *env);
 char	*update_path(char *path);
+char	*join_path(char *dir, t_env *env, bool p);
 
 #endif
