@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 05:32:03 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/11/01 08:36:48 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/11/06 22:53:49 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	*get_exp_var(char *line, t_env *env, int *j)
 				i++;
 			else
 				while (line[i] && !ft_strchr(" \'\"$", line[i])
-					&& ft_isalnum(line[i]))
+					&& (ft_isalnum(line[i]) || line[i] == '_'))
 					i++;
 			ex = ft_substr(line, start + 1, i - start - 1);
 			return (get_env_var(ex, env, j));
@@ -72,7 +72,7 @@ char	*replace_var_assistant(char *line, char *f, int i)
 		i++;
 	else
 		while (line[i] && !ft_strchr(" \'\"$", line[i])
-			&& ft_isalnum(line[i]))
+			&& (ft_isalnum(line[i]) || line[i] == '_'))
 			i++;
 	r = ft_strjoin(f, &line[i]);
 	free (f);

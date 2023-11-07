@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 13:45:27 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/10/31 22:31:14 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/11/07 03:06:30 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ bool	cmd_struct_fill(t_comp *cmpa, t_cmd **cmd)
 		com = cmd_fill(cmpa);
 		red = redir_fill(cmpa);
 		in_fd = inp_red(red);
-		ou_fd = out_red(red);
+		if (in_fd != -1)
+			ou_fd = out_red(red);
 		ft_redir_clear(&red);
 		ft_cmd_add_back(cmd, ft_cmdnew(com, in_fd, ou_fd));
 		while (cmpa && cmpa->tok != pipe_op)

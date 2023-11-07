@@ -6,7 +6,7 @@
 /*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 12:11:40 by ybouchra          #+#    #+#             */
-/*   Updated: 2023/11/06 19:40:45 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/11/07 23:36:39 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,4 +100,21 @@ int	is_exist(char *s, int c)
 		s++;
 	}
 	return (0);
+}
+
+int	is_end(char *s, int c)
+{
+	if (!s)
+		return (0);
+	int i;
+	i = 0;
+	while (s[i])
+	{
+		i++;
+	}
+	if (s[--i] == c){
+		return (1);
+		
+	}
+	return(0);
 }

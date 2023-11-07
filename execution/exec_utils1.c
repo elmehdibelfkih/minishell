@@ -6,7 +6,7 @@
 /*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 16:03:56 by ybouchra          #+#    #+#             */
-/*   Updated: 2023/11/06 12:48:40 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/11/07 23:29:18 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,12 @@ char *valid_cmd(char *cmd)
 	if(!cmd)
 		return (NULL);
 	
-	if(cmd[i] && cmd[i] == '/')
+	if( cmd[i] == '/')
 	{
 		while (cmd[i] == '/')
 			i++;
-		return(ft_strjoin("/" ,cmd + i));
+		i--;
+		return(cmd + i);
 	}
 	return(cmd);
 
@@ -63,10 +64,11 @@ int	is_directory(char *cmd, char **paths)
 	if(!paths)
 		return(0);
 	tmp = valid_cmd(cmd);
+	
 	while(paths[++i])
 	{	
 		if (!ft_strncmp(tmp, paths[i], ft_strlen(tmp)))
-				return(free(tmp),1);
+				return(1);
 	}
-	return(free(tmp), 0);
+	return(0);
 }

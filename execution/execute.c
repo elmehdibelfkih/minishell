@@ -6,7 +6,7 @@
 /*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 10:32:35 by ybouchra          #+#    #+#             */
-/*   Updated: 2023/11/06 19:43:17 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/11/08 00:05:50 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char	*check_paths(t_cmd *command, char **paths, t_exec_info *exec_info)
 		exec_info->path = absolute_path(paths, command->cmd[0]);
 		if (!exec_info->path)
 		{
-			if((is_exist(command->cmd[0], '/') && access(command->cmd[0], F_OK)))
+			if((is_exist(command->cmd[0], '/')  && access(command->cmd[0], F_OK)))
 				ft_err_127(command);
 			ft_err_std(command);
 		}

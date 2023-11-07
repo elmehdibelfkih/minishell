@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 07:36:33 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/11/02 03:33:43 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/11/07 08:31:50 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void	new_data(t_env **env, char *name, char *data, bool e)
 	tmp = *env;
 	while (tmp)
 	{
-		if (!ft_strncmp(tmp->name, name, INT_MAX))
+		if (tmp->name && !ft_strncmp(tmp->name, name, INT_MAX))
 		{
 			if (!data)
 				return (free(name));

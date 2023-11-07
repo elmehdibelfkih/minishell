@@ -6,7 +6,7 @@
 /*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 14:48:10 by ussef             #+#    #+#             */
-/*   Updated: 2023/11/06 12:56:09 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/11/08 00:22:09 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,31 +68,44 @@ char	*absolute_path(char **paths, char *cmd)
 	}
 	return (NULL);
 }
-
-void	path_err_msg(t_cmd *command, char *cmd, char **paths)
+void checker_1(t_cmd *command, char *cmd)
 {
-	if (cmd)
-	{
-		if (cmd[0] == '.' && cmd[1] == '/' && access(cmd, F_OK))
-			ft_err_127(command);
-		if (cmd[0] == '.' && cmd[1] == '/' && access(cmd, X_OK))
-			ft_err_621(command);
-		if ((cmd[0] == '.' || cmd[0] == '/') && access(cmd, X_OK))
-			ft_err_127(command);
 		if (cmd[0] == '.' && !cmd[1]) // .
 			ft_err_2(command);
 		if (cmd[0] == '/' && !cmd[1]) // /
 			ft_err_126(command);
-		if ((cmd[0] == '.' && cmd[1] == '.') || cmd[0] == '\0') // ..
+		if ((cmd[0] == '.' && cmd[1] == '.') && !cmd[2]) // ..
 			ft_err_std(command);
-		if (cmd[0] != '.' && !access(cmd, X_OK) && !is_exist(cmd, '/'))
-			ft_err_std(command);
-		if (cmd[0] == '/' && !access(cmd, F_OK) && is_directory(command->cmd[0], paths)) 
+		if(cmd[0] == '/' && cmd[1] == '/' && !cmd[2]) //
 			ft_err_126(command);
-		if ((cmd[0] == '.' || cmd[0] == '/')) //    ( .. // ./ /.)
+		if(cmd[0] == '.' && cmd[1] == '/' && !cmd[2]) // ./
+			ft_err_126(command); 
+		if(cmd[0] == '/' && cmd[1] == '.' && !cmd[2]) // /.
+			ft_err_126(command);
+}
+
+void	path_err_msg(t_cmd *command, char *cmd, char **paths)
+{
+	(void)paths;
+	if (cmd)
+	{
+		checker_1(command, cmd);
+		if(access(cmd, F_OK) )
 		{
-			if ((cmd[1] == '.' || cmd[1] == '/') && (access(cmd, F_OK)) )
+			if((cmd[0] == '.' && cmd[1] == '/') || (cmd[0] == '/' && cmd[1] == '.'))
+				ft_err_127(command);	
+			if(cmd && is_end(cmd, '/'))
+				ft_err_127(command);
+		}
+		else
+		{
+			if (cmd[0] == '/' && is_directory(cmd, paths)) 
 				ft_err_126(command);
+			if(cmd && is_end(cmd, '/') && !is_directory(cmd, paths))
+				ft_err_ND(command);
+			if(cmd[0] == '.' && cmd[1] == '/' && 
+				(access(cmd, R_OK) || access(cmd, X_OK)|| access(cmd, W_OK)))
+				ft_err_621(command); // no permitions
 		}
 	}
 }

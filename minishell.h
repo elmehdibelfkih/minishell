@@ -6,7 +6,7 @@
 /*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 23:01:46 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/11/06 14:18:55 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/11/08 00:04:53 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,10 +105,13 @@ void	ft_err_2(t_cmd *command);
 void	ft_err_126(t_cmd *command);
 void	ft_err_621(t_cmd *command);
 void	ft_err_127(t_cmd *command);
+void	ft_err_ND(t_cmd *command);
 void	save_fd(t_exec_info *exec_info);
 void	reset_fd( t_exec_info *exec_info);
 int		is_exist(char *s, int c);
+int		is_end(char *s, int c);
 int		is_directory(char *cmd, char **paths);
+void	checker_1(t_cmd *command, char *cmd);
 char	**list_to_tab(t_env *env);
 int		size_env(t_env *env);
 t_env	*ft_get_env(char **envp);
@@ -179,5 +182,6 @@ int		echo_start(char **cmd, bool *s);
 void	m_cd(t_cmd *cmd, t_env *env);
 t_env	*o_pwd(t_env *env);
 char	*update_path(char *path);
+char	*join_path(char *dir, t_env *env, bool p);
 
 #endif

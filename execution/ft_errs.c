@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_errs.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 15:21:54 by ybouchra          #+#    #+#             */
-/*   Updated: 2023/11/05 22:00:09 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/11/07 19:28:58 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,18 @@ void	ft_err_126(t_cmd *command)
 		write(2, "minishell : ", 13);
 		write(2, command->cmd[0], ft_strlen(command->cmd[0]));
 		write(2, ": is a directory\n", 18);
+		g_exit_status = 126;
+		exit(126);
+	}
+}
+
+void	ft_err_ND(t_cmd *command)
+{
+	if (command->cmd[0])
+	{
+		write(2, "minishell : ", 13);
+		write(2, command->cmd[0], ft_strlen(command->cmd[0]));
+		write(2, ": Not a directory\n", 19);
 		g_exit_status = 126;
 		exit(126);
 	}
