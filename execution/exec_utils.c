@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 14:48:10 by ussef             #+#    #+#             */
-/*   Updated: 2023/11/08 04:46:56 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/11/08 21:29:27 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,11 +86,11 @@ void	path_err_msg(t_cmd *command, char *cmd, char **paths)
 		{
 			if (cmd[0] == '/' && is_directory(cmd, paths))
 				ft_err_126(command);
-			if (cmd && is_end(cmd, '/') && !is_directory(cmd, paths))
-				ft_err_nd(command);
 			if (cmd[0] == '.' && cmd[1] == '/' && 
 				(access(cmd, R_OK) || access(cmd, X_OK) || access(cmd, W_OK)))
 				ft_err_pd(command);
+			if (cmd && (is_end(cmd, '.') || is_end(cmd, '/')))
+				ft_err_127(command);
 		}
 	}
 }

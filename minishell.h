@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 23:01:46 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/11/08 14:18:58 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/11/08 21:31:33 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,6 @@ void	ft_err_2(t_cmd *command);
 void	ft_err_126(t_cmd *command);
 void	ft_err_pd(t_cmd *command);
 void	ft_err_127(t_cmd *command);
-void	ft_err_nd(t_cmd *command);
 void	ft_err_pd(t_cmd *command);
 void	save_fd(t_exec_info *exec_info);
 void	reset_fd( t_exec_info *exec_info);
@@ -186,5 +185,7 @@ t_env	*o_pwd(t_env *env);
 char	*join_path(char *dir, t_env *env, bool p);
 bool	m_cd_assistant(char *t, char *path, t_env *env);
 void	m_cd_assistant_2(char *t, char *path, t_env *env);
+bool	m_cd_assistant_1(char *t, char *path, t_env *env);
+void	up_date_pwd(t_env *env, char *data, bool o_p);
 
 #endif

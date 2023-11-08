@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 16:48:12 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/11/08 15:58:44 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/11/08 22:12:00 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,26 @@
 void	m_cd(t_cmd *cmd, t_env *env)
 {
 	char	*path;
-	char	*newpath;
 	char	*t;
 
 	if (!cmd->cmd[1])
 		return ;
+	up_date_pwd(env, pwd(false, 0, env), true);
 	path = join_path(cmd->cmd[1], env, 1);
 	t = join_path(cmd->cmd[1], env, 0);
 	if (m_cd_assistant(t, path, env))
 		return (free (path), free (t));
-	else if (!ft_strncmp(t, "..", INT_MAX) && chdir(t))
+	if (m_cd_assistant(t, path, env))
+		return (free (path), free (t));
+	else 
+		m_cd_assistant_2(t, path, env);
+}
+
+bool	m_cd_assistant_1(char *t, char *path, t_env *env)
+{
+	char	*newpath;
+
+	if (!ft_strncmp(t, "..", INT_MAX) && chdir(t))
 	{
 		newpath = ft_strjoin(path, "/");
 		free (path);
@@ -32,13 +42,14 @@ void	m_cd(t_cmd *cmd, t_env *env)
 		free(newpath);
 		if (!o_pwd(env))
 			return (ft_env_add_back(&env, ft_envnew(NULL, ft_strdup(path))),
-				free (path), free (t));
+				free (path), free (t),
+				up_date_pwd(env, pwd(false, 0, env), false), true);
 		free(o_pwd(env)->data);
 		o_pwd(env)->data = ft_strdup(path);
-		return (free (path), free (t));
+		return (free (path), free (t),
+			up_date_pwd(env, pwd(false, 0, env), false), true);
 	}
-	else 
-		m_cd_assistant_2(t, path, env);
+	return (false);
 }
 
 bool	m_cd_assistant(char *t, char *path, t_env *env)
@@ -48,22 +59,22 @@ bool	m_cd_assistant(char *t, char *path, t_env *env)
 		if (!o_pwd(env))
 		{
 			ft_env_add_back(&env, ft_envnew(NULL, ft_strdup(path)));
-			return (true);
+			return (up_date_pwd(env, pwd(false, 0, env), false), true);
 		}
 		free(o_pwd(env)->data);
 		o_pwd(env)->data = ft_strdup(path);
-		return (true);
+		return (up_date_pwd(env, pwd(false, 0, env), false), true);
 	}
 	else if (ft_strncmp(t, ".", 1) && !chdir(t))
 	{
 		if (!o_pwd(env))
 		{
 			ft_env_add_back(&env, ft_envnew(NULL, ft_strdup(t)));
-			return (true);
+			return (up_date_pwd(env, pwd(false, 0, env), false), true);
 		}
 		free(o_pwd(env)->data);
 		o_pwd(env)->data = ft_strdup(t);
-		return (true);
+		return (up_date_pwd(env, pwd(false, 0, env), false), true);
 	}
 	return (false);
 }
@@ -77,7 +88,8 @@ void	m_cd_assistant_2(char *t, char *path, t_env *env)
 		if (!o_pwd(env))
 		{
 			ft_env_add_back(&env, ft_envnew(NULL, ft_strdup(path)));
-			return (free (path), free (t));
+			return (up_date_pwd(env, pwd(false, 0, env), false),
+				free (path), free (t));
 		}
 		free(o_pwd(env)->data);
 		o_pwd(env)->data = ft_strdup(path);
@@ -85,7 +97,8 @@ void	m_cd_assistant_2(char *t, char *path, t_env *env)
 	}
 	write(2, "minishell: cd: ", 16);
 	perror(t);
-	return (free (path), free (t));
+	return (up_date_pwd(env, pwd(false, 0, env), false),
+		free (path), free (t));
 }
 
 char	*join_path(char *dir, t_env *env, bool p)
@@ -107,4 +120,32 @@ char	*join_path(char *dir, t_env *env, bool p)
 	free (newpath);
 	free (t);
 	return (path);
+}
+
+void	up_date_pwd(t_env *env, char *data, bool o_p)
+{
+	t_env	*tmp;
+	char	*cpwd;
+
+	tmp = env;
+	cpwd = pwd(false, 0, env);
+	while (tmp && o_p)
+	{
+		if (tmp->name && tmp->data && !ft_strncmp(tmp->name, "OLDPWD", INT_MAX))
+		{
+			if (!ft_strncmp(data, tmp->data, INT_MAX))
+			{
+				free (data);
+				free (cpwd);
+				return ;
+			}
+		}
+		tmp = tmp->next;
+	}
+	free (cpwd);
+	if (o_p)
+		new_data(&env, ft_strdup("OLDPWD"), data, false);
+	else
+		new_data(&env, ft_strdup("PWD"), data, false);
+	return ;
 }
