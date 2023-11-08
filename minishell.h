@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 23:01:46 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/11/08 21:31:33 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/11/09 00:05:56 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,12 +180,12 @@ int		inp_red(t_redir	*red);
 int		new_fork(char *delim, bool exp, t_env *env);
 int		out_red(t_redir	*red);
 int		echo_start(char **cmd, bool *s);
-void	m_cd(t_cmd *cmd, t_env *env);
+void	m_cd(t_cmd *cmd, t_env **env);
 t_env	*o_pwd(t_env *env);
 char	*join_path(char *dir, t_env *env, bool p);
-bool	m_cd_assistant(char *t, char *path, t_env *env);
-void	m_cd_assistant_2(char *t, char *path, t_env *env);
-bool	m_cd_assistant_1(char *t, char *path, t_env *env);
-void	up_date_pwd(t_env *env, char *data, bool o_p);
+bool	m_cd_assistant(char *t, char *path, t_env **env);
+void	m_cd_assistant_2(char *t, char *path, t_env **env);
+bool	m_cd_assistant_1(char *t, char *path, t_env **env);
+void	up_date_pwd(t_env **env, char *data, bool o_p);
 
 #endif

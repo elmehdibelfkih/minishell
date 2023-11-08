@@ -18,7 +18,8 @@
         "cstdio": "c",
         "cstring": "c",
         "ctime": "c",
-        "cwchar": "c"
+        "cwchar": "c",
+        "type_traits": "c"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }
