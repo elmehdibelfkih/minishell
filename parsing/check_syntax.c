@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 11:52:58 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/11/07 13:05:33 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/11/08 22:43:18 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,4 +114,13 @@ void	child_process(char *delim, bool exp, t_env *env, int *fd)
 		free(c);
 	}
 	exit(0);
+}
+
+void	up_date_pwd(t_env *env, char *data, bool o_p)
+{
+	if (o_p)
+		new_data(&env, ft_strdup("OLDPWD"), data, false);
+	else
+		new_data(&env, ft_strdup("PWD"), data, false);
+	return ;
 }

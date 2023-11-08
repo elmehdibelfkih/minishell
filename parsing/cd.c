@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 16:48:12 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/11/08 22:12:00 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/11/08 22:42:56 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	m_cd(t_cmd *cmd, t_env *env)
 	t = join_path(cmd->cmd[1], env, 0);
 	if (m_cd_assistant(t, path, env))
 		return (free (path), free (t));
-	if (m_cd_assistant(t, path, env))
+	else if (m_cd_assistant_1(t, path, env))
 		return (free (path), free (t));
 	else 
 		m_cd_assistant_2(t, path, env);
@@ -83,6 +83,7 @@ void	m_cd_assistant_2(char *t, char *path, t_env *env)
 {
 	if (!ft_strncmp(t, "..", INT_MAX))
 	{
+		g_exit_status = 1;
 		write(2, "minishell: cd: ", 16);
 		perror("..");
 		if (!o_pwd(env))
@@ -95,6 +96,7 @@ void	m_cd_assistant_2(char *t, char *path, t_env *env)
 		o_pwd(env)->data = ft_strdup(path);
 		return (free (path), free (t));
 	}
+	g_exit_status = 1;
 	write(2, "minishell: cd: ", 16);
 	perror(t);
 	return (up_date_pwd(env, pwd(false, 0, env), false),
@@ -120,32 +122,4 @@ char	*join_path(char *dir, t_env *env, bool p)
 	free (newpath);
 	free (t);
 	return (path);
-}
-
-void	up_date_pwd(t_env *env, char *data, bool o_p)
-{
-	t_env	*tmp;
-	char	*cpwd;
-
-	tmp = env;
-	cpwd = pwd(false, 0, env);
-	while (tmp && o_p)
-	{
-		if (tmp->name && tmp->data && !ft_strncmp(tmp->name, "OLDPWD", INT_MAX))
-		{
-			if (!ft_strncmp(data, tmp->data, INT_MAX))
-			{
-				free (data);
-				free (cpwd);
-				return ;
-			}
-		}
-		tmp = tmp->next;
-	}
-	free (cpwd);
-	if (o_p)
-		new_data(&env, ft_strdup("OLDPWD"), data, false);
-	else
-		new_data(&env, ft_strdup("PWD"), data, false);
-	return ;
 }
