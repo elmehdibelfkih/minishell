@@ -6,51 +6,11 @@
 /*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 12:11:40 by ybouchra          #+#    #+#             */
-/*   Updated: 2023/11/06 19:40:45 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/11/08 02:07:37 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-int	size_env(t_env *env)
-{
-	int		len;
-
-	len = 0;
-	if (!env)
-		return (0);
-	while (env)
-	{
-		env = env->next;
-		len++;
-	}
-	return (len);
-}
-
-char	**list_to_tab(t_env *env)
-{
-	char	*name;
-	char	**arr;
-	int		len;
-	t_env	*tmp;
-
-	tmp = env;
-	len = size_env(env);
-	arr = malloc(sizeof(char *) * len + 1);
-	if (!arr)
-		return (NULL);
-	len = -1;
-	env = tmp;
-	while (env)
-	{
-		name = ft_strjoin(env->name, "=");
-		arr[++len] = ft_strjoin(name, env->data);
-		free(name);
-		env = env->next;
-	}
-	arr[++len] = NULL;
-	return (arr);
-}
 
 int	check_redir(t_cmd *commands)
 {
@@ -89,6 +49,16 @@ int	_pipe(t_exec_info *exec_info)
 	return (0);
 }
 
+void	fork_err(t_exec_info *exec_info)
+{
+	if (exec_info->pid == -1)
+	{
+		perror("minishell: fork");
+		g_exit_status = 1;
+		return ;
+	}
+}
+
 int	is_exist(char *s, int c)
 {
 	if (!s)
@@ -99,5 +69,19 @@ int	is_exist(char *s, int c)
 			return (1);
 		s++;
 	}
+	return (0);
+}
+
+int	is_end(char *s, int c)
+{
+	int	i;
+
+	i = 0;
+	if (!s)
+		return (0);
+	while (s[i])
+		i++;
+	if (s[--i] == c)
+		return (1);
 	return (0);
 }

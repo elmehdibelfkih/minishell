@@ -6,7 +6,7 @@
 /*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 21:22:44 by ybouchra          #+#    #+#             */
-/*   Updated: 2023/11/04 08:58:17 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/11/08 01:50:58 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,8 @@ int	_unset(t_cmd *commands, t_env **env)
 	int	i;
 
 	i = 0;
-	if (commands->cmd[1] == NULL)
-		return (write(2, "unset: not enough arguments\n", 29), 0);
 	while (commands->cmd[++i])
 		env_delone(env, commands->cmd[i]);
+	g_exit_status = 0;
 	return (1);
 }

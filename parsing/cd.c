@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 16:48:12 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/11/07 11:57:17 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/11/08 12:10:14 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,31 +28,30 @@ void	m_cd(t_cmd *cmd, t_env *env)
 		if (!o_pwd(env))
 		{
 			ft_env_add_back(&env, ft_envnew(NULL, ft_strdup(path)));
-			return ;
+			return(free (path), free (t));
 		}
 		free(o_pwd(env)->data);
 		o_pwd(env)->data = ft_strdup(ft_strdup(path));
-		free (t);
-		return ;
+		return(free (path), free (t));
 	}
-	else if (ft_strncmp(t, "..", INT_MAX) && !chdir(t))
+	
+	else if (ft_strncmp(t, "..", 2) && ft_strncmp(t, ".", 1) && !chdir(t))
 	{
 		printf("hi 2 \n");
 		if (!o_pwd(env))
 		{
 			printf("%s\n", t);
 			ft_env_add_back(&env, ft_envnew(NULL, ft_strdup(t)));
-			return ;
+			return(free (path), free (t));
 		}
 		free(o_pwd(env)->data);
 		o_pwd(env)->data = ft_strdup(ft_strdup(t));
 		printf("%s\n", t);
-		free (t);
-		return ;
+		return(free (path), free (t));
 	}
 	else if (!ft_strncmp(t, "..", INT_MAX) && chdir(t))
 	{
-		perror("cd : ");
+		perror(t);
 		printf("hi 3 \n");
 		newpath = ft_strjoin(path, "/");
 		free (path);
@@ -60,31 +59,32 @@ void	m_cd(t_cmd *cmd, t_env *env)
 		if (!o_pwd(env))
 		{
 			ft_env_add_back(&env, ft_envnew(NULL, ft_strdup(path)));
-			return ;
+			return(free (path), free (t));
 		}
 		free(o_pwd(env)->data);
 		o_pwd(env)->data = ft_strdup(ft_strdup(path));
 		perror("cd : ");
-		return ;
+		return(free (path), free (t));
 	}
 	else
 	{
 		printf("hi 4 \n");
 		if (!ft_strncmp(t, "..", INT_MAX))
 		{
-			perror("cd : ");
+			write(2, "minishell: cd: ", 16);
+			perror("..");
 			if (!o_pwd(env))
 			{
 				ft_env_add_back(&env, ft_envnew(NULL, ft_strdup(path)));
-				perror("cd : ");
-				return ;
+				return(free (path), free (t));
 			}
 			free(o_pwd(env)->data);
 			o_pwd(env)->data = ft_strdup(ft_strdup(path));
-			return ;
+			return(free (path), free (t));
 		}
-		perror("cd : ");
-		return ;
+		write(2, "minishell: cd: ", 16);
+		perror(t);
+		return(free (path), free (t));
 	}
 }
 

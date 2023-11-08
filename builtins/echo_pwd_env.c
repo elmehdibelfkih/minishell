@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 21:21:57 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/11/07 11:52:44 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/11/08 11:57:41 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,8 @@ char	*pwd(bool p, int fd, t_env *env)
 	if (!path)
 		path = ft_strdup(o_pwd(env)->data);
 	if (p == false)
-		return (ft_strdup(path));
-	while (path[++i])
+		return (path);
+	while (path && path[++i])
 		write(fd, &path[i], 1);
 	write(fd, "\n", 1);
 	free (path);
@@ -89,9 +89,9 @@ void	env(t_env *env, t_cmd *command, int fd)
 
 	if (command->cmd[1] && ft_strncmp(command->cmd[1], "-i", 2))
 	{
-		write(2, "env: ", 6);
+		write(2, "env: ", 5);
 		write(2, command->cmd[1], ft_strlen(command->cmd[1]));
-		write(2, ": No such file or directory\n", 29);
+		write(2, ": No such file or directory\n", 28);
 		exit(127);
 	}
 	while (env)

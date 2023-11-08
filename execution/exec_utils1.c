@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils1.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 16:03:56 by ybouchra          #+#    #+#             */
-/*   Updated: 2023/11/07 11:51:42 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/11/08 01:44:14 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,12 @@ char	*valid_cmd(char *cmd)
 	i = 0;
 	if (!cmd)
 		return (NULL);
-	if(cmd[i] && cmd[i] == '/')
+	if (cmd[i] == '/')
 	{
 		while (cmd[i] == '/')
 			i++;
-		return (ft_strjoin("/" ,cmd + i));
+		i--;
+		return (cmd + i);
 	}
 	return (cmd);
 }
@@ -58,13 +59,13 @@ int	is_directory(char *cmd, char **paths)
 	char	*tmp;
 
 	i = -1;
-	if(!paths)
+	if (!paths)
 		return (0);
 	tmp = valid_cmd(cmd);
-	while(paths[++i])
+	while (paths[++i])
 	{
 		if (!ft_strncmp(tmp, paths[i], ft_strlen(tmp)))
-				return(free(tmp),1);
+			return (1);
 	}
-	return(free(tmp), 0);
+	return (0);
 }

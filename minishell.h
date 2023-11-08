@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 23:01:46 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/11/07 13:17:16 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/11/08 04:48:14 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,18 +96,24 @@ char	*check_paths(t_cmd *command, char **paths, t_exec_info *exec_info);
 char	*absolute_path(char **paths, char *cmd);
 void	path_err_msg(t_cmd *command, char *cmd, char **paths);
 int		check_redir(t_cmd *commands);
+void	fork_err(t_exec_info *exec_info);
 int		_pipe(t_exec_info *exec_info);
 int		_unset(t_cmd *commands, t_env **env);
+int		_cd(t_cmd *command, t_env *env);
 int		__exit(t_cmd *commands);
 void	ft_err_std(t_cmd *command);
 void	ft_err_2(t_cmd *command);
 void	ft_err_126(t_cmd *command);
-void	ft_err_621(t_cmd *command);
+void	ft_err_pd(t_cmd *command);
 void	ft_err_127(t_cmd *command);
+void	ft_err_nd(t_cmd *command);
+void	ft_err_pd(t_cmd *command);
 void	save_fd(t_exec_info *exec_info);
 void	reset_fd( t_exec_info *exec_info);
 int		is_exist(char *s, int c);
+int		is_end(char *s, int c);
 int		is_directory(char *cmd, char **paths);
+void	checker_1(t_cmd *command, char *cmd);
 char	**list_to_tab(t_env *env);
 int		size_env(t_env *env);
 t_env	*ft_get_env(char **envp);
@@ -179,7 +185,5 @@ void	m_cd(t_cmd *cmd, t_env *env);
 t_env	*o_pwd(t_env *env);
 char	*update_path(char *path);
 char	*join_path(char *dir, t_env *env, bool p);
-
-bool	get_cmd_a(t_list **prime, t_comp **cmpa, t_env *env, t_cmd **cmd);
 
 #endif

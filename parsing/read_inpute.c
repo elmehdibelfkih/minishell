@@ -6,11 +6,29 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:55:39 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/11/07 13:19:38 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/11/08 11:20:49 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+bool	get_cmd_a(t_list **prime, t_comp **cmpa, t_env *env, t_cmd **cmd)
+{
+	if (check_quotes(*prime))
+	{
+		if (prs(prime, cmpa, env))
+			if (cmd_struct_fill(*cmpa, cmd))
+				return (ft_comp_clear(cmpa, 1), true);
+		ft_comp_clear(cmpa, 0);
+	}
+	else
+	{
+		write(2, "syntax error unclosed quote\n", 29);
+		g_exit_status = 1;
+		return (false);
+	}
+	return (false);
+}
 
 t_cmd	*get_command(t_list **prime, t_comp **cmpa, t_env *env)
 {
@@ -34,24 +52,6 @@ t_cmd	*get_command(t_list **prime, t_comp **cmpa, t_env *env)
 		else
 			free(line);
 	}
-}
-
-bool	get_cmd_a(t_list **prime, t_comp **cmpa, t_env *env, t_cmd **cmd)
-{
-	if (check_quotes(*prime))
-	{
-		if (prs(prime, cmpa, env))
-			if (cmd_struct_fill(*cmpa, cmd))
-				return (ft_comp_clear(cmpa, 1), true);
-		ft_comp_clear(cmpa, 0);
-	}
-	else
-	{
-		write(2, "syntax error unclosed quote\n", 29);
-		g_exit_status = 1;
-		return (false);
-	}
-	return (false);
 }
 
 bool	prs(t_list **prime, t_comp **cmpa, t_env *env)

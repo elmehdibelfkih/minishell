@@ -6,7 +6,7 @@
 /*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 10:32:35 by ybouchra          #+#    #+#             */
-/*   Updated: 2023/11/06 19:43:17 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/11/08 02:05:23 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,25 +26,26 @@ void	exited(void)
 char	*check_paths(t_cmd *command, char **paths, t_exec_info *exec_info)
 {
 	exec_info->path = NULL;
-	if (!paths || !*paths )
+	if (!paths || !*paths)
 		ft_err_127(command);
 	else
-	{	
+	{
 		path_err_msg(command, command->cmd[0], paths);
-		if (command->cmd[0][0] == '.' && command->cmd[0][1] == '/' && !access(command->cmd[0], X_OK))
+		if (command->cmd[0][0] == '.' && command->cmd[0][1] == '/' && 
+			!access(command->cmd[0], X_OK))
 			return (exec_info->path = command->cmd[0]);
-		else if(!access(command->cmd[0], X_OK) && !is_directory(command->cmd[0], paths) && 
-			is_exist(command->cmd[0], '/'))
+		else if (!is_directory(command->cmd[0], paths) && 
+			(is_exist(command->cmd[0], '/')) && !access(command->cmd[0], X_OK))
 			return (exec_info->path = command->cmd[0]);
 		exec_info->path = absolute_path(paths, command->cmd[0]);
 		if (!exec_info->path)
 		{
-			if((is_exist(command->cmd[0], '/') && access(command->cmd[0], F_OK)))
+			if (is_exist(command->cmd[0], '/') && access(command->cmd[0], F_OK))
 				ft_err_127(command);
 			ft_err_std(command);
 		}
 	}
-	return(NULL);
+	return (NULL);
 }
 
 void	exec_cmd(t_cmd *command, char **paths,
@@ -80,12 +81,7 @@ void	all_cmds(char **paths, t_cmd *commands,
 		if (commands->next)
 			_pipe(exec_info);
 		exec_info->pid = fork();
-		if (exec_info->pid == -1)
-		{
-			perror("minishell: fork");
-			g_exit_status = 1;
-			break;
-		}
+		fork_err(exec_info);
 		if (exec_info->pid == 0)
 		{
 			signal(SIGINT, SIG_DFL);
