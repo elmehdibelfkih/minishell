@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 16:48:12 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/11/08 14:44:58 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/11/08 15:58:44 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,8 @@ void	m_cd(t_cmd *cmd, t_env *env)
 		path = ft_strjoin(newpath, "..");
 		free(newpath);
 		if (!o_pwd(env))
-		{
-			ft_env_add_back(&env, ft_envnew(NULL, ft_strdup(path)));
-			return (free (path), free (t));
-		}
+			return (ft_env_add_back(&env, ft_envnew(NULL, ft_strdup(path))),
+				free (path), free (t));
 		free(o_pwd(env)->data);
 		o_pwd(env)->data = ft_strdup(path);
 		return (free (path), free (t));
@@ -70,7 +68,7 @@ bool	m_cd_assistant(char *t, char *path, t_env *env)
 	return (false);
 }
 
-void m_cd_assistant_2(char *t, char *path, t_env *env)
+void	m_cd_assistant_2(char *t, char *path, t_env *env)
 {
 	if (!ft_strncmp(t, "..", INT_MAX))
 	{

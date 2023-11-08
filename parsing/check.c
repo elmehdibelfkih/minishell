@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 19:14:05 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/11/08 11:29:07 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/11/08 16:14:11 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,5 +85,5 @@ void	perr(char *str, char *str2)
 	i = -1;
 	while (str2[++i])
 		write(2, &str2[i], 1);
-	write(2, "\'", 3);
+	write(2, "\'\n", 3);
 }
