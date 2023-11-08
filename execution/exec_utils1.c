@@ -6,7 +6,7 @@
 /*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 16:03:56 by ybouchra          #+#    #+#             */
-/*   Updated: 2023/11/07 23:29:18 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/11/08 01:44:14 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	reset_fd(t_exec_info *exec_info)
 }
 
 void	handle_sigint(int sig)
-{		
+{
 	if (sig == SIGINT)
 	{
 		printf("\n");
@@ -36,39 +36,36 @@ void	handle_sigint(int sig)
 	}
 }
 
-char *valid_cmd(char *cmd)
+char	*valid_cmd(char *cmd)
 {
-	int	 i;
+	int	i;
 
 	i = 0;
-	if(!cmd)
+	if (!cmd)
 		return (NULL);
-	
-	if( cmd[i] == '/')
+	if (cmd[i] == '/')
 	{
 		while (cmd[i] == '/')
 			i++;
 		i--;
-		return(cmd + i);
+		return (cmd + i);
 	}
-	return(cmd);
-
+	return (cmd);
 }
 
 int	is_directory(char *cmd, char **paths)
 {
-	int	i;
-	char *tmp;
-	
+	int		i;
+	char	*tmp;
+
 	i = -1;
-	if(!paths)
-		return(0);
+	if (!paths)
+		return (0);
 	tmp = valid_cmd(cmd);
-	
-	while(paths[++i])
-	{	
+	while (paths[++i])
+	{
 		if (!ft_strncmp(tmp, paths[i], ft_strlen(tmp)))
-				return(1);
+			return (1);
 	}
-	return(0);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 23:01:46 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/11/08 00:04:53 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/11/08 02:00:56 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,9 +103,9 @@ int		__exit(t_cmd *commands);
 void	ft_err_std(t_cmd *command);
 void	ft_err_2(t_cmd *command);
 void	ft_err_126(t_cmd *command);
-void	ft_err_621(t_cmd *command);
+void	ft_err_pd(t_cmd *command);
 void	ft_err_127(t_cmd *command);
-void	ft_err_ND(t_cmd *command);
+void	ft_err_nd(t_cmd *command);
 void	save_fd(t_exec_info *exec_info);
 void	reset_fd( t_exec_info *exec_info);
 int		is_exist(char *s, int c);
@@ -130,7 +130,7 @@ void	ft_comp_clear(t_comp **head, int i);
 void	types_separation(t_list *prime, t_comp **cmpa);
 void	ft_env_add_back(t_env **lst, t_env *new);
 void	ft_envclear(t_env **lst);
-void	env(t_env *env,t_cmd *command, int fd);
+void	env(t_env *env, t_cmd *command, int fd);
 void	perr(char *str, char *str2);
 void	put_export(t_env *env, int fd);
 void	m_export(t_cmd *cmd, t_env **env, int fd);
