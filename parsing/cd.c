@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 16:48:12 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/11/08 14:18:12 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/11/08 14:44:58 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,18 @@ void	m_cd(t_cmd *cmd, t_env *env)
 		newpath = ft_strjoin(path, "/");
 		free (path);
 		path = ft_strjoin(newpath, "..");
+		free(newpath);
 		if (!o_pwd(env))
 		{
 			ft_env_add_back(&env, ft_envnew(NULL, ft_strdup(path)));
 			return (free (path), free (t));
 		}
 		free(o_pwd(env)->data);
-		o_pwd(env)->data = ft_strdup(ft_strdup(path));
+		o_pwd(env)->data = ft_strdup(path);
 		return (free (path), free (t));
 	}
+	else 
+		m_cd_assistant_2(t, path, env);
 }
 
 bool	m_cd_assistant(char *t, char *path, t_env *env)
@@ -50,7 +53,7 @@ bool	m_cd_assistant(char *t, char *path, t_env *env)
 			return (true);
 		}
 		free(o_pwd(env)->data);
-		o_pwd(env)->data = ft_strdup(ft_strdup(path));
+		o_pwd(env)->data = ft_strdup(path);
 		return (true);
 	}
 	else if (ft_strncmp(t, ".", 1) && !chdir(t))
@@ -61,13 +64,13 @@ bool	m_cd_assistant(char *t, char *path, t_env *env)
 			return (true);
 		}
 		free(o_pwd(env)->data);
-		o_pwd(env)->data = ft_strdup(ft_strdup(t));
+		o_pwd(env)->data = ft_strdup(t);
 		return (true);
 	}
 	return (false);
 }
 
-void	m_cd_assistant_2(char *t, char *path, t_env *env)
+void m_cd_assistant_2(char *t, char *path, t_env *env)
 {
 	if (!ft_strncmp(t, "..", INT_MAX))
 	{
@@ -79,7 +82,7 @@ void	m_cd_assistant_2(char *t, char *path, t_env *env)
 			return (free (path), free (t));
 		}
 		free(o_pwd(env)->data);
-		o_pwd(env)->data = ft_strdup(ft_strdup(path));
+		o_pwd(env)->data = ft_strdup(path);
 		return (free (path), free (t));
 	}
 	write(2, "minishell: cd: ", 16);
