@@ -6,23 +6,11 @@
 /*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 01:31:37 by ybouchra          #+#    #+#             */
-/*   Updated: 2023/11/08 19:21:12 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/11/08 19:41:14 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-void	ft_err_std(t_cmd *command)
-{
-	if (command->cmd[0])
-	{
-		write(2, "minishell : ", 13);
-		write(2, command->cmd[0], ft_strlen(command->cmd[0]));
-		write(2, ": command not found\n", 21);
-		g_exit_status = 127;
-		exit(127);
-	}
-}
 
 void	checker_1(t_cmd *command, char *cmd)
 {
