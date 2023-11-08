@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_inpute.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:55:39 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/11/08 00:33:28 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/11/08 11:20:49 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ bool	get_cmd_a(t_list **prime, t_comp **cmpa, t_env *env, t_cmd **cmd)
 	}
 	return (false);
 }
+
 t_cmd	*get_command(t_list **prime, t_comp **cmpa, t_env *env)
 {
 	t_cmd	*cmd;
@@ -52,7 +53,6 @@ t_cmd	*get_command(t_list **prime, t_comp **cmpa, t_env *env)
 			free(line);
 	}
 }
-
 
 bool	prs(t_list **prime, t_comp **cmpa, t_env *env)
 {

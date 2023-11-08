@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 07:36:33 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/11/07 08:31:50 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/11/08 16:21:34 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	m_export(t_cmd *cmd, t_env **env, int fd)
 		else
 		{
 			perr("export: ", cmd->cmd[i]);
-			perr(": not a valid identifier\n", NULL);
+			perr("\b\b: not a valid identifier\n", NULL);
 			g_exit_status = 1;
 		}
 		i++;
@@ -70,7 +70,7 @@ void	export_assistant(t_env **env, char *cmd, int j)
 		if (!ft_isalnum(cmd[j]) && cmd[j] != '_')
 		{
 			perr("export: ", cmd);
-			perr(": not a valid identifier\n", NULL);
+			perr("\b\b: not a valid identifier\n", NULL);
 			g_exit_status = 1;
 			return ;
 		}
@@ -82,7 +82,7 @@ void	export_assistant(t_env **env, char *cmd, int j)
 	else if (cmd[j] == '+' && cmd[j + 1] != '=')
 	{
 		perr("export: ", cmd);
-		perr(": not a valid identifier\n", NULL);
+		perr("\b\b: not a valid identifier\n", NULL);
 		g_exit_status = 1;
 	}
 	else if (cmd[j] == '+' && cmd[j + 1] == '=')

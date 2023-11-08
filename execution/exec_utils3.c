@@ -6,7 +6,7 @@
 /*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 01:31:37 by ybouchra          #+#    #+#             */
-/*   Updated: 2023/11/08 02:06:18 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/11/08 19:21:12 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	checker_1(t_cmd *command, char *cmd)
 		ft_err_std(command);
 	if (cmd[0] == '/' && cmd[1] == '/' && !cmd[2])
 		ft_err_126(command);
-	if (cmd[0] == '.' && cmd[1] == '/' && !cmd[2])
+	if (cmd[0] == '.' && cmd[1] == '/' && (!cmd[2] || cmd[2] == '.'))
 		ft_err_126(command);
 	if (cmd[0] == '/' && cmd[1] == '.' && !cmd[2])
 		ft_err_126(command);

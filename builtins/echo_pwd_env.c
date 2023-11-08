@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo_pwd_env.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 21:21:57 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/11/08 01:50:08 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/11/08 14:05:06 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,11 @@ char	*pwd(bool p, int fd, t_env *env)
 
 	i = -1;
 	path = getcwd(NULL, 0);
-	if (!path)
+	if (!path && o_pwd(env))
 		path = ft_strdup(o_pwd(env)->data);
 	if (p == false)
-		return (ft_strdup(path));
-	while (path[++i])
+		return (path);
+	while (path && path[++i])
 		write(fd, &path[i], 1);
 	write(fd, "\n", 1);
 	free (path);
