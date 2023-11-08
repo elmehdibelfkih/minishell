@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 16:48:12 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/11/08 12:10:14 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/11/08 14:18:12 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,70 +22,69 @@ void	m_cd(t_cmd *cmd, t_env *env)
 		return ;
 	path = join_path(cmd->cmd[1], env, 1);
 	t = join_path(cmd->cmd[1], env, 0);
-	if (!chdir(path))
-	{
-		printf("hi 1 \n");
-		if (!o_pwd(env))
-		{
-			ft_env_add_back(&env, ft_envnew(NULL, ft_strdup(path)));
-			return(free (path), free (t));
-		}
-		free(o_pwd(env)->data);
-		o_pwd(env)->data = ft_strdup(ft_strdup(path));
-		return(free (path), free (t));
-	}
-	
-	else if (ft_strncmp(t, "..", 2) && ft_strncmp(t, ".", 1) && !chdir(t))
-	{
-		printf("hi 2 \n");
-		if (!o_pwd(env))
-		{
-			printf("%s\n", t);
-			ft_env_add_back(&env, ft_envnew(NULL, ft_strdup(t)));
-			return(free (path), free (t));
-		}
-		free(o_pwd(env)->data);
-		o_pwd(env)->data = ft_strdup(ft_strdup(t));
-		printf("%s\n", t);
-		return(free (path), free (t));
-	}
+	if (m_cd_assistant(t, path, env))
+		return (free (path), free (t));
 	else if (!ft_strncmp(t, "..", INT_MAX) && chdir(t))
 	{
-		perror(t);
-		printf("hi 3 \n");
 		newpath = ft_strjoin(path, "/");
 		free (path);
 		path = ft_strjoin(newpath, "..");
 		if (!o_pwd(env))
 		{
 			ft_env_add_back(&env, ft_envnew(NULL, ft_strdup(path)));
-			return(free (path), free (t));
+			return (free (path), free (t));
 		}
 		free(o_pwd(env)->data);
 		o_pwd(env)->data = ft_strdup(ft_strdup(path));
-		perror("cd : ");
-		return(free (path), free (t));
+		return (free (path), free (t));
 	}
-	else
+}
+
+bool	m_cd_assistant(char *t, char *path, t_env *env)
+{
+	if (!chdir(path))
 	{
-		printf("hi 4 \n");
-		if (!ft_strncmp(t, "..", INT_MAX))
+		if (!o_pwd(env))
 		{
-			write(2, "minishell: cd: ", 16);
-			perror("..");
-			if (!o_pwd(env))
-			{
-				ft_env_add_back(&env, ft_envnew(NULL, ft_strdup(path)));
-				return(free (path), free (t));
-			}
-			free(o_pwd(env)->data);
-			o_pwd(env)->data = ft_strdup(ft_strdup(path));
-			return(free (path), free (t));
+			ft_env_add_back(&env, ft_envnew(NULL, ft_strdup(path)));
+			return (true);
 		}
-		write(2, "minishell: cd: ", 16);
-		perror(t);
-		return(free (path), free (t));
+		free(o_pwd(env)->data);
+		o_pwd(env)->data = ft_strdup(ft_strdup(path));
+		return (true);
 	}
+	else if (ft_strncmp(t, ".", 1) && !chdir(t))
+	{
+		if (!o_pwd(env))
+		{
+			ft_env_add_back(&env, ft_envnew(NULL, ft_strdup(t)));
+			return (true);
+		}
+		free(o_pwd(env)->data);
+		o_pwd(env)->data = ft_strdup(ft_strdup(t));
+		return (true);
+	}
+	return (false);
+}
+
+void	m_cd_assistant_2(char *t, char *path, t_env *env)
+{
+	if (!ft_strncmp(t, "..", INT_MAX))
+	{
+		write(2, "minishell: cd: ", 16);
+		perror("..");
+		if (!o_pwd(env))
+		{
+			ft_env_add_back(&env, ft_envnew(NULL, ft_strdup(path)));
+			return (free (path), free (t));
+		}
+		free(o_pwd(env)->data);
+		o_pwd(env)->data = ft_strdup(ft_strdup(path));
+		return (free (path), free (t));
+	}
+	write(2, "minishell: cd: ", 16);
+	perror(t);
+	return (free (path), free (t));
 }
 
 char	*join_path(char *dir, t_env *env, bool p)

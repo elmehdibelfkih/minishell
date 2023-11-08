@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 21:21:57 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/11/08 11:57:41 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/11/08 14:05:06 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ char	*pwd(bool p, int fd, t_env *env)
 
 	i = -1;
 	path = getcwd(NULL, 0);
-	if (!path)
+	if (!path && o_pwd(env))
 		path = ft_strdup(o_pwd(env)->data);
 	if (p == false)
 		return (path);
