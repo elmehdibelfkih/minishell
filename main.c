@@ -6,7 +6,7 @@
 /*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 19:55:36 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/11/06 19:17:53 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/11/09 07:45:27 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,7 @@ int	main(int ac, char **argv, char **envp)
 	t_env	*env;
 	t_cmd	*cmd;
 
-	(void)ac;
-	(void)argv;
+	((void)ac, (void)argv);
 	prime = NULL;
 	cmpa = NULL;
 	cmd = NULL;
@@ -33,7 +32,7 @@ int	main(int ac, char **argv, char **envp)
 		cmd = get_command(&prime, &cmpa, env);
 		if (!cmd)
 		{
-			write(2, "exit\n", 5);
+			write(2, "exit ", 6);
 			break ;
 		}
 		execute(&cmd, &env);

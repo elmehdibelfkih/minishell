@@ -6,7 +6,7 @@
 /*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 14:48:10 by ussef             #+#    #+#             */
-/*   Updated: 2023/11/08 19:42:11 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/11/08 23:54:38 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	**get_paths(t_env *env, char *s)
 		return (NULL);
 	while (env)
 	{
-		if (!ft_strncmp(env->name, s, INT_MAX))
+		if (env->data && env->name && !ft_strncmp(env->name, s, INT_MAX))
 		{
 			paths = ft_split(env->data, ':');
 			return (paths);
@@ -89,7 +89,7 @@ void	path_err_msg(t_cmd *command, char *cmd, char **paths)
 			if (cmd[0] == '.' && cmd[1] == '/' && 
 				(access(cmd, R_OK) || access(cmd, X_OK) || access(cmd, W_OK)))
 				ft_err_pd(command);
-			if (cmd && (is_end(cmd, '.') || is_end(cmd, '/') ))
+			if (cmd && (is_end(cmd, '.') || is_end(cmd, '/')))
 				ft_err_127(command);
 		}
 	}

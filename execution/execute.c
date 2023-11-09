@@ -6,7 +6,7 @@
 /*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 10:32:35 by ybouchra          #+#    #+#             */
-/*   Updated: 2023/11/08 02:05:23 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/11/09 07:56:23 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ void	exec_cmd(t_cmd *command, char **paths,
 	{
 		close(exec_info->fd[0]);
 		dup2(exec_info->fd[1], 1);
-		close(exec_info->fd[1]);
 	}
 	if (command->inp == -1)
 		exit(1);
@@ -90,7 +89,7 @@ void	all_cmds(char **paths, t_cmd *commands,
 		if (commands->next)
 		{
 			dup2(exec_info->fd[0], 0);
-			(close(exec_info->fd[1]), close(exec_info->fd[0]));
+			(close(exec_info->fd[0]), close(exec_info->fd[1]));
 		}
 		commands = commands->next;
 	}
