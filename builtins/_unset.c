@@ -6,7 +6,7 @@
 /*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 21:22:44 by ybouchra          #+#    #+#             */
-/*   Updated: 2023/11/08 01:50:58 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/11/09 06:41:05 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	env_delone(t_env **env, char *target)
 	t_env	*temp;
 	t_env	*current;
 
-	if (!env || !*env)
+	if (!env || !env[0])
 		return ;
 	if (!ft_strncmp((*env)->name, target, INT_MAX))
 	{

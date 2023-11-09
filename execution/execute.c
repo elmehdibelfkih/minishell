@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 10:32:35 by ybouchra          #+#    #+#             */
-/*   Updated: 2023/11/08 23:11:10 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/11/09 13:42:34 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ char	*check_paths(t_cmd *command, char **paths, t_exec_info *exec_info)
 		ft_err_127(command);
 	else
 	{
+		if (!command->cmd[0] || !command->cmd[0][0])
+			ft_err_std(command);
 		path_err_msg(command, command->cmd[0], paths);
 		if (command->cmd[0][0] == '.' && command->cmd[0][1] == '/' && 
 			!access(command->cmd[0], X_OK))
@@ -55,7 +57,6 @@ void	exec_cmd(t_cmd *command, char **paths,
 	{
 		close(exec_info->fd[0]);
 		dup2(exec_info->fd[1], 1);
-		close(exec_info->fd[1]);
 	}
 	if (command->inp == -1)
 		exit(1);
@@ -90,7 +91,7 @@ void	all_cmds(char **paths, t_cmd *commands,
 		if (commands->next)
 		{
 			dup2(exec_info->fd[0], 0);
-			(close(exec_info->fd[1]), close(exec_info->fd[0]));
+			(close(exec_info->fd[0]), close(exec_info->fd[1]));
 		}
 		commands = commands->next;
 	}

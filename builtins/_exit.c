@@ -6,7 +6,7 @@
 /*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 21:28:18 by ybouchra          #+#    #+#             */
-/*   Updated: 2023/11/04 08:52:36 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/11/09 05:14:50 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	__exit(t_cmd *commands)
 	i = 0;
 	if (commands->cmd[1] == NULL)
 	{
-		write(2, "exit", 4);
+		write(2, "exit", 5);
 		exit(0);
 	}
 	if (!check_arg(commands->cmd[1]))
@@ -48,9 +48,10 @@ int	__exit(t_cmd *commands)
 		write(2, "minishell: exit: too many arguments\n", 36);
 		exit(1);
 	}
-	write(2, "exit\nminishell: exit: ", 22);
+	write(2, "exit\n", 6);
+	write(2, "minishell: exit: ", 18);
 	write(2, commands->cmd[1], ft_strlen(commands->cmd[1]));
-	write(2, ": numeric argument required\n", 28);
+	write(2, ": numeric argument required\n", 29);
 	exit(255); 
 	return (0);
 }

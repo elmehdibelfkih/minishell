@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 14:48:10 by ussef             #+#    #+#             */
-/*   Updated: 2023/11/08 23:12:09 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/11/09 10:13:30 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	**get_paths(t_env *env, char *s)
 		return (NULL);
 	while (env)
 	{
-		if (env->name && env->data && !ft_strncmp(env->name, s, INT_MAX))
+		if (env->data && env->name && !ft_strncmp(env->name, s, INT_MAX))
 		{
 			paths = ft_split(env->data, ':');
 			return (paths);

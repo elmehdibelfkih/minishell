@@ -6,7 +6,7 @@
 /*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 01:31:37 by ybouchra          #+#    #+#             */
-/*   Updated: 2023/11/08 19:41:14 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/11/09 12:52:34 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,15 +48,14 @@ char	**list_to_tab(t_env *env)
 	char	*name;
 	char	**arr;
 	int		len;
-	t_env	*tmp;
 
-	tmp = env;
+	if (!env)
+		return (NULL);
 	len = size_env(env);
-	arr = malloc(sizeof(char *) * len + 1);
+	arr = malloc(sizeof(char *) * (len + 2));
 	if (!arr)
 		return (NULL);
 	len = -1;
-	env = tmp;
 	while (env)
 	{
 		name = ft_strjoin(env->name, "=");
