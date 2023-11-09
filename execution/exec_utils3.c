@@ -6,7 +6,7 @@
 /*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 01:31:37 by ybouchra          #+#    #+#             */
-/*   Updated: 2023/11/09 10:38:05 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/11/09 12:52:34 by ybouchra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	**list_to_tab(t_env *env)
 	char	**arr;
 	int		len;
 
-	if(!env)
+	if (!env)
 		return (NULL);
 	len = size_env(env);
 	arr = malloc(sizeof(char *) * (len + 2));

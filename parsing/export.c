@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 07:36:33 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/11/08 16:21:34 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/11/09 00:19:36 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,12 @@ void	put_export(t_env *env, int fd)
 		return ;
 	while (env)
 	{
-		write(fd, "declare -x ", 11);
+		if (env->name)
+			write(fd, "declare -x ", 11);
 		i = -1;
 		while (env->name && env->name[++i])
 			write(fd, &env->name[i], 1);
-		if (env->data)
+		if (env->data && env->name)
 		{
 			write(fd, "=\"", 2);
 			i = -1;
@@ -32,7 +33,7 @@ void	put_export(t_env *env, int fd)
 				write(fd, &env->data[i], 1);
 			write(fd, "\"\n", 2);
 		}
-		else
+		else if (env->name)
 			write(fd, "\n", 1);
 		env = env->next;
 	}
@@ -100,7 +101,7 @@ void	new_data(t_env **env, char *name, char *data, bool e)
 	tmp = *env;
 	while (tmp)
 	{
-		if (tmp->name && !ft_strncmp(tmp->name, name, INT_MAX))
+		if (tmp->name && tmp->data && !ft_strncmp(tmp->name, name, INT_MAX))
 		{
 			if (!data)
 				return (free(name));
