@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   _exit.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybouchra <ybouchra@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 21:28:18 by ybouchra          #+#    #+#             */
-/*   Updated: 2023/11/09 05:14:50 by ybouchra         ###   ########.fr       */
+/*   Updated: 2023/11/09 15:43:32 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ int	__exit(t_cmd *commands)
 			write(2, "exit", 4);
 			exit(ft_atoi(commands->cmd[1]));
 		}
-		write(2, "exit\n", 5);
-		write(2, "minishell: exit: too many arguments\n", 36);
+		write(2, "exit\n", 6);
+		write(2, "minishell: exit: too many arguments\n", 37);
 		exit(1);
 	}
 	write(2, "exit\n", 6);

@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 18:55:39 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/11/08 11:20:49 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/11/09 15:39:44 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ t_cmd	*get_command(t_list **prime, t_comp **cmpa, t_env *env)
 	while (true)
 	{
 		line = m_readline();
+		if (line && *line)
+			add_history(line);
 		if (!line)
 			return (NULL);
 		if (*line)

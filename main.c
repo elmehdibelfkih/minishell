@@ -6,7 +6,7 @@
 /*   By: ebelfkih <ebelfkih@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 19:55:36 by ebelfkih          #+#    #+#             */
-/*   Updated: 2023/11/09 15:07:27 by ebelfkih         ###   ########.fr       */
+/*   Updated: 2023/11/09 15:50:44 by ebelfkih         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,5 @@ int	main(int ac, char **argv, char **envp)
 		execute(&cmd, &env);
 		ft_cmd_clear(&cmd);
 	}
-	ft_envclear(&env);
+	return (ft_envclear(&env), rl_clear_history(), 0);
 }
